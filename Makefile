@@ -1,32 +1,16 @@
-# Nom de l'exécutable
-EXEC = main
+all: main
 
-# Compilateur
-CXX = g++ # Ou clang++, si vous préférez
+CXX = clang++
+override CXXFLAGS += -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system -g -Wmost -Werror 
 
-# Options de compilation
-CXXFLAGS = -g -Wall -Wextra -Werror
+SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp' -print | sed -e 's/ /\\ /g')
+HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.h' -print)
 
-# Options de liaison (pour SFML)
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+main: $(SRCS) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(SRCS) -o "$@"
 
-# Liste des fichiers source
-SRCS = main.cpp Cellule.cpp
+main-debug: $(SRCS) $(HEADERS)
+	$(CXX) $(CXXFLAGS) -U_FORTIFY_SOURCE -O0 $(SRCS) -o "$@"
 
-# Générer les fichiers objets correspondants
-OBJS = $(SRCS:.cpp=.o)
-
-# Cible par défaut
-all: $(EXEC)
-
-# Règle pour créer l'exécutable
-$(EXEC): $(OBJS)
-	$(CXX) $(OBJS) $(LDFLAGS) -o $@
-
-# Règle pour créer les fichiers objets
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Nettoyer les fichiers générés
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f main main-debug
