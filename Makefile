@@ -2,29 +2,31 @@
 EXEC = main
 
 # Compilateur
-CXX = g++ # Remplacez par clang++ si nécessaire
+CXX = g++ # Ou clang++, si vous préférez
 
-# Options du compilateur
+# Options de compilation
 CXXFLAGS = -g -Wall -Wextra -Werror
 
-# Options de l'éditeur de liens (pour SFML)
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
+# Options de liaison (pour SFML)
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
-# Recherche des fichiers source
-SRCS = $(shell find . -type f -name '*.cpp' ! -path './.ccls-cache/*')
+# Liste des fichiers source
+SRCS = main.cpp Cellule.cpp
+
+# Générer les fichiers objets correspondants
 OBJS = $(SRCS:.cpp=.o)
 
 # Cible par défaut
 all: $(EXEC)
 
-# Compilation de l'exécutable
+# Règle pour créer l'exécutable
 $(EXEC): $(OBJS)
 	$(CXX) $(OBJS) $(LDFLAGS) -o $@
 
-# Compilation des fichiers objets
+# Règle pour créer les fichiers objets
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Nettoyage
+# Nettoyer les fichiers générés
 clean:
 	rm -f $(OBJS) $(EXEC)
