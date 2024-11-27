@@ -6,9 +6,9 @@ private:
     bool prochainEtat;
 
 public:
-    Cellule(bool etatInitial = false) : vivant(etatInitial), prochainEtat(false) {}
+    Cellule(bool etatInitial = false);
 
-    bool estVivante() const { return vivant; }
-    void definirProchainEtat(bool etat) { prochainEtat = etat; }
-    void appliquerProchainEtat() { vivant = prochainEtat; }
+    bool estVivante() const;
+    void definirProchainEtat(bool etat);
+    void appliquerProchainEtat();
 };

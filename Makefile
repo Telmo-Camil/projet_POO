@@ -2,7 +2,7 @@
 EXEC = main
 
 # Compilateur
-CXX = clang++
+CXX = g++ # Remplacez par clang++ si nécessaire
 
 # Options du compilateur
 CXXFLAGS = -g -Wall -Wextra -Werror
@@ -10,28 +10,21 @@ CXXFLAGS = -g -Wall -Wextra -Werror
 # Options de l'éditeur de liens (pour SFML)
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 
-# Recherche des fichiers source (.cpp) et headers (.h)
+# Recherche des fichiers source
 SRCS = $(shell find . -type f -name '*.cpp' ! -path './.ccls-cache/*')
-HEADERS = $(shell find . -type f -name '*.h' ! -path './.ccls-cache/*')
-
-# Générer les fichiers objets à partir des fichiers sources
 OBJS = $(SRCS:.cpp=.o)
 
 # Cible par défaut
 all: $(EXEC)
 
-# Cible pour l'exécutable
+# Compilation de l'exécutable
 $(EXEC): $(OBJS)
 	$(CXX) $(OBJS) $(LDFLAGS) -o $@
 
-# Compilation de chaque fichier objet
-%.o: %.cpp $(HEADERS)
+# Compilation des fichiers objets
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Cible pour le mode débogage
-debug: CXXFLAGS += -O0 -DDEBUG
-debug: clean $(EXEC)
-
-# Nettoyage des fichiers générés
+# Nettoyage
 clean:
-	rm -f $(EXEC) $(OBJS)
+	rm -f $(OBJS) $(EXEC)
