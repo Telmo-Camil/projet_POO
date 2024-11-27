@@ -1,4 +1,5 @@
 #include "Cellule.h"
+#include "Grille.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <fstream>
