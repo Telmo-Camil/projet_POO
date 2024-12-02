@@ -1,5 +1,5 @@
 #include "Cellule.h"
-
+//ok
 Cellule::Cellule(bool etatInitial) : vivant(etatInitial), prochainEtat(false) {}
 
 bool Cellule::estVivante() const {
