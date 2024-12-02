@@ -1,12 +1,16 @@
 #include "Grille.h"
 #include <iostream>
+#include <fstream>
+#include <stdexcept>
+
+Grille::Grille(int l, int h) : largeur(l), hauteur(h), cellules(l, std::vector<Cellule>(h)) {}
 
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
             if (dx == 0 && dy == 0) continue;
-            int nx = (x + dx + largeur) % largeur; // Gestion torique
+            int nx = (x + dx + largeur) % largeur;
             int ny = (y + dy + hauteur) % hauteur;
             if (cellules[nx][ny].estVivante())
                 ++voisinsVivants;
