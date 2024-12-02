@@ -1,5 +1,5 @@
 # Livrable 2 : Programme
-TRUONG CANH Zoé
+TRUONG CANH Zoé ;
 CAMILO-MIRANDA Telmo
 ***
 # Sommaire
