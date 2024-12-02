@@ -1,4 +1,4 @@
-<center> # Livrable 2 : Programme </center>
+# Livrable 2 : Programme
 TRUONG CANH Zoé ;
 CAMILO-MIRANDA Telmo
 ***
