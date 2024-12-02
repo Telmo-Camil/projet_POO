@@ -1,6 +1,6 @@
 # Livrable 2 : Programme
-> TRUONG CANH Zoé
-> CAMILO-MIRANDA Telmo
+TRUONG CANH Zoé
+CAMILO-MIRANDA Telmo
 ***
 # Sommaire
 1. Introduction
@@ -23,7 +23,7 @@ Le but du projet est de réaliser une simulation du Jeu de la vie de John Conway
 ***
 # Bibliothèques 
 ## Définition
-> Les bibliothèques sont des ensembles de codes préexistants et réutilisables, qui lorsqu’on les intègre à un programme, donnent accès aux instructions qu’elles mettent en place.
+**Les bibliothèques sont des ensembles de codes préexistants et réutilisables, qui lorsqu’on les intègre à un programme, donnent accès aux instructions qu’elles mettent en place.**
 
 ## Standard STL
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
