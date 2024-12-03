@@ -19,7 +19,10 @@ int main() {
 
     RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
 
-    while (window.isOpen()) {
+    const int maxIterations = 100; 
+    int iteration = 0;
+
+    while (window.isOpen() && iteration < maxIterations) {
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
@@ -29,8 +32,12 @@ int main() {
         grille.mettreAJour();         // Actualise la grille
         renderGrid(window, grille);  // Affiche la grille dans SFML
         sleep(milliseconds(100));    // Pause entre les mises à jour
+
+        ++iteration; // Incrémente le compteur d'itérations
     }
+
+    // Affiche un message lorsque la simulation se termine
+    cout << "Simulation terminée après " << iteration << " itérations." << endl;
 
     return 0;
 }
-
