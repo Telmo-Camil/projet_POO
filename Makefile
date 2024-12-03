@@ -1,5 +1,6 @@
 CXX = clang++
-CXXFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system -g -Wmost -Werror
+CXXFLAGS = -g -Wmost -Werror
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 
 SRCS = main.cpp Interface.cpp Grille.cpp Cellule.cpp Constants.cpp
 OBJS = $(SRCS:.cpp=.o)
@@ -8,7 +9,7 @@ TARGET = main
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+	$(CXX) $(OBJS) $(LDFLAGS) -o $(TARGET)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
