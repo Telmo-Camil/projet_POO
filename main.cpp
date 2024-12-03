@@ -12,7 +12,7 @@ int main() {
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
     } catch (const exception& e) {
-        cerr << "Erreur : " << e.what() << std::endl;
+        cerr << "Erreur : " << e.what() << endl;
         return 1;
     }
 
