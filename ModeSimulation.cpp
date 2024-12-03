@@ -5,6 +5,8 @@
 #include <fstream>
 #include <SFML/Graphics.hpp>
 
+using namespace std;
+using namespace sf;
 
 ModeSimulation *ModeSimulation::instance = nullptr;
 
@@ -18,7 +20,7 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     return instance;
 }
 
-void ModeSimulation::lancer(Grille &grille, const std::string &outputPath) {
+void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
     if (modeGraphique) {
         lancerGraphique(grille);
     } else {
@@ -26,10 +28,10 @@ void ModeSimulation::lancer(Grille &grille, const std::string &outputPath) {
     }
 }
 
-void ModeSimulation::lancerConsole(Grille &grille, const std::string &outputPath) {
-    std::ofstream fichierOut(outputPath);
+void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
+    ofstream fichierOut(outputPath);
     if (!fichierOut.is_open()) {
-        std::cerr << "Erreur : impossible de créer le fichier de sortie." << std::endl;
+        cerr << "Erreur : impossible de créer le fichier de sortie." << endl;
         return;
     }
 
@@ -45,25 +47,25 @@ void ModeSimulation::lancerConsole(Grille &grille, const std::string &outputPath
         grille.mettreAJour();
     }
     fichierOut.close();
-    std::cout << "Simulation console terminée. Résultats écrits dans " << outputPath << std::endl;
+    cout << "Simulation console terminée. Résultats écrits dans " << outputPath << endl;
 }
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
-    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
 
     int iteration = 0;
     while (window.isOpen() && iteration < maxIterations) {
-        sf::Event event;
+        Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == Event::Closed)
                 window.close();
         }
 
         grille.mettreAJour();
         renderGrid(window, grille); // Affichage graphique
-        sf::sleep(sf::milliseconds(100));
+        sleep(milliseconds(100));
         ++iteration;
     }
 
-    std::cout << "Simulation graphique terminée après " << iteration << " itérations." << std::endl;
+    cout << "Simulation graphique terminée après " << iteration << " itérations." << endl;
 }
