@@ -2,10 +2,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
-
-const int cellSize = 10;
-const int gridWidth = 80;
-const int gridHeight = 80;
+#include "Constants.h"
 
 std::vector<std::vector<int>> grid(gridWidth, std::vector<int>(gridHeight));
 
