@@ -1,6 +1,6 @@
 #include "Grille.h"
 #include "Constants.h"
-#include "Interface.h" // Inclusion pour la fonction renderGrid
+#include "Interface.h" 
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
