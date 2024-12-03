@@ -20,9 +20,6 @@ void initializeGrid() {
     }
 }
 
-
-#include "Interface.h"
-
 void renderGrid(sf::RenderWindow &window, const Grille &grille) {
     window.clear();
     sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
@@ -31,11 +28,14 @@ void renderGrid(sf::RenderWindow &window, const Grille &grille) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
             if (grille.obtenirCellule(x, y).estVivante()) {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(sf::Color::Green);
+                cell.setFillColor(sf::Color::Green); // Cellule vivante en vert
                 window.draw(cell);
+
+                // Debug : afficher les cellules vivantes
+                std::cout << "Dessin cellule vivante (" << x << ", " << y << ")" << std::endl;
             } else {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(sf::Color::Black);
+                cell.setFillColor(sf::Color::Black); // Cellule morte en noir
                 window.draw(cell);
             }
         }
@@ -43,4 +43,5 @@ void renderGrid(sf::RenderWindow &window, const Grille &grille) {
 
     window.display();
 }
+
 

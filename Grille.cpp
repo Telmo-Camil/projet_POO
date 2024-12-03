@@ -24,25 +24,25 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     return voisinsVivants;
 }
 
-void Grille::chargerDepuisFichier(const string& chemin) {
-    ifstream fichier(chemin);
+void Grille::chargerDepuisFichier(const std::string& chemin) {
+    std::ifstream fichier(chemin);
     if (!fichier.is_open()) throw std::runtime_error("Impossible de lire le fichier.");
 
     fichier >> hauteur >> largeur;
-    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));
+    cellules = std::vector<std::vector<Cellule>>(largeur, std::vector<Cellule>(hauteur));
 
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             int etat;
             fichier >> etat;
-            if (etat == 2) {  // 2 représente une cellule obstacle
-                cellules[x][y] = Cellule(false, OBSTACLE);
-            } else {
-                cellules[x][y] = Cellule(etat == 1);
-            }
+            cellules[x][y] = Cellule(etat == 1);
+
+            // Debug : afficher les cellules chargées
+            std::cout << "Cellule (" << x << ", " << y << ") = " << (etat == 1 ? "Vivante" : "Morte") << std::endl;
         }
     }
 }
+
 
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
