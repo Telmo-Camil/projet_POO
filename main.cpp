@@ -13,11 +13,11 @@ int main() {
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
     } catch (const exception &e) {
-        cerr << "Erreur : " << e.what() << std::endl;
+        cerr << "Erreur : " << e.what() << endl;
         return 1;
     }
 
-    RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
 
     while (window.isOpen()) {
         Event event;
