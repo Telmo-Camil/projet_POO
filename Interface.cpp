@@ -12,30 +12,29 @@ using namespace sf;
 vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
 
 void initializeGrid() {
-    srand(std::time(0));
+    srand(time(0));
     for (int x = 0; x < gridWidth; ++x) {
         for (int y = 0; y < gridHeight; ++y) {
-            grid[x][y] = rand() % 2;  // Randomly initialize cells as alive or dead
+            grid[x][y] = rand() % 2;  
         }
     }
 }
 
-void renderGrid(sf::RenderWindow &window, const Grille &grille) {
+void renderGrid(RenderWindow &window, const Grille &grille) {
     window.clear();
-    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
+    RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f));
 
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
             if (grille.obtenirCellule(x, y).estVivante()) {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(sf::Color::Green); // Cellule vivante en vert
+                cell.setFillColor(Color::Black); 
                 window.draw(cell);
 
-                // Debug : afficher les cellules vivantes
-                std::cout << "Dessin cellule vivante (" << x << ", " << y << ")" << std::endl;
+                cout << "Dessin cellule vivante (" << x << ", " << y << ")" << endl;
             } else {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(sf::Color::Black); // Cellule morte en noir
+                cell.setFillColor(Color::White); // Cellule morte en noir
                 window.draw(cell);
             }
         }
