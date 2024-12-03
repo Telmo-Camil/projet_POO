@@ -12,12 +12,13 @@ int main() {
 
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
+        cout << "Fichier chargé avec succès." << endl;
     } catch (const exception &e) {
         cerr << "Erreur : " << e.what() << endl;
         return 1;
     }
 
-    RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
 
     while (window.isOpen()) {
         Event event;
@@ -27,9 +28,9 @@ int main() {
         }
 
         grille.mettreAJour();         // Actualise l'état de la grille
-        grille.afficherConsole();    // Affiche la grille sur le terminal
+        cout << "Grille mise à jour" << endl; 
         renderGrid(window, grille);  // Affiche la grille mise à jour sur l'interface graphique
-        sleep(milliseconds(100)); // Pause entre les itérations
+        sleep(milliseconds(100));    // Pause entre les itérations
     }
 
     return 0;
