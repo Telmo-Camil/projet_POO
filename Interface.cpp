@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 #include "Constants.h"
+#include "Grille.h"
 
 using namespace std; 
 using namespace sf;
