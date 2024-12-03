@@ -1,11 +1,9 @@
 #include "Grille.h"
 #include "Constants.h"
-#include "Interface.h"
+#include "ModeSimulation.h"
 #include <iostream>
-#include <SFML/Graphics.hpp>
 
 using namespace std;
-using namespace sf;
 
 int main() {
     Grille grille(gridWidth, gridHeight);
@@ -17,27 +15,24 @@ int main() {
         return 1;
     }
 
-    RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    int choixMode;
+    cout << "Choisissez le mode de fonctionnement :\n";
+    cout << "1. Mode console\n";
+    cout << "2. Mode graphique\n";
+    cin >> choixMode;
 
-    const int maxIterations = 500; 
-    int iteration = 0;
+    int maxIterations;
+    cout << "Entrez le nombre maximum d'itérations : ";
+    cin >> maxIterations;
 
-    while (window.isOpen() && iteration < maxIterations) {
-        Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window.close();
-        }
-
-        grille.mettreAJour();         // Actualise la grille
-        renderGrid(window, grille);  // Affiche la grille dans SFML
-        sleep(milliseconds(100));    // Pause entre les mises à jour
-
-        ++iteration; // Incrémente le compteur d'itérations
+    if (choixMode == 1) {
+        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, "simulation_out.txt");
+    } else if (choixMode == 2) {
+        ModeSimulation::getInstance(true, maxIterations)->lancer(grille);
+    } else {
+        cerr << "Choix invalide." << endl;
+        return 1;
     }
-
-    // Affiche un message lorsque la simulation se termine
-    cout << "Simulation terminée après " << iteration << " itérations." << endl;
 
     return 0;
 }
