@@ -1,9 +1,11 @@
-#pragma once
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
-#include <SFML/Graphics.hpp>  // Pour RenderWindow et les graphiques SFML
-#include "Grille.h"           // Inclut la définition de la classe Grille
+#include <SFML/Graphics.hpp>
+#include "Grille.h"  
 
-// Déclaration de la fonction renderGrid
+
+void initializeGrid();
 void renderGrid(sf::RenderWindow &window, const Grille &grille);
 
 #endif // INTERFACE_H
