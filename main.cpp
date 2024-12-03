@@ -15,14 +15,18 @@ int main() {
     grille.afficherConsole();
 
     sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
         grille.mettreAJour();
-        // Ici, on peut implémenter la visualisation via SFML
+        grille.afficherConsole();
+
+        sf::sleep(sf::milliseconds(500)); // Pause entre les itérations
     }
 
     return 0;

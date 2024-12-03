@@ -3,7 +3,8 @@
 #include <fstream>
 #include <stdexcept>
 
-Grille::Grille(int l, int h) : largeur(l), hauteur(h), cellules(l, std::vector<Cellule>(h)) {}
+Grille::Grille(int l, int h) 
+    : largeur(l), hauteur(h), cellules(l, std::vector<Cellule>(h)) {}
 
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
@@ -12,7 +13,7 @@ int Grille::compterVoisinsVivants(int x, int y) const {
             if (dx == 0 && dy == 0) continue;
             int nx = (x + dx + largeur) % largeur;
             int ny = (y + dy + hauteur) % hauteur;
-            if (cellules[nx][ny].estVivante())
+            if (cellules[nx][ny].estVivante() && !cellules[nx][ny].estObstacle())
                 ++voisinsVivants;
         }
     }
@@ -30,7 +31,11 @@ void Grille::chargerDepuisFichier(const std::string& chemin) {
         for (int x = 0; x < largeur; ++x) {
             int etat;
             fichier >> etat;
-            cellules[x][y] = Cellule(etat == 1);
+            if (etat == 2) {  // 2 représente une cellule obstacle
+                cellules[x][y] = Cellule(false, OBSTACLE);
+            } else {
+                cellules[x][y] = Cellule(etat == 1);
+            }
         }
     }
 }
@@ -38,11 +43,13 @@ void Grille::chargerDepuisFichier(const std::string& chemin) {
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
-            int voisins = compterVoisinsVivants(x, y);
-            if (cellules[x][y].estVivante())
-                cellules[x][y].definirProchainEtat(voisins == 2 || voisins == 3);
-            else
-                cellules[x][y].definirProchainEtat(voisins == 3);
+            if (!cellules[x][y].estObstacle()) {
+                int voisins = compterVoisinsVivants(x, y);
+                if (cellules[x][y].estVivante())
+                    cellules[x][y].definirProchainEtat(voisins == 2 || voisins == 3);
+                else
+                    cellules[x][y].definirProchainEtat(voisins == 3);
+            }
         }
     }
     for (int x = 0; x < largeur; ++x) {
@@ -55,7 +62,11 @@ void Grille::mettreAJour() {
 void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
-            std::cout << (cellules[x][y].estVivante() ? "1 " : "0 ");
+            if (cellules[x][y].estObstacle()) {
+                std::cout << "X ";
+            } else {
+                std::cout << (cellules[x][y].estVivante() ? "1 " : "0 ");
+            }
         }
         std::cout << '\n';
     }
