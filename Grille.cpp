@@ -25,14 +25,14 @@ int Grille::compterVoisinsVivants(int x, int y) const {
 }
 
 void Grille::chargerDepuisFichier(const std::string& chemin) {
-    std::ifstream fichier(chemin);
+    ifstream fichier(chemin);
     if (!fichier.is_open()) {
         throw std::runtime_error("Impossible de lire le fichier.");
     }
 
     // Lire les dimensions depuis le fichier
     fichier >> hauteur >> largeur;
-    cellules = std::vector<std::vector<Cellule>>(largeur, std::vector<Cellule>(hauteur));
+    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));
 
     // Lire l'état initial de chaque cellule
     for (int y = 0; y < hauteur; ++y) {
@@ -43,9 +43,6 @@ void Grille::chargerDepuisFichier(const std::string& chemin) {
         }
     }
 }
-
-
-
 
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
@@ -64,10 +61,8 @@ void Grille::mettreAJour() {
             cellules[x][y].appliquerProchainEtat();
         }
     }
-
-    // Ajoutez ce log pour vérifier
-    std::cout << "Mise à jour de la grille effectuée." << std::endl;
-    afficherConsole(); // Facultatif : Affiche la grille dans la console
+    cout << "Mise à jour de la grille effectuée." << endl;
+    afficherConsole();
 }
 
 
