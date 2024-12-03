@@ -7,7 +7,7 @@ int main() {
     Grille grille(gridWidth, gridHeight);
 
     try {
-        grille.chargerDepuisFichier("etat_initial.txt");
+        grille.chargerDepuisFichier("//wsl.localhost/Ubuntu-22.04/home/esther/ProjetPOO/projet_POOetat_initial.txt");
     } catch (const std::exception& e) {
         std::cerr << "Erreur : " << e.what() << std::endl;
         return 1;
