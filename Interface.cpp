@@ -34,7 +34,7 @@ void renderGrid(RenderWindow &window, const Grille &grille) {
                 cout << "Dessin cellule vivante (" << x << ", " << y << ")" << endl;
             } else {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::White); // Cellule morte en noir
+                cell.setFillColor(Color::White); 
                 window.draw(cell);
             }
         }
