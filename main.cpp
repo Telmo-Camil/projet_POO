@@ -11,27 +11,25 @@ int main() {
 
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
-    } catch (const exception& e) {
-        cerr << "Erreur : " << e.what() << endl;
+    } catch (const std::exception &e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
         return 1;
     }
 
-    grille.afficherConsole();
-
-    RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
 
     while (window.isOpen()) {
-        Event event;
+        sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
+            if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        grille.mettreAJour();
-        grille.afficherConsole();
-
-        sleep(milliseconds(500)); // Pause entre les itérations
+        grille.mettreAJour();         // Actualise l'état de la grille
+        renderGrid(window, grille);  // Affiche la grille mise à jour
+        sf::sleep(sf::milliseconds(100)); // Pause entre les itérations
     }
 
     return 0;
 }
+

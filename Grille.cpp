@@ -47,21 +47,26 @@ void Grille::chargerDepuisFichier(const string& chemin) {
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
-            if (!cellules[x][y].estObstacle()) {
-                int voisins = compterVoisinsVivants(x, y);
-                if (cellules[x][y].estVivante())
-                    cellules[x][y].definirProchainEtat(voisins == 2 || voisins == 3);
-                else
-                    cellules[x][y].definirProchainEtat(voisins == 3);
+            int voisins = compterVoisinsVivants(x, y);
+            if (cellules[x][y].estVivante()) {
+                cellules[x][y].definirProchainEtat(voisins == 2 || voisins == 3);
+            } else {
+                cellules[x][y].definirProchainEtat(voisins == 3);
             }
         }
     }
+
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
             cellules[x][y].appliquerProchainEtat();
         }
     }
+
+    // Ajoutez ce log pour vérifier
+    std::cout << "Mise à jour de la grille effectuée." << std::endl;
+    afficherConsole(); // Facultatif : Affiche la grille dans la console
 }
+
 
 void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {
