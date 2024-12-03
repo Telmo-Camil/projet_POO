@@ -19,7 +19,7 @@ int main() {
 
     RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
 
-    const int maxIterations = 100; 
+    const int maxIterations = 500; 
     int iteration = 0;
 
     while (window.isOpen() && iteration < maxIterations) {
