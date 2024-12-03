@@ -24,10 +24,10 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     return voisinsVivants;
 }
 
-void Grille::chargerDepuisFichier(const std::string& chemin) {
+void Grille::chargerDepuisFichier(const string& chemin) {
     ifstream fichier(chemin);
     if (!fichier.is_open()) {
-        throw std::runtime_error("Impossible de lire le fichier.");
+        throw runtime_error("Impossible de lire le fichier.");
     }
 
     // Lire les dimensions depuis le fichier
