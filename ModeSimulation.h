@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+using namespace std;
+
 class ModeSimulation {
 private:
     bool modeGraphique; // true : mode graphique, false : mode console
@@ -12,12 +14,12 @@ private:
 
     ModeSimulation(bool graphique, int iterations);
 
-    void lancerConsole(Grille &grille, const std::string &outputPath);
+    void lancerConsole(Grille &grille, const string &outputPath);
     void lancerGraphique(Grille &grille);
 
 public:
     static ModeSimulation *getInstance(bool graphique, int iterations);
 
-    void lancer(Grille &grille, const std::string &outputPath = "");
+    void lancer(Grille &grille, const string &outputPath = "");
 };
 
