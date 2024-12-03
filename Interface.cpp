@@ -23,25 +23,23 @@ void initializeGrid() {
 
 void renderGrid(RenderWindow &window, const Grille &grille) {
     window.clear();
-    RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f));
-
+    RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f)); // Taille ajustée pour un espacement
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
             if (grille.obtenirCellule(x, y).estVivante()) {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::Black); 
+                cell.setFillColor(Color::White);  // Cellule vivante = blanche
                 window.draw(cell);
-
-                cout << "Dessin cellule vivante (" << x << ", " << y << ")" << endl;
             } else {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::White); 
+                cell.setFillColor(Color::Black);  // Cellule morte = noire
                 window.draw(cell);
             }
         }
     }
-
     window.display();
 }
+
+
 
 

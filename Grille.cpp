@@ -26,22 +26,25 @@ int Grille::compterVoisinsVivants(int x, int y) const {
 
 void Grille::chargerDepuisFichier(const std::string& chemin) {
     std::ifstream fichier(chemin);
-    if (!fichier.is_open()) throw std::runtime_error("Impossible de lire le fichier.");
+    if (!fichier.is_open()) {
+        throw std::runtime_error("Impossible de lire le fichier.");
+    }
 
+    // Lire les dimensions depuis le fichier
     fichier >> hauteur >> largeur;
     cellules = std::vector<std::vector<Cellule>>(largeur, std::vector<Cellule>(hauteur));
 
+    // Lire l'état initial de chaque cellule
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             int etat;
             fichier >> etat;
-            cellules[x][y] = Cellule(etat == 1);
-
-            // Debug : afficher les cellules chargées
-            std::cout << "Cellule (" << x << ", " << y << ") = " << (etat == 1 ? "Vivante" : "Morte") << std::endl;
+            cellules[x][y] = Cellule(etat == 1);  // 1 = vivant, 0 = mort
         }
     }
 }
+
+
 
 
 void Grille::mettreAJour() {
