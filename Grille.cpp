@@ -1,6 +1,8 @@
 #include "Grille.h"
 #include <iostream>
+//Fournit des classes et des fonctions pour manipuler des fichiers en entrée/sortie (lecture/écriture).
 #include <fstream>
+//Contient des classes pour gérer les exceptions standard
 #include <stdexcept>
 
 Grille::Grille(int l, int h) 
