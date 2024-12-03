@@ -2,6 +2,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include "Interface.h"
 #include "Constants.h"
 #include "Grille.h"
 
@@ -19,19 +20,20 @@ void initializeGrid() {
     }
 }
 
-void renderGrid(RenderWindow &window, const Grille &grille) {
+
+void renderGrid(sf::RenderWindow &window, const Grille &grille) {
     window.clear();
-    RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
+    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
 
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
             if (grille.obtenirCellule(x, y).estVivante()) {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::Green); // Couleur pour une cellule vivante
+                cell.setFillColor(sf::Color::Green);  // Cellule vivante
                 window.draw(cell);
             } else {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::Black); // Couleur pour une cellule morte
+                cell.setFillColor(sf::Color::Black);  // Cellule morte
                 window.draw(cell);
             }
         }
