@@ -28,11 +28,11 @@ void renderGrid(RenderWindow &window, const Grille &grille) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
             if (grille.obtenirCellule(x, y).estVivante()) {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::White);  // Cellule vivante = blanche
+                cell.setFillColor(Color::White);  
                 window.draw(cell);
             } else {
                 cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::Black);  // Cellule morte = noire
+                cell.setFillColor(Color::Black);  
                 window.draw(cell);
             }
         }
