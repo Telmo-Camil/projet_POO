@@ -2,7 +2,7 @@ CXX = clang++
 CXXFLAGS = -g -Wmost -Werror
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 
-SRCS = main.cpp Interface.cpp Grille.cpp Cellule.cpp Constants.cpp
+SRCS = main.cpp Interface.cpp Grille.cpp Cellule.cpp Constants.cpp ModeSimulation.cpp
 OBJS = $(SRCS:.cpp=.o)
 TARGET = main
 

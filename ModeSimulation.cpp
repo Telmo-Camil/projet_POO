@@ -1,8 +1,10 @@
 #include "ModeSimulation.h"
+#include "Interface.h"
+#include "Constants.h" 
 #include <iostream>
 #include <fstream>
 #include <SFML/Graphics.hpp>
-#include "Interface.h"
+
 
 ModeSimulation *ModeSimulation::instance = nullptr;
 
