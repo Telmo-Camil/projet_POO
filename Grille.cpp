@@ -5,8 +5,10 @@
 //Contient des classes pour gérer les exceptions standard
 #include <stdexcept>
 
+using namespace std; 
+
 Grille::Grille(int l, int h) 
-    : largeur(l), hauteur(h), cellules(l, std::vector<Cellule>(h)) {}
+    : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
@@ -22,12 +24,12 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     return voisinsVivants;
 }
 
-void Grille::chargerDepuisFichier(const std::string& chemin) {
-    std::ifstream fichier(chemin);
+void Grille::chargerDepuisFichier(const string& chemin) {
+    ifstream fichier(chemin);
     if (!fichier.is_open()) throw std::runtime_error("Impossible de lire le fichier.");
 
     fichier >> hauteur >> largeur;
-    cellules = std::vector<std::vector<Cellule>>(largeur, std::vector<Cellule>(hauteur));
+    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));
 
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
@@ -65,11 +67,11 @@ void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             if (cellules[x][y].estObstacle()) {
-                std::cout << "X ";
+                cout << "X ";
             } else {
-                std::cout << (cellules[x][y].estVivante() ? "1 " : "0 ");
+                cout << (cellules[x][y].estVivante() ? "1 " : "0 ");
             }
         }
-        std::cout << '\n';
+        cout << '\n';
     }
 }
