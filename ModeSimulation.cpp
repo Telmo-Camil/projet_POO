@@ -20,16 +20,16 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     return instance;
 }
 
-void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
+void ModeSimulation::lancer(Grille &grille, const string &FichierSortie) {
     if (modeGraphique) {
         lancerGraphique(grille);
     } else {
-        lancerConsole(grille, outputPath);
+        lancerConsole(grille, FichierSortie);
     }
 }
 
-void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
-    ofstream fichierOut(outputPath);
+void ModeSimulation::lancerConsole(Grille &grille, const string &FichierSortie) {
+    ofstream fichierOut(FichierSortie);
     if (!fichierOut.is_open()) {
         cerr << "Erreur : impossible de créer le fichier de sortie." << endl;
         return;
@@ -47,7 +47,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
         grille.mettreAJour();
     }
     fichierOut.close();
-    cout << "Simulation console terminée. Résultats écrits dans " << outputPath << endl;
+    cout << "Simulation console terminée. Résultats écrits dans " << FichierSortie << endl;
 }
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
