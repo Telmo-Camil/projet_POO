@@ -6,11 +6,10 @@ private:
     bool prochainEtat;
 
 public:
-    Cellule(bool etatInitial = false, TypeCellule type = NORMALE);
+    Cellule(bool etatInitial = false);
 
     bool estVivante() const;
     bool estObstacle() const;
     void definirProchainEtat(bool etat);
     void appliquerProchainEtat();
-    void definirType(TypeCellule nouveauType);
 };
