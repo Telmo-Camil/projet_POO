@@ -21,24 +21,32 @@ void initializeGrid() {
     }
 }
 
-void renderGrid(RenderWindow &window, const Grille &grille) {
+void renderGrid(sf::RenderWindow &window, const Grille &grille) {
     window.clear();
-    RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f)); // Taille ajustée pour un espacement
+    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
+
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-            if (grille.obtenirCellule(x, y).estVivante()) {
-                cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::White);  
-                window.draw(cell);
+            const Cellule &cellule = grille.obtenirCellule(x, y);
+            cell.setPosition(x * cellSize, y * cellSize);
+
+            if (cellule.estObstacle()) {
+                if (cellule.obstacleVivante()) {
+                    cell.setFillColor(sf::Color::Blue);  
+                } else {
+                    cell.setFillColor(sf::Color::Red);  
+                }
+            } else if (cellule.estVivante()) {
+                cell.setFillColor(sf::Color::White);  
             } else {
-                cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(Color::Black);  
-                window.draw(cell);
+                cell.setFillColor(sf::Color::Black);  
             }
+
+            window.draw(cell);
         }
     }
     window.display();
-}
+}s
 
 
 
