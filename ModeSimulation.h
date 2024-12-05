@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Interface.h"
 #include "Constants.h"
 #include "Grille.h"
 #include <SFML/Graphics.hpp>
