@@ -1,21 +1,20 @@
 #include "Grille.h"
 #include <iostream>
-//Fournit des classes et des fonctions pour manipuler des fichiers en entrée/sortie (lecture/écriture).
 #include <fstream>
-//Contient des classes pour gérer les exceptions standard
 #include <stdexcept>
 
-using namespace std; 
+using namespace std;
 
 Grille::Grille(int l, int h) 
     : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
+// Compte les voisins vivants d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
-            if (dx == 0 && dy == 0) continue;
-            int nx = (x + dx + largeur) % largeur;
+            if (dx == 0 && dy == 0) continue; // Ignore la cellule elle-même
+            int nx = (x + dx + largeur) % largeur; // Gestion torique
             int ny = (y + dy + hauteur) % hauteur;
             if (cellules[nx][ny].estVivante() && !cellules[nx][ny].estObstacle())
                 ++voisinsVivants;
@@ -24,26 +23,32 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     return voisinsVivants;
 }
 
-void Grille::chargerDepuisFichier(const string& chemin) {
+// Charge la grille depuis le fichier texte
+void Grille::chargerDepuisFichier(const string &chemin) {
     ifstream fichier(chemin);
     if (!fichier.is_open()) {
         throw runtime_error("Impossible de lire le fichier.");
     }
 
-    // Lire les dimensions depuis le fichier
     fichier >> hauteur >> largeur;
     cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));
 
-    // Lire l'état initial de chaque cellule
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             int etat;
             fichier >> etat;
-            cellules[x][y] = Cellule(etat == 1);  // 1 = vivant, 0 = mort
+            if (etat == 2) {
+                cellules[x][y] = Cellule(false, OBSTACLE);  // Obstacle mort
+            } else if (etat == 3) {
+                cellules[x][y] = Cellule(true, OBSTACLE);   // Obstacle vivant
+            } else {
+                cellules[x][y] = Cellule(etat == 1);       // 1 = vivant, 0 = mort
+            }
         }
     }
 }
 
+// Met à jour les états de toutes les cellules
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
@@ -56,13 +61,13 @@ void Grille::mettreAJour() {
         }
     }
 
+    
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
             cellules[x][y].appliquerProchainEtat();
         }
     }
     cout << "Mise à jour de la grille effectuée." << endl;
-    afficherConsole();
 }
 
 
@@ -70,7 +75,7 @@ void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             if (cellules[x][y].estObstacle()) {
-                cout << "X ";
+                cout << (cellules[x][y].estVivante() ? "X " : "O ");
             } else {
                 cout << (cellules[x][y].estVivante() ? "1 " : "0 ");
             }

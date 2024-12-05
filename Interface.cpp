@@ -23,31 +23,24 @@ void initializeGrid() {
 
 void renderGrid(sf::RenderWindow &window, const Grille &grille) {
     window.clear();
-    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
+    sf::RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f)); 
 
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-            const Cellule &cellule = grille.obtenirCellule(x, y);
-            cell.setPosition(x * cellSize, y * cellSize);
-
-            if (cellule.estObstacle()) {
-                if (cellule.obstacleVivante()) {
-                    cell.setFillColor(Color::Blue);  
-                } else {
-                    cell.setFillColor(Color::Red);  
-                }
-            } else if (cellule.estVivante()) {
+            if (grille.obtenirCellule(x, y).estVivante()) {
+                cell.setPosition(x * cellSize, y * cellSize);
                 cell.setFillColor(Color::White);  
+                window.draw(cell);
+            } else if (grille.obtenirCellule(x, y).estObstacle()) {
+                cell.setPosition(x * cellSize, y * cellSize);
+                cell.setFillColor(Color::Red);  
+                window.draw(cell);
             } else {
-                cell.setFillColor(Color::Black);  
+                cell.setPosition(x * cellSize, y * cellSize);
+                cell.setFillColor(Color::Black);  // Cellule morte
+                window.draw(cell);
             }
-
-            window.draw(cell);
         }
     }
     window.display();
-}s
-
-
-
-
+}
