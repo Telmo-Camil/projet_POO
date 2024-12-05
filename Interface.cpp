@@ -32,14 +32,14 @@ void renderGrid(sf::RenderWindow &window, const Grille &grille) {
 
             if (cellule.estObstacle()) {
                 if (cellule.obstacleVivante()) {
-                    cell.setFillColor(sf::Color::Blue);  
+                    cell.setFillColor(Color::Blue);  
                 } else {
-                    cell.setFillColor(sf::Color::Red);  
+                    cell.setFillColor(Color::Red);  
                 }
             } else if (cellule.estVivante()) {
-                cell.setFillColor(sf::Color::White);  
+                cell.setFillColor(Color::White);  
             } else {
-                cell.setFillColor(sf::Color::Black);  
+                cell.setFillColor(Color::Black);  
             }
 
             window.draw(cell);
