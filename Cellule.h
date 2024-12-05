@@ -13,6 +13,7 @@ public:
 
     bool estVivante() const;
     bool estObstacle() const;
+    bool obstacleVivante() const;  // Nouvelle méthode pour vérifier si l'obstacle est vivant
     void definirProchainEtat(bool etat);
     void appliquerProchainEtat();
     void definirType(TypeCellule nouveauType);

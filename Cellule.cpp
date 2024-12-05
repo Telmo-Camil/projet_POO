@@ -1,11 +1,6 @@
 #include "Cellule.h"
 
-Cellule::Cellule(bool etatInitial) {
-    vivant = etatInitial;
-    prochainEtat = false;
-    type = type;
-}
-
+Cellule::Cellule(bool etatInitial, TypeCellule type) : vivant(etatInitial), prochainEtat(false), type(type) {}
 
 bool Cellule::estVivante() const {
     return vivant;
@@ -13,6 +8,10 @@ bool Cellule::estVivante() const {
 
 bool Cellule::estObstacle() const {
     return type == OBSTACLE;
+}
+
+bool Cellule::obstacleVivante() const {
+    return estObstacle() && vivant;
 }
 
 void Cellule::definirProchainEtat(bool etat) {

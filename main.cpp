@@ -8,16 +8,20 @@ using namespace std;
 int main() {
     Grille grille(gridWidth, gridHeight);
 
-    //le programme tente de charger une grille à partir du fichier "etat_initial.txt"
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
-    } 
-    //Si une exception est levée dans le bloc try, elle est interceptée par le bloc catch
-    catch (const exception &e) {
-        //La méthode e.what() retourne un message décrivant l'exception, qui est ensuite affiché.
+    } catch (const exception &e) {
         cerr << "Erreur : " << e.what() << endl;
         return 1;
     }
+
+    // Obstacles
+    grille.obtenirCellule(1, 1).definirType(OBSTACLE);  // Obstacle mort
+    grille.obtenirCellule(1, 1).definirProchainEtat(false);
+
+    grille.obtenirCellule(3, 3).definirType(OBSTACLE);  // Obstacle vivant
+    grille.obtenirCellule(3, 3).definirProchainEtat(true);
+    grille.obtenirCellule(3, 3).appliquerProchainEtat();
 
     int choixMode;
     cout << "Choisissez le mode de fonctionnement :\n";
