@@ -1,6 +1,4 @@
 #include "ModeSimulation.h"
-#include "Interface.h"
-#include "Constants.h" 
 #include <iostream>
 #include <fstream>
 #include <SFML/Graphics.hpp>
@@ -14,58 +12,44 @@ ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
 ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
-    if (!instance) {
+    if (instance == nullptr) {
         instance = new ModeSimulation(graphique, iterations);
     }
     return instance;
 }
 
-void ModeSimulation::lancer(Grille &grille, const string &FichierSortie) {
+void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
     if (modeGraphique) {
         lancerGraphique(grille);
     } else {
-        lancerConsole(grille, FichierSortie);
+        lancerConsole(grille, outputPath);
     }
 }
 
-void ModeSimulation::lancerConsole(Grille &grille, const string &FichierSortie) {
-    ofstream fichierOut(FichierSortie);
-    if (!fichierOut.is_open()) {
-        cerr << "Erreur : impossible de créer le fichier de sortie." << endl;
+void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
+    ofstream sortie(outputPath);
+    if (!sortie.is_open()) {
+        cerr << "Erreur : impossible d'écrire dans le fichier " << outputPath << endl;
         return;
     }
 
-    for (int iteration = 0; iteration < maxIterations; ++iteration) {
-        fichierOut << "Iteration " << iteration + 1 << ":\n";
-        for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-            for (int x = 0; x < grille.obtenirLargeur(); ++x) {
-                fichierOut << (grille.obtenirCellule(x, y).estVivante() ? "1 " : "0 ");
-            }
-            fichierOut << '\n';
-        }
-        fichierOut << '\n';
+    for (int i = 0; i < maxIterations; ++i) {
         grille.mettreAJour();
+        sortie << "Itération " << i + 1 << " :\n";
+        grille.afficherConsole();
     }
-    fichierOut.close();
-    cout << "Simulation console terminée. Résultats écrits dans " << FichierSortie << endl;
+    sortie.close();
 }
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
     RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-
-    int iteration = 0;
-    while (window.isOpen() && iteration < maxIterations) {
+    while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
                 window.close();
         }
-
         grille.mettreAJour();
-        renderGrid(window, grille); // Affichage graphique
-        sleep(milliseconds(100));
-        ++iteration;
+        renderGrid(window, grille);
     }
-
-    cout << "Simulation graphique terminée après " << iteration << " itérations." << endl;
 }
