@@ -1,5 +1,6 @@
 #pragma once
 
+//Type énuméré
 enum TypeCellule { NORMALE, OBSTACLE };
 
 class Cellule {
@@ -13,7 +14,7 @@ public:
 
     bool estVivante() const;
     bool estObstacle() const;
-    bool obstacleVivante() const;  // Nouvelle méthode pour vérifier si l'obstacle est vivant
+    bool obstacleVivante() const;  
     void definirProchainEtat(bool etat);
     void appliquerProchainEtat();
     void definirType(TypeCellule nouveauType);
