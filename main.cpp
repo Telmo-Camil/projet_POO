@@ -8,9 +8,13 @@ using namespace std;
 int main() {
     Grille grille(gridWidth, gridHeight);
 
+    //le programme tente de charger une grille à partir du fichier "etat_initial.txt"
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
-    } catch (const exception &e) {
+    } 
+    //Si une exception est levée dans le bloc try, elle est interceptée par le bloc catch
+    catch (const exception &e) {
+        //La méthode e.what() retourne un message décrivant l'exception, qui est ensuite affiché.
         cerr << "Erreur : " << e.what() << endl;
         return 1;
     }
