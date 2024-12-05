@@ -14,12 +14,12 @@ private:
 
     ModeSimulation(bool graphique, int iterations);
 
-    void lancerConsole(Grille &grille, const string &outputPath);
+    void lancerConsole(Grille &grille, const string &FichierSortie);
     void lancerGraphique(Grille &grille);
 
 public:
     static ModeSimulation *getInstance(bool graphique, int iterations);
 
-    void lancer(Grille &grille, const string &outputPath = "");
+    void lancer(Grille &grille, const string &FichierSortie = "");
 };
 
