@@ -2,7 +2,7 @@
 
 Cellule::Cellule(bool etatInitial, TypeCellule type) {
     vivant = etatInitial;
-    prochainEtat = false;.
+    prochainEtat = false;
     this->type = type;
 }
 
