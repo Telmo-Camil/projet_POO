@@ -83,3 +83,11 @@ void Grille::afficherConsole() const {
         cout << '\n';
     }
 }
+
+    Cellule &Grille::obtenirCellule(int x, int y) {
+        return cellules[x][y];
+    }
+
+    const Cellule &Grille::obtenirCellule(int x, int y) const {
+        return cellules[x][y];
+    }
