@@ -9,7 +9,6 @@ using namespace sf;
 
 vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
 
-
 //Initialiser la Grille avec les tailles fournies
 void initializeGrid() {
     srand(time(0));
