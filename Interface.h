@@ -5,6 +5,6 @@
 #include "Grille.h"  
 
 void initializeGrid(int gridWidth, int gridHeight);
-void renderGrid(sf::RenderWindow &window, const Grille &grille, int cellSize);
+void renderGrid(sf::RenderWindow &window, const Grille &grille);
 
 #endif // INTERFACE_H
