@@ -97,13 +97,13 @@ Remplace l'extension `.cpp` des fichiers listés dans `SRCS` par `.o` pour crée
 ```makefile
 TARGET = main
 ```
-Nom de l'exécutable final.
+ `main ` sera le nom de l'exécutable final.
 
 ### 3. Règles du Makefile
 ```makefile
 all: $(TARGET)
 ```
-Règle par défaut. Génère l'exécutable `main` en appelant la règle suivante.
+Ici, cela génère l'exécutable en appelant la règle suivante.
 
 ```makefile
 $(TARGET): $(OBJS)
@@ -118,9 +118,8 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 ```
-- Règle générique pour compiler les fichiers `.cpp` en fichiers `.o` :
-  - `$<` : Représente le fichier source `.cpp` en cours de compilation.
-  - `$@` : Représente le fichier objet `.o` correspondant.
+  - `$<` : Représente le fichier source `.cpp` (C++) en cours de compilation.
+  - `$@` : Représente le fichier objet `.o` (fichier intermédiaire compilant chaque fichier source individuellement pour ensuite les regrouper).
 
 ### 4. Nettoyage
 ```makefile
@@ -128,6 +127,8 @@ clean:
 	rm -f $(OBJS) $(TARGET)
 ```
  Supprime tous les fichiers objets (`$(OBJS)`) et l'exécutable final (`$(TARGET)`).
+ ***
+ 
 
 
 
