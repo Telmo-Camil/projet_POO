@@ -48,9 +48,7 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
-> Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.\
-
-
+> Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.
 
 # Paradigme Objet 
 > Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.
