@@ -31,7 +31,7 @@ Le but du projet est de réaliser une simulation du Jeu de la vie de John Conway
 ## Définition
 **Les bibliothèques sont des ensembles de codes préexistants et réutilisables, qui lorsqu’on les intègre à un programme, donnent accès aux instructions qu’elles mettent en place.**
 
-* ## Standard STL
+## Standard STL
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
 
 * ### Conteneur
@@ -48,23 +48,107 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
-Grâce à cette vérifications, nous nous assurons que chaque unité fonctionne comme prévu, indépendamment d'autres parties de l'application. Le principal atout de l'architecture MVC est de séparer les différentes couches dans le but de simplifier la maintenance et les tests unitaires.\
-\
-Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.
+> **Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.**
 
 # Paradigme Objet 
-Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.
+> **Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.**
 
 ## Impératif
-Ce type de paradigme spécifie les étapes que le programme doit suivre pour atteindre un résultat.
+**Ce type de paradigme spécifie les étapes que le programme doit suivre pour atteindre un résultat.**
 
 ## Déclaratif
-Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir. \
+**Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir.** \
 \
 Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
+***
+# Programme
 
+Nous avons rajouté des commentaires au-dessus des fonctions et sur certaines lignes dans le programme afin de les expliquer. Ici, nous détaillerons un peu plus ce qui ne sera pas explicable sous forme de commentaires.
 
+***
+## Cellule
 
+***
+## Grille
+
+***
+## Interface
+
+***
+## ModeSimiulation
+
+***
+
+***
+## Main
+
+***
+# Makefile
+
+### 1. Compilation
+```makefile
+CXX = clang++
+```
+Définit le compilateur à utiliser, ici `clang++`.
+
+```makefile
+CXXFLAGS = -g -Wmost -Werror
+```
+- `-g` : Ajoute les informations de débogage.
+- `-Wmost` : Active la plupart des avertissements pour le compilateur.
+- `-Werror` : Traite tous les avertissements comme des erreurs.
+
+```makefile
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
+```
+Liste des bibliothèques SFML nécessaires pour lier le programme : affichage graphique, gestion des fenêtres, audio, réseau et système.
+
+### 2. Sources et Objets
+```makefile
+SRCS = main.cpp Interface.cpp Grille.cpp Cellule.cpp ModeSimulation.cpp
+```
+Définit la liste des fichiers source à compiler.
+
+```makefile
+OBJS = $(SRCS:.cpp=.o)
+```
+Remplace l'extension `.cpp` des fichiers listés dans `SRCS` par `.o` pour créer la liste des fichiers objets.
+
+```makefile
+TARGET = main
+```
+ `main ` sera le nom de l'exécutable final.
+
+### 3. Règles du Makefile
+```makefile
+all: $(TARGET)
+```
+Ici, cela génère l'exécutable en appelant la règle suivante.
+
+```makefile
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) $(LDFLAGS) -o $(TARGET)
+```
+- Crée l'exécutable `main` :
+  - Utilise `clang++` pour lier tous les fichiers objets spécifiés dans `$(OBJS)`.
+  - Ajoute les bibliothèques SFML (`$(LDFLAGS)`).
+  - Sauvegarde l'exécutable sous le nom `main`.
+
+```makefile
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+```
+  - `$<` : Représente le fichier source `.cpp` (C++) en cours de compilation.
+  - `$@` : Représente le fichier objet `.o` (fichier intermédiaire compilant chaque fichier source individuellement pour ensuite les regrouper).
+
+### 4. Nettoyage
+```makefile
+clean:
+	rm -f $(OBJS) $(TARGET)
+```
+ Supprime tous les fichiers objets (`$(OBJS)`) et l'exécutable final (`$(TARGET)`).
+ ***
+ 
 
 
 
