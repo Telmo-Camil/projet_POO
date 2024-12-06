@@ -9,6 +9,8 @@ using namespace std;
 Grille::Grille(int l, int h)
     : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
+
+//Regarder l'entourage d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
     for (int dx = -1; dx <= 1; ++dx) {
@@ -23,6 +25,7 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     return voisinsVivants;
 }
 
+//Prendre le fichier texte de départ
 void Grille::chargerDepuisFichier(const string &chemin) {
     ifstream fichier(chemin);
     if (!fichier.is_open()) {
@@ -34,13 +37,23 @@ void Grille::chargerDepuisFichier(const string &chemin) {
 
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
-            int etat;
+            string etat;
             fichier >> etat;
-            cellules[x][y] = Cellule(etat == 1);
+
+            if (etat == "X") {
+                cellules[x][y] = Cellule(false, OBSTACLE); // Obstacle mort
+            } else if (etat == "O") {
+                cellules[x][y] = Cellule(true, OBSTACLE);  // Obstacle vivant
+            } else {
+                int etatNumerique = stoi(etat);
+                cellules[x][y] = Cellule(etatNumerique == 1); // Cellule normale
+            }
         }
     }
 }
 
+
+//Rendre une cellule vivante ou morte en fonction de son entourage
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
@@ -66,14 +79,15 @@ void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             if (cellules[x][y].estObstacle()) {
-                cout << "X ";
+                cout << (cellules[x][y].estVivante() ? "O " : "X "); // Obstacle vivant : O, mort : X
             } else {
-                cout << (cellules[x][y].estVivante() ? "1 " : "0 ");
+                cout << (cellules[x][y].estVivante() ? "1 " : "0 "); // Cellule normale
             }
         }
         cout << '\n';
     }
 }
+
 
 int Grille::obtenirLargeur() const {
     return largeur;
