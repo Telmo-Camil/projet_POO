@@ -1,15 +1,13 @@
 #include "ModeSimulation.h"
-#include <iostream>
-#include <fstream>
+#include "Interface.h"
 #include <SFML/Graphics.hpp>
+#include <fstream>
+#include <iostream>
 
-using namespace std;
 using namespace sf;
+using namespace std;
 
 ModeSimulation *ModeSimulation::instance = nullptr;
-
-ModeSimulation::ModeSimulation(bool graphique, int iterations)
-    : modeGraphique(graphique), maxIterations(iterations) {}
 
 ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     if (instance == nullptr) {
@@ -18,38 +16,49 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     return instance;
 }
 
+ModeSimulation::ModeSimulation(bool graphique, int iterations)
+    : modeGraphique(graphique), maxIterations(iterations) {}
+
 void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
     if (modeGraphique) {
-        lancerGraphique(grille);
+        lancerGraphique(grille);  // Appel au mode graphique
     } else {
-        lancerConsole(grille, outputPath);
+        lancerConsole(grille, outputPath);  // Appel au mode console
     }
 }
 
+//Mode Console
 void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
     ofstream sortie(outputPath);
     if (!sortie.is_open()) {
-        cerr << "Erreur : impossible d'écrire dans le fichier " << outputPath << endl;
+        cerr << "Erreur : impossible de créer le fichier de sortie." << endl;
         return;
     }
 
     for (int i = 0; i < maxIterations; ++i) {
-        grille.mettreAJour();
+        grille.afficherConsole();  
+        grille.mettreAJour();    
         sortie << "Itération " << i + 1 << " :\n";
-        grille.afficherConsole();
+        grille.afficherConsole();r
     }
+
     sortie.close();
+    cout << "Simulation terminée. Résultats sauvegardés dans : " << outputPath << endl;
 }
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
-    RenderWindow window(VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    const int cellSize = 10;  
+    RenderWindow window(VideoMode(grille.obtenirLargeur() * cellSize, grille.obtenirHauteur() * cellSize), "Game of Life");
+
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
                 window.close();
         }
-        grille.mettreAJour();
-        renderGrid(window, grille);
+
+        grille.mettreAJour();  
+        renderGrid(window, grille, cellSize); 
+        sleep(milliseconds(100));  
     }
 }

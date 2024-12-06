@@ -1,26 +1,25 @@
-#pragma once
+#ifndef MODE_SIMULATION_H
+#define MODE_SIMULATION_H
 
-#include "Interface.h"
 #include "Grille.h"
-#include <SFML/Graphics.hpp>
 #include <string>
-
-using namespace std;
 
 class ModeSimulation {
 private:
-    bool modeGraphique; // true : mode graphique, false : mode console
+    bool modeGraphique;   // true pour le mode graphique, false pour le mode console
     int maxIterations;
-    static ModeSimulation *instance;
 
     ModeSimulation(bool graphique, int iterations);
 
-    void lancerConsole(Grille &grille, const string &FichierSortie);
+    static ModeSimulation *instance;
+
+    void lancerConsole(Grille &grille, const std::string &outputPath);
     void lancerGraphique(Grille &grille);
 
 public:
     static ModeSimulation *getInstance(bool graphique, int iterations);
 
-    void lancer(Grille &grille, const string &FichierSortie = "");
+    void lancer(Grille &grille, const std::string &outputPath = "");
 };
 
+#endif // MODE_SIMULATION_H
