@@ -1,15 +1,12 @@
 #include "Grille.h"
 #include <iostream>
 #include <fstream>
-//Permet de signaler et traiter des erreurs à l'exécution.
-#include <stdexcept>
 
 using namespace std;
 
-Grille::Grille(int l, int h ) : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
+Grille::Grille(int l, int h) : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
-
-//Regarder l'entourage d'une cellule
+// Regarder l'entourage d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
     for (int dx = -1; dx <= 1; ++dx) {
@@ -24,21 +21,26 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     return voisinsVivants;
 }
 
-//Prendre le fichier texte de départ
-void Grille::chargerDepuisFichier(const string &chemin) {
+// Prendre le fichier texte de départ
+bool Grille::chargerDepuisFichier(const string &chemin) {
     ifstream fichier(chemin);
     if (!fichier.is_open()) {
-        throw runtime_error("Impossible de lire le fichier.");
+        cerr << "Erreur : Impossible d'ouvrir le fichier " << chemin << endl;
+        return false;
     }
 
-    fichier >> hauteur >> largeur;  // Lire les dimensions de la grille
-    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));  // Redimensionner la grille
+    fichier >> hauteur >> largeur;
+    if (hauteur <= 0 || largeur <= 0) {
+        cerr << "Erreur : Dimensions de la grille incorrectes." << endl;
+        return false;
+    }
+
+    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));
 
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             char etat;
-            fichier >> etat;  // Lecture de chaque cellule
-
+            fichier >> etat;
             if (etat == '1') {
                 cellules[x][y] = Cellule(true);  // Cellule vivante normale
             } else if (etat == '0') {
@@ -48,15 +50,16 @@ void Grille::chargerDepuisFichier(const string &chemin) {
             } else if (etat == 'X') {
                 cellules[x][y] = Cellule(false, OBSTACLE);  // Obstacle mort
             } else {
-                //throw : Pour communiquer une erreur 
-                throw runtime_error("Fichier incorrect : état de cellule inconnu.");
+                cerr << "Erreur : État de cellule inconnu '" << etat << "' au fichier." << endl;
+                return false;
             }
         }
     }
+
+    return true;
 }
 
-
-//Rendre une cellule vivante ou morte en fonction de son entourage
+// Rendre une cellule vivante ou morte en fonction de son entourage
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
@@ -91,7 +94,6 @@ void Grille::afficherConsole() const {
     }
 }
 
-
 int Grille::obtenirLargeur() const {
     return largeur;
 }
@@ -106,10 +108,11 @@ Fonction obtenirCellule avec 2 versions :
 - La version non-const est utilisée pour permettre des modifications.
 */
 
+
+
 const Cellule &Grille::obtenirCellule(int x, int y) const {
     return cellules[x][y];
 }
-
 
 Cellule &Grille::obtenirCellule(int x, int y) {
     return cellules[x][y];
