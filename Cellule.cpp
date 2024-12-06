@@ -1,5 +1,6 @@
 #include "Cellule.h"
 
+//Constructeur initialisant une cellule
 Cellule::Cellule(bool etatInitial, TypeCellule type) {
     vivant = etatInitial;
     prochainEtat = false;
@@ -28,12 +29,14 @@ void Cellule::definirProchainEtat(bool etat) {
     }
 }
 
+//Prochain état appliqué en fonction de si la cellule est obstacle ou non
 void Cellule::appliquerProchainEtat() {
     if (!estObstacle()) {
         vivant = prochainEtat;
     }
 }
 
+//Définit le nouveau type de chaque cellule après changement
 void Cellule::definirType(TypeCellule nouveauType) {
     type = nouveauType;
 }
