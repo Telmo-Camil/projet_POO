@@ -4,7 +4,6 @@
 #include <ctime>
 #include <cstdlib>
 #include "Interface.h"
-#include "Constants.h"
 #include "Grille.h"
 
 using namespace std; 
