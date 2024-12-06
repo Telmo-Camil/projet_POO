@@ -16,11 +16,11 @@ int main() {
     }
 
     // Initialisation des obstacles
-    grille.obtenirCellule(1, 1).definirType(OBSTACLE); // Obstacle mort
+    grille.obtenirCellule(1, 1).definirType(OBSTACLE); 
     grille.obtenirCellule(1, 1).definirProchainEtat(false);
     grille.obtenirCellule(1, 1).appliquerProchainEtat();
 
-    grille.obtenirCellule(3, 3).definirType(OBSTACLE); // Obstacle vivant
+    grille.obtenirCellule(3, 3).definirType(OBSTACLE); 
     grille.obtenirCellule(3, 3).definirProchainEtat(true);
     grille.obtenirCellule(3, 3).appliquerProchainEtat();
 
