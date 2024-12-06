@@ -27,18 +27,15 @@ int main() {
     cin >> maxIterations;
 
 // Lancer le mode en fonction 
-if (choixMode == 1) {
-    string baseOutputDir = "simulation_out";
-
-    // Supprimer tous les anciens fichiers dans le dossier de base
-    system(("rm -f " + baseOutputDir + "/*").c_str()); 
-
-    ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);   
+²   if (choixMode == 1) {
+        string baseOutputDir = "simulation_out"; 
+        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);
     } else if (choixMode == 2) {
-    ModeSimulation::getInstance(true, maxIterations)->lancer(grille);
+        string dummyOutputDir = "unused"; // Nom de dossier factice pour le mode graphique
+        ModeSimulation::getInstance(true, maxIterations)->lancer(grille, dummyOutputDir);
     } else {
-    cerr << "Choix invalide." << endl;
-    return 1;
+        cerr << "Choix invalide." << endl;
+        return 1;
     }
 
     return 0;
