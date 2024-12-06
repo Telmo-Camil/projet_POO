@@ -27,8 +27,8 @@ int main() {
 
     //Lancer le mode en fonction de son choix
     if (choixMode == 1) {
-    string outputDir = "simulation_out";
-    ModeSimulation::getInstance(false, maxIterations)->lancer(grille, outputDir);
+        string baseOutputDir = "simulation_out"; 
+        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);
     } else if (choixMode == 2) {
         ModeSimulation::getInstance(true, maxIterations)->lancer(grille);
     } else {
