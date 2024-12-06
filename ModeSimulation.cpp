@@ -48,7 +48,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
 
 //Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille) {
-    const int cellSize = 10;  
+    const int cellSize = 10; // Taille des cellules en pixels
     RenderWindow window(VideoMode(grille.obtenirLargeur() * cellSize, grille.obtenirHauteur() * cellSize), "Game of Life");
 
     while (window.isOpen()) {
@@ -59,7 +59,8 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
         }
 
         grille.mettreAJour();  
-        renderGrid(window, grille, cellSize); 
+        renderGrid(window, grille, cellSize); // Passe la taille des cellules ici
         sleep(milliseconds(100));  
     }
 }
+

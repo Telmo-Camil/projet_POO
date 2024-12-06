@@ -1,42 +1,29 @@
 #include "Interface.h"
-#include <iostream>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
+#include <SFML/Graphics.hpp>
+#include "Grille.h"
 
-using namespace std; 
 using namespace sf;
 
-vector<vector<int>> grid(gridWidth, vector<int>(gridHeight));
+void renderGrid(RenderWindow &window, const Grille &grille, int cellSize) {
+    window.clear(); // Efface l'écran
 
-//Initialiser la Grille avec les tailles fournies
-void initializeGrid() {
-    srand(time(0));
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-            grid[x][y] = rand() % 2;  
-        }
-    }
-}
+    RectangleShape cell(Vector2f(cellSize, cellSize)); // Cellule de la taille spécifiée
 
-void renderGrid(RenderWindow &window, const Grille &grille) {
-    window.clear();  // Efface l'écran
-
-    RectangleShape cell(Vector2f(1.0f, 1.0f));  // Une cellule logique de 1x1
-    cell.setScale(10, 10);  // Échelle de la cellule
-
+    // Parcours des cellules de la grille
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-            cell.setPosition(x, y);  // Position logique de la cellule
+            cell.setPosition(x * cellSize, y * cellSize); // Position de la cellule
 
+            // Définir la couleur de la cellule en fonction de son état
             if (grille.obtenirCellule(x, y).estObstacle()) {
                 cell.setFillColor(grille.obtenirCellule(x, y).estVivante() ? Color::Red : Color::Blue);
             } else {
                 cell.setFillColor(grille.obtenirCellule(x, y).estVivante() ? Color::White : Color::Black);
             }
+
             window.draw(cell);
         }
     }
 
-    window.display();  // Affiche le rendu
+    window.display(); 
 }
