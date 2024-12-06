@@ -31,8 +31,32 @@ void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
 }
 
 //Mode Console
-void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
-    // Crée un dossier pour les fichiers d'itération
+void ModeSimulation::lancerConsole(Grille &grille, const string &baseOutputPath) {
+    static string dernierDossier = baseOutputPath;
+    string outputPath;
+
+    cout << "Souhaitez-vous :\n";
+    cout << "1. Remplacer les anciens fichiers dans le dernier dossier créé (" << dernierDossier << ")\n";
+    cout << "2. Créer un nouveau dossier pour cette simulation\n";
+    int choix;
+    cin >> choix;
+
+    if (choix == 1) {
+        outputPath = dernierDossier; // Réutilise le dernier dossier créé
+        cout << "Les anciens fichiers seront remplacés dans : " << outputPath << endl;
+    } else if (choix == 2) {
+        ostringstream nouveauDossier;
+        static int compteurDossier = 1;
+        nouveauDossier << baseOutputPath << "_run_" << compteurDossier++;
+        outputPath = nouveauDossier.str();
+        dernierDossier = outputPath; // Met à jour le dernier dossier créé
+        cout << "Un nouveau dossier sera créé : " << outputPath << endl;
+    } else {
+        cerr << "Choix invalide. Annulation de la simulation." << endl;
+        return;
+    }
+
+    // Crée le dossier si nécessaire
     string commandeMkdir = "mkdir -p " + outputPath;
     if (system(commandeMkdir.c_str()) != 0) {
         cerr << "Erreur : impossible de créer le dossier de sortie." << endl;
