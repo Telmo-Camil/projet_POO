@@ -48,7 +48,7 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
-> Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.
+> **Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.**
 
 # Paradigme Objet 
 > **Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.**
@@ -62,7 +62,72 @@ Ce modèle va nous aider à mettre en place le test unitaire.
 Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
 
 
+***
+# Makefile
 
+### 1. Compilation
+```makefile
+CXX = clang++
+```
+Définit le compilateur à utiliser, ici `clang++`.
+
+```makefile
+CXXFLAGS = -g -Wmost -Werror
+```
+- `-g` : Ajoute les informations de débogage.
+- `-Wmost` : Active la plupart des avertissements pour le compilateur.
+- `-Werror` : Traite tous les avertissements comme des erreurs.
+
+```makefile
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
+```
+Liste des bibliothèques SFML nécessaires pour lier le programme : affichage graphique, gestion des fenêtres, audio, réseau et système.
+
+### 2. Sources et Objets
+```makefile
+SRCS = main.cpp Interface.cpp Grille.cpp Cellule.cpp ModeSimulation.cpp
+```
+Définit la liste des fichiers source à compiler.
+
+```makefile
+OBJS = $(SRCS:.cpp=.o)
+```
+Remplace l'extension `.cpp` des fichiers listés dans `SRCS` par `.o` pour créer la liste des fichiers objets.
+
+```makefile
+TARGET = main
+```
+Nom de l'exécutable final.
+
+### 3. Règles du Makefile
+```makefile
+all: $(TARGET)
+```
+Règle par défaut. Génère l'exécutable `main` en appelant la règle suivante.
+
+```makefile
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) $(LDFLAGS) -o $(TARGET)
+```
+- Crée l'exécutable `main` :
+  - Utilise `clang++` pour lier tous les fichiers objets spécifiés dans `$(OBJS)`.
+  - Ajoute les bibliothèques SFML (`$(LDFLAGS)`).
+  - Sauvegarde l'exécutable sous le nom `main`.
+
+```makefile
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+```
+- Règle générique pour compiler les fichiers `.cpp` en fichiers `.o` :
+  - `$<` : Représente le fichier source `.cpp` en cours de compilation.
+  - `$@` : Représente le fichier objet `.o` correspondant.
+
+### 4. Nettoyage
+```makefile
+clean:
+	rm -f $(OBJS) $(TARGET)
+```
+ Supprime tous les fichiers objets (`$(OBJS)`) et l'exécutable final (`$(TARGET)`).
 
 
 
