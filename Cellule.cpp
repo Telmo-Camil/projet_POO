@@ -6,20 +6,22 @@ Cellule::Cellule(bool etatInitial, TypeCellule type) {
     this->type = type;
 }
 
+//Vérification de si la cellule est vivante
 bool Cellule::estVivante() const {
     return vivant;
 }
 
-//Méthode mettant en place les cellules obstacles 
+//Cellules obstacles 
 bool Cellule::estObstacle() const {
     return type == OBSTACLE;
 }
 
-//Méthode mettant en place les cellules obstacles vivantes
+//Cellules obstacles vivantes
 bool Cellule::obstacleVivante() const {
     return estObstacle() && vivant;
 }
 
+//Prochain état des cellules en fonction de si elles sont obstacles ou non
 void Cellule::definirProchainEtat(bool etat) {
     if (!estObstacle()) {
         prochainEtat = etat;
