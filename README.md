@@ -60,7 +60,27 @@ Ce modèle va nous aider à mettre en place le test unitaire.
 **Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir.** \
 \
 Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
+***
+# Programme
 
+Nous avons rajouté des commentaires au-dessus des fonctions et sur certaines lignes dans le programme afin de les expliquer. Ici, nous détaillerons un peu plus ce qui ne sera pas explicable sous forme de commentaires.
+
+***
+## Cellule
+
+***
+## Grille
+
+***
+## Interface
+
+***
+## ModeSimiulation
+
+***
+
+***
+## Main
 
 ***
 # Makefile
