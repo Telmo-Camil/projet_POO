@@ -9,11 +9,8 @@ int main() {
     Grille grille(0, 0); 
 
     //Essayer d'ouvrir le fichier texte
-    try {
-        grille.chargerDepuisFichier("etat_initial.txt");
-    } catch (const exception &e) {
-        cerr << "Erreur : " << e.what() << endl;
-        return 1;
+    if (!grille.chargerDepuisFichier("etat_initial.txt")) {
+        return 1;  
     }
 
     //L'utilisateur choisit entre les deux modes
