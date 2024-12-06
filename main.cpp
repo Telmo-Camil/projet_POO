@@ -27,7 +27,7 @@ int main() {
     cin >> maxIterations;
 
 // Lancer le mode en fonction 
-²   if (choixMode == 1) {
+   if (choixMode == 1) {
         string baseOutputDir = "simulation_out"; 
         ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);
     } else if (choixMode == 2) {
