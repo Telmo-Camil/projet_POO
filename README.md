@@ -49,7 +49,6 @@ Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
 > Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.\
-\
 
 
 
