@@ -1,10 +1,8 @@
-#include <SFML/Graphics.hpp>
+#include "Interface.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
 #include <cstdlib>
-#include "Interface.h"
-#include "Grille.h"
 
 using namespace std; 
 using namespace sf;
