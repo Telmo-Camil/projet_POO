@@ -1,6 +1,6 @@
 #pragma once
 
-//Type énuméré
+//Type énuméré : avoir les deux états de la cellule
 enum TypeCellule { NORMALE, OBSTACLE };
 
 class Cellule {
