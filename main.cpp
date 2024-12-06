@@ -10,7 +10,8 @@ int main() {
 
     //Essayer d'ouvrir le fichier texte
     if (!grille.chargerDepuisFichier("etat_initial.txt")) {
-        return 1;  
+        cerr << "Erreur lors du chargement du fichier de grille." << endl;
+        return 1; 
     }
 
     //L'utilisateur choisit entre les deux modes

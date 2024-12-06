@@ -13,7 +13,7 @@ private:
 public:
     Grille(int l, int h);
 
-    void chargerDepuisFichier(const std::string &chemin);
+    bool chargerDepuisFichier(const std::string &chemin);
     void mettreAJour();
     void afficherConsole() const;
 
