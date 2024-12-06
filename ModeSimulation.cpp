@@ -31,46 +31,18 @@ void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
 }
 
 //Mode Console
-void ModeSimulation::lancerConsole(Grille &grille, const string &baseOutputPath) {
-    static string dernierDossier = baseOutputPath;
-    string outputPath;
+void ModeSimulation::lancerConsole(Grille &grille, const std::string &dossier) {
+    std::cout << "Les fichiers seront enregistrés dans le dossier : " << dossier << std::endl;
 
-    cout << "Souhaitez-vous :\n";
-    cout << "1. Remplacer les anciens fichiers dans le dernier dossier créé (" << dernierDossier << ")\n";
-    cout << "2. Créer un nouveau dossier pour cette simulation\n";
-    int choix;
-    cin >> choix;
-
-    if (choix == 1) {
-        outputPath = dernierDossier; // Réutilise le dernier dossier créé
-        cout << "Les anciens fichiers seront remplacés dans : " << outputPath << endl;
-    } else if (choix == 2) {
-        ostringstream nouveauDossier;
-        static int compteurDossier = 1;
-        nouveauDossier << baseOutputPath << "_run_" << compteurDossier++;
-        outputPath = nouveauDossier.str();
-        dernierDossier = outputPath; // Met à jour le dernier dossier créé
-        cout << "Un nouveau dossier sera créé : " << outputPath << endl;
-    } else {
-        cerr << "Choix invalide. Annulation de la simulation." << endl;
-        return;
-    }
-
-    // Crée le dossier si nécessaire
-    string commandeMkdir = "mkdir -p " + outputPath;
-    if (system(commandeMkdir.c_str()) != 0) {
-        cerr << "Erreur : impossible de créer le dossier de sortie." << endl;
-        return;
-    }
-
-    // Générer un fichier par itération
+    // Écriture des fichiers par itération
     for (int i = 0; i < maxIterations; ++i) {
-        ostringstream fileName;
-        fileName << outputPath << "/iteration_" << i + 1 << ".txt";
+        // Nom du fichier pour cette itération
+        std::string fichierSortie = dossier + "_iteration_" + std::to_string(i + 1) + ".txt";
 
-        ofstream sortie(fileName.str());
+        // Création/écriture dans le fichier
+        std::ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
-            cerr << "Erreur : impossible de créer le fichier " << fileName.str() << endl;
+            std::cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << std::endl;
             return;
         }
 
@@ -80,23 +52,8 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &baseOutputPath)
         sortie.close();
     }
 
-    cout << "Simulation terminée. Résultats sauvegardés dans le dossier : " << outputPath << endl;
+    std::cout << "Simulation terminée. Résultats sauvegardés dans des fichiers : " << dossier << "_iteration_<numéro>.txt" << std::endl;
 }
-
-void ModeSimulation::ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const {
-    for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-        for (int x = 0; x < grille.obtenirLargeur(); ++x) {
-            if (grille.obtenirCellule(x, y).estObstacle()) {
-                sortie << (grille.obtenirCellule(x, y).estVivante() ? "O " : "X ");
-            } else {
-                sortie << (grille.obtenirCellule(x, y).estVivante() ? "1 " : "0 ");
-            }
-        }
-        sortie << '\n';
-    }
-    sortie << '\n';
-}
-
 
 //Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille) {
@@ -121,4 +78,17 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
 }
 
+//Ecrire les différents états dans les fichiers
+void ModeSimulation::ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const {
+    for (int y = 0; y < grille.obtenirHauteur(); ++y) {
+        for (int x = 0; x < grille.obtenirLargeur(); ++x) {
+            if (grille.obtenirCellule(x, y).estObstacle()) {
+                sortie << (grille.obtenirCellule(x, y).estVivante() ? "O " : "X ");
+            } else {
+                sortie << (grille.obtenirCellule(x, y).estVivante() ? "1 " : "0 ");
+            }
+        }
+        sortie << '\n';
+    }
+}
 
