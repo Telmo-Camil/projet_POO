@@ -38,7 +38,7 @@ Objet qui permet de parcourir les éléments d’une collection de manière séq
 La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dédiée au développement multimédia en C++. Elle permet de gérer facilement les interfaces graphiques, les animations, rendant le développement de simulations ou jeux plus accessible.
 ***
 # Architecture MVC
-*Concept expliqué dans le Livrable Conception.*
+*Concept expliqué dans le Livrable Conception.* \
 Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
