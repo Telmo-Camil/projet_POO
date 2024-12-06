@@ -44,9 +44,9 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
     sortie.close();
     cout << "Simulation terminée. Résultats sauvegardés dans : " << outputPath << endl;
 }
+
 void ModeSimulation::ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const {
-    for (i
-    y = 0; y < grille.obtenirHauteur(); ++y) {
+    for (int y = 0; y < grille.obtenirHauteur(); ++y) {
         for (int x = 0; x < grille.obtenirLargeur(); ++x) {
             if (grille.obtenirCellule(x, y).estObstacle()) {
                 sortie << (grille.obtenirCellule(x, y).estVivante() ? "O " : "X ");
@@ -58,6 +58,7 @@ void ModeSimulation::ecrireEtatDansFichier(std::ofstream &sortie, const Grille &
     }
     sortie << '\n';
 }
+
 
 //Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille) {
