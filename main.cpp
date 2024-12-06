@@ -1,12 +1,11 @@
 #include "Grille.h"
-#include "Constants.h"
 #include "ModeSimulation.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    Grille grille(gridWidth, gridHeight);
+    Grille grille(0, 0); 
 
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
@@ -14,15 +13,6 @@ int main() {
         cerr << "Erreur : " << e.what() << endl;
         return 1;
     }
-
-    // Initialisation des obstacles
-    grille.obtenirCellule(1, 1).definirType(OBSTACLE); 
-    grille.obtenirCellule(1, 1).definirProchainEtat(false);
-    grille.obtenirCellule(1, 1).appliquerProchainEtat();
-
-    grille.obtenirCellule(3, 3).definirType(OBSTACLE); 
-    grille.obtenirCellule(3, 3).definirProchainEtat(true);
-    grille.obtenirCellule(3, 3).appliquerProchainEtat();
 
     int choixMode;
     cout << "Choisissez le mode de fonctionnement :\n";
