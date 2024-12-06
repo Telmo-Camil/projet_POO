@@ -26,4 +26,3 @@ void renderGrid(RenderWindow &window, const Grille &grille, int cellSize) {
     }
 
     window.display(); 
-}

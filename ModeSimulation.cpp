@@ -39,7 +39,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
         grille.afficherConsole();  
         grille.mettreAJour();    
         sortie << "Itération " << i + 1 << " :\n";
-        grille.afficherConsole();r
+        grille.afficherConsole();
     }
 
     sortie.close();

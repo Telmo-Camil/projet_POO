@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "Grille.h"
 
-void renderGrid(sf::RenderWindow &window, const Grille &grille);
+void renderGrid(sf::RenderWindow &window, const Grille &grille, int cellSize);
 
 
 #endif // INTERFACE_H
