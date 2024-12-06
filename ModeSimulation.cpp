@@ -31,18 +31,18 @@ void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
 }
 
 //Mode Console
-void ModeSimulation::lancerConsole(Grille &grille, const std::string &dossier) {
-    std::cout << "Les fichiers seront enregistrés dans le dossier : " << dossier << std::endl;
+void ModeSimulation::lancerConsole(Grille &grille, const string &dossier) {
+    cout << "Les fichiers seront enregistrés dans le dossier : " << dossier << endl;
 
     // Écriture des fichiers par itération
     for (int i = 0; i < maxIterations; ++i) {
         // Nom du fichier pour cette itération
-        std::string fichierSortie = dossier + "_iteration_" + std::to_string(i + 1) + ".txt";
+        string fichierSortie = dossier + "_iteration_" + std::to_string(i + 1) + ".txt";
 
         // Création/écriture dans le fichier
-        std::ofstream sortie(fichierSortie);
+        ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
-            std::cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << std::endl;
+            cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << endl;
             return;
         }
 
@@ -52,7 +52,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const std::string &dossier) {
         sortie.close();
     }
 
-    std::cout << "Simulation terminée. Résultats sauvegardés dans des fichiers : " << dossier << "_iteration_<numéro>.txt" << std::endl;
+    cout << "Simulation terminée. Résultats sauvegardés dans des fichiers : " << dossier << "_iteration_<numéro>.txt" << endl;
 }
 
 //Mode Graphique
@@ -79,7 +79,7 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
 }
 
 //Ecrire les différents états dans les fichiers
-void ModeSimulation::ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const {
+void ModeSimulation::ecrireEtatDansFichier(ofstream &sortie, const Grille &grille) const {
     for (int y = 0; y < grille.obtenirHauteur(); ++y) {
         for (int x = 0; x < grille.obtenirLargeur(); ++x) {
             if (grille.obtenirCellule(x, y).estObstacle()) {

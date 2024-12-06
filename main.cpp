@@ -1,5 +1,6 @@
 #include "Grille.h"
 #include "ModeSimulation.h"
+#include <filesystem>
 #include <iostream>
 
 using namespace std;
@@ -25,15 +26,19 @@ int main() {
     cout << "Entrez le nombre maximum d'itérations : ";
     cin >> maxIterations;
 
-    //Lancer le mode en fonction de son choix
-    if (choixMode == 1) {
-        string baseOutputDir = "simulation_out"; 
-        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);
+// Lancer le mode en fonction 
+if (choixMode == 1) {
+    string baseOutputDir = "simulation_out";
+
+    // Supprimer tous les anciens fichiers dans le dossier de base
+    system(("rm -f " + baseOutputDir + "/*").c_str()); 
+
+    ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);   
     } else if (choixMode == 2) {
-        ModeSimulation::getInstance(true, maxIterations)->lancer(grille);
+    ModeSimulation::getInstance(true, maxIterations)->lancer(grille);
     } else {
-        cerr << "Choix invalide." << endl;
-        return 1;
+    cerr << "Choix invalide." << endl;
+    return 1;
     }
 
     return 0;
