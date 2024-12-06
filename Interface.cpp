@@ -4,17 +4,15 @@
 
 using namespace sf;
 
-void renderGrid(RenderWindow &window, const Grille &grille, int cellSize) {
-    window.clear(); // Efface l'écran
+void renderGrid(sf::RenderWindow &window, const Grille &grille, int cellSize) {
+    window.clear();  // Efface l'écran
 
-    RectangleShape cell(Vector2f(cellSize, cellSize)); // Cellule de la taille spécifiée
+    RectangleShape cell(Vector2f(cellSize - 1.0f, cellSize - 1.0f));  // Taille logique de la cellule
 
-    // Parcours des cellules de la grille
     for (int x = 0; x < grille.obtenirLargeur(); ++x) {
         for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-            cell.setPosition(x * cellSize, y * cellSize); // Position de la cellule
+            cell.setPosition(x * cellSize, y * cellSize);
 
-            // Définir la couleur de la cellule en fonction de son état
             if (grille.obtenirCellule(x, y).estObstacle()) {
                 cell.setFillColor(grille.obtenirCellule(x, y).estVivante() ? Color::Red : Color::Blue);
             } else {
@@ -25,5 +23,5 @@ void renderGrid(RenderWindow &window, const Grille &grille, int cellSize) {
         }
     }
 
-    window.display(); 
+    window.display();  // Affiche le rendu
 }

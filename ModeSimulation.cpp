@@ -19,11 +19,12 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
+//Lancement d'un des deux modes
 void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
     if (modeGraphique) {
-        lancerGraphique(grille);  // Appel au mode graphique
+        lancerGraphique(grille);  
     } else {
-        lancerConsole(grille, outputPath);  // Appel au mode console
+        lancerConsole(grille, outputPath);  
     }
 }
 
@@ -75,11 +76,12 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
 
         // Affichage de l'état actuel de la grille
         cout << "Itération : " << i + 1 << endl; 
-        renderGrid(window, grille);             
-        grille.mettreAJour();                   
-        sleep(milliseconds(100));               
+        renderGrid(window, grille, cellSize);   
+        grille.mettreAJour();                  
+        sleep(milliseconds(100));              
     }
 
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
 }
+
 
