@@ -32,21 +32,25 @@ void Grille::chargerDepuisFichier(const string &chemin) {
         throw runtime_error("Impossible de lire le fichier.");
     }
 
-    fichier >> hauteur >> largeur;
-    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));
+    fichier >> hauteur >> largeur;  // Lire les dimensions de la grille
+    cellules = vector<vector<Cellule>>(largeur, vector<Cellule>(hauteur));  // Redimensionner la grille
 
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
-            string etat;
-            fichier >> etat;
+            char etat;
+            fichier >> etat;  // Lecture de chaque cellule
 
-            if (etat == "X") {
-                cellules[x][y] = Cellule(false, OBSTACLE); // Obstacle mort
-            } else if (etat == "O") {
+            if (etat == '1') {
+                cellules[x][y] = Cellule(true);  // Cellule vivante normale
+            } else if (etat == '0') {
+                cellules[x][y] = Cellule(false);  // Cellule morte normale
+            } else if (etat == 'O') {
                 cellules[x][y] = Cellule(true, OBSTACLE);  // Obstacle vivant
+            } else if (etat == 'X') {
+                cellules[x][y] = Cellule(false, OBSTACLE);  // Obstacle mort
             } else {
-                int etatNumerique = stoi(etat);
-                cellules[x][y] = Cellule(etatNumerique == 1); // Cellule normale
+                //throw : Pour communiquer une erreur 
+                throw runtime_error("Fichier incorrect : état de cellule inconnu.");
             }
         }
     }
