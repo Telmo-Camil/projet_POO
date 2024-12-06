@@ -46,6 +46,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
     cout << "Simulation terminée. Résultats sauvegardés dans : " << outputPath << endl;
 }
 
+//Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int cellSize = 10;  
     RenderWindow window(VideoMode(grille.obtenirLargeur() * cellSize, grille.obtenirHauteur() * cellSize), "Game of Life");

@@ -5,8 +5,10 @@
 using namespace std;
 
 int main() {
+    //Création d'une instance
     Grille grille(0, 0); 
 
+    //Essayer d'ouvrir le fichier texte
     try {
         grille.chargerDepuisFichier("etat_initial.txt");
     } catch (const exception &e) {
@@ -14,6 +16,7 @@ int main() {
         return 1;
     }
 
+    //L'utilisateur choisit entre les deux modes
     int choixMode;
     cout << "Choisissez le mode de fonctionnement :\n";
     cout << "1. Mode console\n";
@@ -24,6 +27,7 @@ int main() {
     cout << "Entrez le nombre maximum d'itérations : ";
     cin >> maxIterations;
 
+    //Lancer le mode en fonction de son choix
     if (choixMode == 1) {
         ModeSimulation::getInstance(false, maxIterations)->lancer(grille, "simulation_out.txt");
     } else if (choixMode == 2) {
