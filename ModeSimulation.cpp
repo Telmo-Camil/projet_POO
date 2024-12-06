@@ -36,14 +36,27 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
     }
 
     for (int i = 0; i < maxIterations; ++i) {
-        grille.afficherConsole();  
-        grille.mettreAJour();    
         sortie << "Itération " << i + 1 << " :\n";
-        grille.afficherConsole();
+        ecrireEtatDansFichier(sortie, grille); // Écrit l'état de la grille dans le fichier
+        grille.mettreAJour(); // Met à jour la grille pour l'itération suivante
     }
 
     sortie.close();
     cout << "Simulation terminée. Résultats sauvegardés dans : " << outputPath << endl;
+}
+
+void ModeSimulation::ecrireEtatDansFichier(ofstream &sortie, const Grille &grille) const {
+    for (int y = 0; y < grille.obtenirHauteur(); ++y) {
+        for (int x = 0; x < grille.obtenirLargeur(); ++x) {
+            if (grille.obtenirCellule(x, y).estObstacle()) {
+                sortie << (grille.obtenirCellule(x, y).estVivante() ? "O " : "X ");
+            } else {
+                sortie << (grille.obtenirCellule(x, y).estVivante() ? "1 " : "0 ");
+            }
+        }
+        sortie << '\n'; 
+    }
+    sortie << '\n'; 
 }
 
 //Mode Graphique
