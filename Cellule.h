@@ -14,7 +14,7 @@ public:
 
     bool estVivante() const;
     bool estObstacle() const;
-    bool obstacleVivante() const;  
+    bool obstacleVivante() const;
     void definirProchainEtat(bool etat);
     void appliquerProchainEtat();
     void definirType(TypeCellule nouveauType);
