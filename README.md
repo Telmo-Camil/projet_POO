@@ -51,13 +51,13 @@ Ce modèle va nous aider à mettre en place le test unitaire.
 > Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.
 
 # Paradigme Objet 
-> Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.
+> **Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.**
 
 ## Impératif
-Ce type de paradigme spécifie les étapes que le programme doit suivre pour atteindre un résultat.
+**Ce type de paradigme spécifie les étapes que le programme doit suivre pour atteindre un résultat.**
 
 ## Déclaratif
-Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir. \
+**Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir.** \
 \
 Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
 
