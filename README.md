@@ -48,12 +48,13 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
-Grâce à cette vérifications, nous nous assurons que chaque unité fonctionne comme prévu, indépendamment d'autres parties de l'application. Le principal atout de l'architecture MVC est de séparer les différentes couches dans le but de simplifier la maintenance et les tests unitaires.\
+> Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.\
 \
-Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.
+
+
 
 # Paradigme Objet 
-Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.
+> Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.
 
 ## Impératif
 Ce type de paradigme spécifie les étapes que le programme doit suivre pour atteindre un résultat.
