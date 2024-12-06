@@ -6,8 +6,7 @@
 
 using namespace std;
 
-Grille::Grille(int l, int h)
-    : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
+Grille::Grille(int l, int h ) : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
 
 //Regarder l'entourage d'une cellule
@@ -101,9 +100,16 @@ int Grille::obtenirHauteur() const {
     return hauteur;
 }
 
+/*
+Fonction obtenirCellule avec 2 versions :
+- La version const est utilisée pour garantir un accès sécurisé et immuable.
+- La version non-const est utilisée pour permettre des modifications.
+*/
+
 const Cellule &Grille::obtenirCellule(int x, int y) const {
     return cellules[x][y];
 }
+
 
 Cellule &Grille::obtenirCellule(int x, int y) {
     return cellules[x][y];
