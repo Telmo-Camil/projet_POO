@@ -1,9 +1,15 @@
-# Livrable 2 : Programme
+# Livrable 1 : Programme
 TRUONG CANH Zoé ;
 CAMILO-MIRANDA Telmo
+
+***Lien GitHub :*** https://github.com/Telmo-Camil/projet_POO
+
 ***
 # Sommaire
 1. Introduction
+2. Bibliothèques
+3. Architecture MVC
+4. Paradigme Objet
 
 ***
 # Introduction 
@@ -25,13 +31,13 @@ Le but du projet est de réaliser une simulation du Jeu de la vie de John Conway
 ## Définition
 **Les bibliothèques sont des ensembles de codes préexistants et réutilisables, qui lorsqu’on les intègre à un programme, donnent accès aux instructions qu’elles mettent en place.**
 
-## Standard STL
+* ## Standard STL
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
 
-### Conteneur
+* ### Conteneur
 Classes fournies par la STL pour stocker, organiser et manipuler des collections d'éléments de manière efficace.
 
-### Itérateurs
+* ### Itérateurs
 Objet qui permet de parcourir les éléments d’une collection de manière séquentielle, similaire à un pointeur, tout en respectant l’encapsulation des données.
 
 ## Graphique SFML
@@ -42,8 +48,23 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 Ce modèle va nous aider à mettre en place le test unitaire.
 
 ## Test Unitaire
-Grâce à cela, nous nous assurons que chaque unité fonctionne comme prévu, indépendamment d'autres parties de l'application. 
-Le principal atout de l'architecture MVC est de séparer les différentes couches dans le but de simplifier la maintenance et les tests unitaires
+Grâce à cette vérifications, nous nous assurons que chaque unité fonctionne comme prévu, indépendamment d'autres parties de l'application. Le principal atout de l'architecture MVC est de séparer les différentes couches dans le but de simplifier la maintenance et les tests unitaires.\
+\
+Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.
+
+# Paradigme Objet 
+Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.
+
+## Impératif
+Ce type de paradigme spécifie les étapes que le programme doit suivre pour atteindre un résultat.
+
+## Déclaratif
+Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir. \
+\
+Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
+
+
+
 
 
 
