@@ -1,6 +1,8 @@
 #include "ModeSimulation.h"
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
+#include <cstdlib> // Pour system()
+#include <sstream> // Pour std::ostringstream
 #include <fstream>
 #include <iostream>
 
@@ -30,20 +32,31 @@ void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
 
 //Mode Console
 void ModeSimulation::lancerConsole(Grille &grille, const string &outputPath) {
-    ofstream sortie(outputPath);
-    if (!sortie.is_open()) {
-        cerr << "Erreur : impossible de créer le fichier de sortie." << endl;
+    // Crée un dossier pour les fichiers d'itération
+    string commandeMkdir = "mkdir -p " + outputPath;
+    if (system(commandeMkdir.c_str()) != 0) {
+        cerr << "Erreur : impossible de créer le dossier de sortie." << endl;
         return;
     }
 
+    // Générer un fichier par itération
     for (int i = 0; i < maxIterations; ++i) {
+        ostringstream fileName;
+        fileName << outputPath << "/iteration_" << i + 1 << ".txt";
+
+        ofstream sortie(fileName.str());
+        if (!sortie.is_open()) {
+            cerr << "Erreur : impossible de créer le fichier " << fileName.str() << endl;
+            return;
+        }
+
         sortie << "Itération " << i + 1 << " :\n";
         ecrireEtatDansFichier(sortie, grille); // Écrit l'état de la grille dans le fichier
-        grille.mettreAJour(); // Met à jour la grille pour l'itération suivante
+        grille.mettreAJour();                 // Met à jour la grille pour l'itération suivante
+        sortie.close();
     }
 
-    sortie.close();
-    cout << "Simulation terminée. Résultats sauvegardés dans : " << outputPath << endl;
+    cout << "Simulation terminée. Résultats sauvegardés dans le dossier : " << outputPath << endl;
 }
 
 void ModeSimulation::ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const {
