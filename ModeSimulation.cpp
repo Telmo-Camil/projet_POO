@@ -65,16 +65,21 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
     const int cellSize = 10; // Taille des cellules en pixels
     RenderWindow window(VideoMode(grille.obtenirLargeur() * cellSize, grille.obtenirHauteur() * cellSize), "Game of Life");
 
-    while (window.isOpen()) {
+    for (int i = 0; i < maxIterations; ++i) {
+        // Gestion des événements pour permettre la fermeture de la fenêtre
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed)
                 window.close();
         }
 
-        grille.mettreAJour();  
-        renderGrid(window, grille, cellSize); // Passe la taille des cellules ici
-        sleep(milliseconds(100));  
+        // Affichage de l'état actuel de la grille
+        cout << "Itération : " << i + 1 << endl; 
+        renderGrid(window, grille);             
+        grille.mettreAJour();                   
+        sleep(milliseconds(100));               
     }
+
+    cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
 }
 
