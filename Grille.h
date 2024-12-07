@@ -1,3 +1,6 @@
+#ifndef GRILLE_H
+#define GRILLE_H
+
 #pragma once
 
 #include "Cellule.h"
@@ -23,3 +26,5 @@ public:
     const Cellule &obtenirCellule(int x, int y) const;
     Cellule &obtenirCellule(int x, int y);
 };
+
+#endif

@@ -21,4 +21,4 @@ public:
     void lancer(Grille &grille, const std::string &dossier);
 };
 
-#endif // MODESIMULATION_H
+#endif 

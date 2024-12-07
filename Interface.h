@@ -9,4 +9,4 @@
 void renderGrid(sf::RenderWindow &window, const Grille &grille, int cellSize);
 
 
-#endif // INTERFACE_H
+#endif 
