@@ -18,7 +18,7 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Crée un dossier regroupant les itérations à chaque exécution 
+// Crée un dossier avec un numéro incrémenté
 void ModeSimulation::creerDossierIncremente(const string &baseNom, string &nouveauNom) const {
     int numero = 1;
     while (true) {

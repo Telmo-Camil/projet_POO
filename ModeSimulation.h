@@ -8,8 +8,8 @@
 
 class ModeSimulation {
 private:
-    bool modeGraphique;
-    int maxIterations;
+    bool modeGraphique; 
+    int maxIterations;  
 
     static ModeSimulation *instance; // Singleton instance
     ModeSimulation(bool graphique, int iterations);
@@ -17,7 +17,6 @@ private:
     void creerDossierIncremente(const std::string &baseNom, std::string &nouveauNom) const;
     void lancerConsole(Grille &grille, const std::string &dossierSortie);
     void lancerGraphique(Grille &grille);
-
     void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const;
 
 public:
