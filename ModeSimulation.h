@@ -16,7 +16,6 @@ private:
     ModeSimulation(bool graphique, int iterations);
 
     std::string creerDossierSortie(const std::string &nomFichierEntree);
-    void lancer(Grille &grille, const string &nomFichierEntree);
     void lancerConsole(Grille &grille, const std::string &nomDossierBase);
     void lancerGraphique(Grille &grille, const std::string &nomFichierEntree);
     void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const;
