@@ -13,7 +13,7 @@ private:
     ModeSimulation(bool graphique, int iterations);
 
     void lancerConsole(Grille &grille, const std::string &dossier);
-    void lancerGraphique(Grille &grille);
+    void lancerGraphique(Grille &grille, const string &nomFichierEntree)
     void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const;
 
 public:
