@@ -14,7 +14,7 @@ private:
 
     void lancerConsole(Grille &grille, const std::string &dossier);
     void lancerGraphique(Grille &grille);
-    void ecrireEtatDansFichier(ofstream &sortie, const Grille &grille) const;
+    void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const;
 
 public:
     static ModeSimulation *getInstance(bool graphique, int iterations);
