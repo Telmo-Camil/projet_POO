@@ -71,7 +71,7 @@ Nous avons décidé de rajouter l'extension des cellules obstacles, dont les con
 Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dans chaque classe. \
 *Le concept de classes est plus détaillé dans l'autre Livrable* 
 
-> * **Fichiers Headers (.h) :** C'est là que seront réalisées les déclarations initiales des classes, fonctions et variables, permettant leur utilisation dans d'autres fichiers sans révéler leur implémentation. \
+> * **Fichiers Headers (.h) :** C'est là que seront réalisées les déclarations initiales des classes, fonctions et variables, permettant leur utilisation dans d'autres fichiers sans révéler leur implémentation. 
 > * **Fichiers Sources (.cpp) :** Ils utilisent les définitions des fonctions et classes mises en place dans les fichiers headers. 
 > * **Inclusions** : Dans notre programme, nous allons devoir importer le contenu de fichiers extérieurs (les headers) ou de bibliothèques pour utiliser leurs fonctionnalités ou classes. Si une librairie est intégrée dans un fichier inclus, il n'est pas nécessaire de la réinclure car elle est déjà disponible. 
 
