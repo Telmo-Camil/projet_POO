@@ -26,6 +26,7 @@ int main() {
     if (choixMode == 1) {
         ModeSimulation::getInstance(false, maxIterations)->lancer(grille, fichierEntree);
     } else if (choixMode == 2) {
+        cout << "Mode graphique activé. Vous pouvez ajuster la vitesse avec les flèches haut et bas.\n";
         ModeSimulation::getInstance(true, maxIterations)->lancer(grille, fichierEntree);
     } else {
         cerr << "Choix invalide." << endl;

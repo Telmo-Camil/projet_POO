@@ -23,5 +23,5 @@ void renderGrid(RenderWindow &window, const Grille &grille, int tailleCellule) {
         }
     }
 
-    window.display();  // Affiche le rendu
+    window.display(); 
 }
