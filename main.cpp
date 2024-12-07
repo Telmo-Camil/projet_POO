@@ -5,14 +5,17 @@
 using namespace std;
 
 int main() {
+    // Nom du fichier d'entrée pour initialiser la grille
     string fichierEntree = "etat_initial.txt"; 
 
+    // Création et chargement de la grille
     Grille grille(0, 0);
     if (!grille.chargerDepuisFichier(fichierEntree)) {
         cerr << "Erreur lors du chargement du fichier de grille." << endl;
         return 1;
     }
 
+    // Demander le mode de fonctionnement à l'utilisateur
     int choixMode;
     cout << "Choisissez le mode de fonctionnement :\n";
     cout << "1. Mode console\n";
@@ -23,6 +26,7 @@ int main() {
     cout << "Entrez le nombre maximum d'itérations : ";
     cin >> maxIterations;
 
+    // Exécuter le mode choisi
     if (choixMode == 1) {
         ModeSimulation::getInstance(false, maxIterations)->lancer(grille, fichierEntree);
     } else if (choixMode == 2) {
