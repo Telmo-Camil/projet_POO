@@ -1,6 +1,6 @@
 #include "Grille.h"
 #include <iostream>
-#include <fstream>
+#include <fstream> //utiliser les classes et fonctions pour gérer les fichiers
 
 using namespace std;
 
