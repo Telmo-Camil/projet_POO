@@ -1,7 +1,7 @@
 #include "ModeSimulation.h"
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
-#include <sys/stat.h> // Pour mkdir
+#include <sys/stat.h> // Pour vérifier l'existance de fichier
 #include <cstdlib>    // Pour system()
 
 using namespace sf;
@@ -37,9 +37,9 @@ void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
     string dossierSortie = nomFichierEntree + "_out";
     creerDossier(dossierSortie);
     if (modeGraphique) {
-        lancerGraphique(grille, dossierSortie); // Appel à lancerGraphique
+        lancerGraphique(grille, dossierSortie); 
     } else {
-        lancerConsole(grille, dossierSortie);  // Appel à lancerConsole
+        lancerConsole(grille, dossierSortie);  
     }
 }
 
