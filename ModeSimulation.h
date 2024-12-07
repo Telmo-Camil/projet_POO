@@ -14,7 +14,7 @@ private:
     static ModeSimulation *instance; // Singleton instance
     ModeSimulation(bool graphique, int iterations);
 
-    void creerDossierIncremental(const std::string &baseNom, std::string &nouveauNom) const;
+    void creerDossierIncremente(const std::string &baseNom, std::string &nouveauNom) const;
     void lancerConsole(Grille &grille, const std::string &dossierSortie);
     void lancerGraphique(Grille &grille);
 
