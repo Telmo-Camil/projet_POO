@@ -5,6 +5,7 @@
 
 using namespace sf;
 using namespace std;
+namespace fs = std::filesystem;
 
 ModeSimulation *ModeSimulation::instance = nullptr;
 
@@ -18,22 +19,32 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Lancement d'un des deux modes
+// Dossier de sortie
+string ModeSimulation::creerDossierSortie(const string &nomFichierEntree) {
+    string nomDossier = nomFichierEntree + "_out";
+    if (!fs::exists(nomDossier)) {
+        fs::create_directory(nomDossier);
+    }
+    return nomDossier;
+}
+
+// Lancement du mode approprié
 void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
+    string dossierSortie = creerDossierSortie(nomFichierEntree);
     if (modeGraphique) {
-        lancerGraphique(grille, nomFichierEntree); 
+        lancerGraphique(grille, dossierSortie);
     } else {
-        lancerConsole(grille, nomFichierEntree);  
+        lancerConsole(grille, dossierSortie);
     }
 }
 
 // Mode Console
-void ModeSimulation::lancerConsole(Grille &grille, const string &nomFichierEntree) {
-    cout << "Les fichiers seront enregistrés dans le dossier : " << nomFichierEntree << "_out" << endl;
+void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
+    cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    // Écriture des fichiers par itération
+    // Sauvegarde de chaque itération
     for (int i = 0; i < maxIterations; ++i) {
-        string fichierSortie = nomFichierEntree + "_out_iteration_" + to_string(i + 1) + ".txt";
+        string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
 
         ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
@@ -47,38 +58,33 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &nomFichierEntre
         sortie.close();
     }
 
-    cout << "Simulation terminée. Résultats sauvegardés dans des fichiers : " << nomFichierEntree << "_out_iteration_<numéro>.txt" << endl;
+    cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
 
 // Mode Graphique
-void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEntree) {
+void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie) {
     const int tailleCellule = 10; // Taille des cellules en pixels
-    string nomDossierSortie = nomFichierEntree + "_out";
-
-    // Exécute une commande shell ou système externe pour créer le répertoire
-    system(("mkdir -p " + nomDossierSortie).c_str());
-
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
+
+    int delaiEntreIterations = 100; // Temps initial en millisecondes
 
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
         Event evenement;
         while (fenetre.pollEvent(evenement)) {
             if (evenement.type == Event::Closed)
                 fenetre.close();
-        }
-
-        string cheminFichier = nomDossierSortie + "/iteration_" + to_string(iteration + 1) + ".txt";
-        ofstream fichierSortie(cheminFichier);
-        if (fichierSortie.is_open()) {
-            ecrireEtatDansFichier(fichierSortie, grille);
-            fichierSortie.close();
-        } else {
-            cerr << "Erreur : Impossible de créer le fichier " << cheminFichier << endl;
+            if (evenement.type == Event::KeyPressed) {
+                if (evenement.key.code == Keyboard::Up) {
+                    delaiEntreIterations = max(10, delaiEntreIterations - 10); // Augmenter la vitesse
+                } else if (evenement.key.code == Keyboard::Down) {
+                    delaiEntreIterations += 10; // Réduire la vitesse
+                }
+            }
         }
 
         renderGrid(fenetre, grille, tailleCellule);
         grille.mettreAJour();
-        sleep(milliseconds(100));
+        sleep(milliseconds(delaiEntreIterations));
     }
 
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
