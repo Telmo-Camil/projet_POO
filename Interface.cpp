@@ -4,7 +4,7 @@
 
 using namespace sf;
 
-void renderGrid(sf::RenderWindow &window, const Grille &grille, int tailleCellule) {
+void renderGrid(RenderWindow &window, const Grille &grille, int tailleCellule) {
     window.clear();  // Efface l'écran
 
     RectangleShape cell(Vector2f(tailleCellule - 1.0f, tailleCellule - 1.0f));  // Taille logique de la cellule
