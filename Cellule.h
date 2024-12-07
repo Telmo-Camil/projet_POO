@@ -1,8 +1,6 @@
 #ifndef CELLULE_H
 #define CELLULE_H
 
-#pragma once
-
 //Type énuméré : avoir les deux états de la cellule
 enum TypeCellule { NORMALE, OBSTACLE };
 
