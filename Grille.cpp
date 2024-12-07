@@ -108,8 +108,6 @@ Fonction obtenirCellule avec 2 versions :
 - La version non-const est utilisée pour permettre des modifications.
 */
 
-
-
 const Cellule &Grille::obtenirCellule(int x, int y) const {
     return cellules[x][y];
 }

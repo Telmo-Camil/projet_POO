@@ -56,23 +56,37 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossier) {
 }
 
 //Mode Graphique
-void ModeSimulation::lancerGraphique(Grille &grille) {
-    const int cellSize = 10; // Taille des cellules en pixels
-    RenderWindow window(VideoMode(grille.obtenirLargeur() * cellSize, grille.obtenirHauteur() * cellSize), "Game of Life");
+void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEntree) {
+    const int tailleCellule = 10; // Taille des cellules en pixels
+    string nomDossierSortie = nomFichierEntree + "_out";
 
-    for (int i = 0; i < maxIterations; ++i) {
-        // Gestion des événements pour permettre la fermeture de la fenêtre
-        Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window.close();
+    // Créer le répertoire de sortie
+    system(("mkdir -p " + nomDossierSortie).c_str());
+
+    // Initialisation de la fenêtre graphique
+    RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
+
+    for (int iteration = 0; iteration < maxIterations; ++iteration) {
+        //Fermeture fenêtre
+        Event evenement;
+        while (fenetre.pollEvent(evenement)) {
+            if (evenement.type == Event::Closed)
+                fenetre.close();
         }
 
-        // Affichage de l'état actuel de la grille
-        cout << "Itération : " << i + 1 << endl; 
-        renderGrid(window, grille, cellSize);   
-        grille.mettreAJour();                  
-        sleep(milliseconds(100));              
+        // Sauvegarder l'état actuel dans un fichier
+        string cheminFichier = nomDossierSortie + "/iteration_" + to_string(iteration + 1) + ".txt";
+        ofstream fichierSortie(cheminFichier);
+        if (fichierSortie.is_open()) {
+            ecrireEtatDansFichier(fichierSortie, grille);
+            fichierSortie.close();
+        } else {
+            cerr << "Erreur : Impossible de créer le fichier " << cheminFichier << endl;
+        }
+
+        renderGrid(fenetre, grille, tailleCellule);
+        grille.mettreAJour();
+        sleep(milliseconds(100));
     }
 
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
