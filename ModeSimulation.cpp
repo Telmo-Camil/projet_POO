@@ -5,7 +5,6 @@
 
 using namespace sf;
 using namespace std;
-namespace fs = std::filesystem;
 
 ModeSimulation *ModeSimulation::instance = nullptr;
 
@@ -19,11 +18,17 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Dossier de sortie
+// Vérifier si un dossier existe
+bool dossierExiste(const string &nomDossier) {
+    struct stat info;
+    return (stat(nomDossier.c_str(), &info) == 0 && (info.st_mode & S_IFDIR));
+}
+
+// Fonction pour créer un dossier de sortie
 string ModeSimulation::creerDossierSortie(const string &nomFichierEntree) {
     string nomDossier = nomFichierEntree + "_out";
-    if (!fs::exists(nomDossier)) {
-        fs::create_directory(nomDossier);
+    if (!dossierExiste(nomDossier)) {
+        system(("mkdir -p " + nomDossier).c_str()); // Crée le dossier
     }
     return nomDossier;
 }
@@ -42,7 +47,6 @@ void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
 void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    // Sauvegarde de chaque itération
     for (int i = 0; i < maxIterations; ++i) {
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
 
@@ -69,24 +73,29 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie
     int delaiEntreIterations = 100; // Temps initial en millisecondes
 
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
-        Event evenement; // Déclare un événement pour capturer les interactions utilisateur
+        Event evenement;
         while (fenetre.pollEvent(evenement)) {
-            // Vérifie si l'utilisateur ferme la fenêtre
             if (evenement.type == Event::Closed)
                 fenetre.close();
-        
+
             if (evenement.type == Event::KeyPressed) {
-                // Si la flèche haut est pressée, réduire le délai entre les itérations pour augmenter la vitesse
                 if (evenement.key.code == Keyboard::Up) {
-                    delaiEntreIterations = max(10, delaiEntreIterations - 10);
-                } 
-                // Si la flèche bas est pressée, augmenter le délai entre les itérations pour réduire la vitesse
-                else if (evenement.key.code == Keyboard::Down) {
-                    delaiEntreIterations += 10;
+                    delaiEntreIterations = max(10, delaiEntreIterations - 10); // Augmenter la vitesse
+                } else if (evenement.key.code == Keyboard::Down) {
+                    delaiEntreIterations += 10; // Réduire la vitesse
                 }
             }
         }
-    }
+
+        string cheminFichier = dossierSortie + "/iteration_" + to_string(iteration + 1) + ".txt";
+        ofstream fichierSortie(cheminFichier);
+        if (fichierSortie.is_open()) {
+            ecrireEtatDansFichier(fichierSortie, grille);
+            fichierSortie.close();
+        } else {
+            cerr << "Erreur : Impossible de créer le fichier " << cheminFichier << endl;
+        }
+
         renderGrid(fenetre, grille, tailleCellule);
         grille.mettreAJour();
         sleep(milliseconds(delaiEntreIterations));
