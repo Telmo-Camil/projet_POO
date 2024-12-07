@@ -69,7 +69,7 @@ Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui q
 Nous avons rajouté des commentaires au-dessus des fonctions et sur certaines lignes dans le programme afin de les expliquer. Ici, nous détaillerons un peu plus ce qui ne sera pas explicable sous forme de commentaires. \
 Nous avons décidé de rajouter l'extension des cellules obstacles, dont les conditions étaient : "L’état des cellules obstacles n’évolue pas au cours de l’exécution. Ces dernières possèdent un état vivant ou mort. Modifiez votre code, sans altérer le fonctionnement de base." \
 Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dans chaque classe. \
-*Le concept de classes est plus détaillé dans l'autre Livrable* \
+*Le concept de classes est plus détaillé dans l'autre Livrable* 
 
 > * **Fichiers Headers (.h) :** C'est là que seront réalisées les déclarations initiales des classes, fonctions et variables, permettant leur utilisation dans d'autres fichiers sans révéler leur implémentation. \
 > * **Fichiers Sources (.cpp) :** Ils utilisent les définitions des fonctions et classes mises en place dans les fichiers headers. 
