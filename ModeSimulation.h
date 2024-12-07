@@ -11,12 +11,13 @@ private:
     bool modeGraphique;
     int maxIterations;
 
-    static ModeSimulation *instance; // instance Singleton
+    static ModeSimulation *instance; // Singleton instance
     ModeSimulation(bool graphique, int iterations);
 
-    void creerDossier(const std::string &nomDossier) const;  
+    void creerDossierIncremental(const std::string &baseNom, std::string &nouveauNom) const;
     void lancerConsole(Grille &grille, const std::string &dossierSortie);
-    void lancerGraphique(Grille &grille, const std::string &dossierSortie);
+    void lancerGraphique(Grille &grille);
+
     void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const;
 
 public:

@@ -18,17 +18,25 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Crée un dossier
-void ModeSimulation::creerDossier(const string &nomDossier) const {
-    system(("mkdir -p " + nomDossier).c_str());  // mkdir -p ne fait rien si le dossier existe déjà
+// Crée un nouveau dossier avec un numéro incrémental
+void ModeSimulation::creerDossierIncremental(const string &baseNom, string &nouveauNom) const {
+    int numero = 1;
+    while (true) {
+        nouveauNom = baseNom + "_out_" + to_string(numero);
+        if (system(("mkdir -p " + nouveauNom).c_str()) == 0) {
+            break;
+        }
+        ++numero;
+    }
 }
 
-// Lancer un des deux modes
+// Lancer le mode approprié
 void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
-    string dossierSortie = nomFichierEntree + "_out";
-    creerDossier(dossierSortie);  // Crée le dossier de sortie
+    string dossierSortie;
+    creerDossierIncremental(nomFichierEntree, dossierSortie);
+
     if (modeGraphique) {
-        lancerGraphique(grille, dossierSortie);
+        lancerGraphique(grille);
     } else {
         lancerConsole(grille, dossierSortie);
     }
@@ -57,7 +65,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) 
 }
 
 // Mode Graphique
-void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie) {
+void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
 
@@ -78,15 +86,6 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie
             }
         }
 
-        string fichierSortie = dossierSortie + "/iteration_" + to_string(iteration + 1) + ".txt";
-        ofstream sortie(fichierSortie);
-        if (sortie.is_open()) {
-            ecrireEtatDansFichier(sortie, grille);
-            sortie.close();
-        } else {
-            cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << endl;
-        }
-
         renderGrid(fenetre, grille, tailleCellule);
         grille.mettreAJour();
         sleep(milliseconds(delaiEntreIterations));
@@ -95,7 +94,7 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
 }
 
-// Écrire les états dans des fichiers
+// Écrit les états de la grille dans un fichier
 void ModeSimulation::ecrireEtatDansFichier(ofstream &sortie, const Grille &grille) const {
     for (int y = 0; y < grille.obtenirHauteur(); ++y) {
         for (int x = 0; x < grille.obtenirLargeur(); ++x) {
