@@ -1,7 +1,6 @@
 #include "ModeSimulation.h"
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
-#include <sys/stat.h> // Pour vérifier l'existance de fichier
 #include <cstdlib>    // Pour system()
 
 using namespace sf;
@@ -19,31 +18,23 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Vérifie si un dossier existe
-bool ModeSimulation::dossierExiste(const string &nomDossier) const {
-    struct stat info;
-    return (stat(nomDossier.c_str(), &info) == 0 && (info.st_mode & S_IFDIR));
-}
-
-// Crée un dossier s'il n'existe pas
+// Crée un dossier
 void ModeSimulation::creerDossier(const string &nomDossier) const {
-    if (!dossierExiste(nomDossier)) {
-        system(("mkdir -p " + nomDossier).c_str());
-    }
+    system(("mkdir -p " + nomDossier).c_str());  // mkdir -p ne fait rien si le dossier existe déjà
 }
 
 // Lancer un des deux modes
 void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
     string dossierSortie = nomFichierEntree + "_out";
-    creerDossier(dossierSortie);
+    creerDossier(dossierSortie);  // Crée le dossier de sortie
     if (modeGraphique) {
-        lancerGraphique(grille, dossierSortie); 
+        lancerGraphique(grille, dossierSortie);
     } else {
-        lancerConsole(grille, dossierSortie);  
+        lancerConsole(grille, dossierSortie);
     }
 }
 
-// Mode Console : Sauvegarde chaque itération dans un fichier
+// Mode Console
 void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
@@ -65,7 +56,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) 
     cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
 
-// Mode Graphique : Affiche la grille à chaque itération
+// Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie) {
     const int tailleCellule = 10;
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");

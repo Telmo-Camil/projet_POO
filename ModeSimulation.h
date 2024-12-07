@@ -8,13 +8,12 @@
 
 class ModeSimulation {
 private:
-    bool modeGraphique; 
-    int maxIterations;  
+    bool modeGraphique;
+    int maxIterations;
 
     static ModeSimulation *instance; // instance Singleton
     ModeSimulation(bool graphique, int iterations);
 
-    bool dossierExiste(const std::string &nomDossier) const;
     void creerDossier(const std::string &nomDossier) const;  
     void lancerConsole(Grille &grille, const std::string &dossierSortie);
     void lancerGraphique(Grille &grille, const std::string &dossierSortie);
