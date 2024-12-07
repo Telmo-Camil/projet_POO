@@ -33,7 +33,7 @@ void ModeSimulation::creerDossierIncremente(const string &baseNom, string &nouve
 // Lancer le mode approprié
 void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
     string dossierSortie;
-    creerDossierIncremental(nomFichierEntree, dossierSortie);
+    creerDossierIncremente(nomFichierEntree, dossierSortie);
 
     if (modeGraphique) {
         lancerGraphique(grille);

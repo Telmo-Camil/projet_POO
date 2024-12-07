@@ -5,7 +5,7 @@
 using namespace sf;
 
 void renderGrid(RenderWindow &window, const Grille &grille, int tailleCellule) {
-    window.clear();  // Efface l'écran
+    window.clear(); 
 
     RectangleShape cell(Vector2f(tailleCellule - 1.0f, tailleCellule - 1.0f));  // Taille logique de la cellule
 
