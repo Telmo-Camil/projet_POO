@@ -2,7 +2,6 @@
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
 #include <cstdlib> // Pour system()
-#include <sstream> // Pour std::ostringstream
 #include <fstream>
 #include <iostream>
 
@@ -37,7 +36,7 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossier) {
     // Écriture des fichiers par itération
     for (int i = 0; i < maxIterations; ++i) {
         // Nom du fichier pour cette itération
-        string fichierSortie = dossier + "_iteration_" + std::to_string(i + 1) + ".txt";
+        string fichierSortie = dossier + "_iteration_" + to_string(i + 1) + ".txt";
 
         // Création/écriture dans le fichier
         ofstream sortie(fichierSortie);
@@ -60,14 +59,14 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEnt
     const int tailleCellule = 10; // Taille des cellules en pixels
     string nomDossierSortie = nomFichierEntree + "_out";
 
-    // Créer le répertoire de sortie
+    //Exécute une commande shell ou système externe à partir du programme en cours
     system(("mkdir -p " + nomDossierSortie).c_str());
 
     // Initialisation de la fenêtre graphique
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
 
+    //Fermeture fenêtres
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
-        //Fermeture fenêtre
         Event evenement;
         while (fenetre.pollEvent(evenement)) {
             if (evenement.type == Event::Closed)
@@ -75,6 +74,7 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEnt
         }
 
         // Sauvegarder l'état actuel dans un fichier
+        //to_string convertit une valeur numérique en chaîne de charactère
         string cheminFichier = nomDossierSortie + "/iteration_" + to_string(iteration + 1) + ".txt";
         ofstream fichierSortie(cheminFichier);
         if (fichierSortie.is_open()) {
