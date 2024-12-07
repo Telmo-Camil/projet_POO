@@ -69,19 +69,24 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &dossierSortie
     int delaiEntreIterations = 100; // Temps initial en millisecondes
 
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
-        Event evenement;
+        Event evenement; // Déclare un événement pour capturer les interactions utilisateur
         while (fenetre.pollEvent(evenement)) {
+            // Vérifie si l'utilisateur ferme la fenêtre
             if (evenement.type == Event::Closed)
                 fenetre.close();
+        
             if (evenement.type == Event::KeyPressed) {
+                // Si la flèche haut est pressée, réduire le délai entre les itérations pour augmenter la vitesse
                 if (evenement.key.code == Keyboard::Up) {
-                    delaiEntreIterations = max(10, delaiEntreIterations - 10); // Augmenter la vitesse
-                } else if (evenement.key.code == Keyboard::Down) {
-                    delaiEntreIterations += 10; // Réduire la vitesse
+                    delaiEntreIterations = max(10, delaiEntreIterations - 10);
+                } 
+                // Si la flèche bas est pressée, augmenter le délai entre les itérations pour réduire la vitesse
+                else if (evenement.key.code == Keyboard::Down) {
+                    delaiEntreIterations += 10;
                 }
             }
         }
-
+    }
         renderGrid(fenetre, grille, tailleCellule);
         grille.mettreAJour();
         sleep(milliseconds(delaiEntreIterations));
