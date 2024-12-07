@@ -1,8 +1,6 @@
 #ifndef GRILLE_H
 #define GRILLE_H
 
-#pragma once
-
 #include "Cellule.h"
 #include <vector>
 #include <string>
