@@ -2,8 +2,6 @@
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
 #include <cstdlib> // Pour system()
-#include <fstream>
-#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -20,25 +18,23 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-//Lancement d'un des deux modes
-void ModeSimulation::lancer(Grille &grille, const string &outputPath) {
+// Lancement d'un des deux modes
+void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
     if (modeGraphique) {
-        lancerGraphique(grille);  
+        lancerGraphique(grille, nomFichierEntree); 
     } else {
-        lancerConsole(grille, outputPath);  
+        lancerConsole(grille, nomFichierEntree);  
     }
 }
 
-//Mode Console
-void ModeSimulation::lancerConsole(Grille &grille, const string &dossier) {
-    cout << "Les fichiers seront enregistrés dans le dossier : " << dossier << endl;
+// Mode Console
+void ModeSimulation::lancerConsole(Grille &grille, const string &nomFichierEntree) {
+    cout << "Les fichiers seront enregistrés dans le dossier : " << nomFichierEntree << "_out" << endl;
 
     // Écriture des fichiers par itération
     for (int i = 0; i < maxIterations; ++i) {
-        // Nom du fichier pour cette itération
-        string fichierSortie = dossier + "_iteration_" + to_string(i + 1) + ".txt";
+        string fichierSortie = nomFichierEntree + "_out_iteration_" + to_string(i + 1) + ".txt";
 
-        // Création/écriture dans le fichier
         ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
             cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << endl;
@@ -51,21 +47,19 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossier) {
         sortie.close();
     }
 
-    cout << "Simulation terminée. Résultats sauvegardés dans des fichiers : " << dossier << "_iteration_<numéro>.txt" << endl;
+    cout << "Simulation terminée. Résultats sauvegardés dans des fichiers : " << nomFichierEntree << "_out_iteration_<numéro>.txt" << endl;
 }
 
-//Mode Graphique
+// Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEntree) {
     const int tailleCellule = 10; // Taille des cellules en pixels
     string nomDossierSortie = nomFichierEntree + "_out";
 
-    //Exécute une commande shell ou système externe à partir du programme en cours
+    // Exécute une commande shell ou système externe pour créer le répertoire
     system(("mkdir -p " + nomDossierSortie).c_str());
 
-    // Initialisation de la fenêtre graphique
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
 
-    //Fermeture fenêtres
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
         Event evenement;
         while (fenetre.pollEvent(evenement)) {
@@ -73,8 +67,6 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEnt
                 fenetre.close();
         }
 
-        // Sauvegarder l'état actuel dans un fichier
-        //to_string convertit une valeur numérique en chaîne de charactère
         string cheminFichier = nomDossierSortie + "/iteration_" + to_string(iteration + 1) + ".txt";
         ofstream fichierSortie(cheminFichier);
         if (fichierSortie.is_open()) {
@@ -92,7 +84,7 @@ void ModeSimulation::lancerGraphique(Grille &grille, const string &nomFichierEnt
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
 }
 
-//Ecrire les différents états dans les fichiers
+// Écrire les différents états dans les fichiers
 void ModeSimulation::ecrireEtatDansFichier(ofstream &sortie, const Grille &grille) const {
     for (int y = 0; y < grille.obtenirHauteur(); ++y) {
         for (int x = 0; x < grille.obtenirLargeur(); ++x) {
@@ -105,4 +97,3 @@ void ModeSimulation::ecrireEtatDansFichier(ofstream &sortie, const Grille &grill
         sortie << '\n';
     }
 }
-
