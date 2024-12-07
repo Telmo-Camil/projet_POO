@@ -1,7 +1,7 @@
 #include "ModeSimulation.h"
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
-#include <cstdlib>    // Pour system()
+#include <cstdlib> // Pour system()
 
 using namespace sf;
 using namespace std;
@@ -19,11 +19,14 @@ ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
 // Crée un dossier avec un numéro incrémenté
-void ModeSimulation::creerDossierIncremente(const string &baseNom, string &nouveauNom) const {
+void ModeSimulation::creerDossierIncremente(const string &nomDepart, string &nouveauNom) const {
     int numero = 1;
     while (true) {
-        nouveauNom = baseNom + "_out_" + to_string(numero);
-        if (system(("mkdir -p " + nouveauNom).c_str()) == 0) {
+        nouveauNom = nomDepart + "_out_" + to_string(numero);
+        // Teste si le dossier existe déjà
+        if (system(("test -d " + nouveauNom).c_str()) != 0) {
+            // Si le dossier n'existe pas, le crée
+            system(("mkdir -p " + nouveauNom).c_str());
             break;
         }
         ++numero;
