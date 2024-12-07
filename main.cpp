@@ -1,6 +1,5 @@
 #include "Grille.h"
 #include "ModeSimulation.h"
-#include <filesystem> //Manipule facilement le système de fichiers,
 #include <iostream>
 
 using namespace std;
