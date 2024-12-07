@@ -1,21 +1,21 @@
 #include "Grille.h"
 #include "ModeSimulation.h"
-#include <filesystem>
+#include <filesystem> //Manipule facilement le système de fichiers,
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    //Création d'une instance
-    Grille grille(0, 0); 
+    // Nom du fichier d'entrée
+    string fichierEntree = "etat_initial.txt"; 
+    //Instance d'une grille
+    Grille grille(0, 0);
 
-    //Essayer d'ouvrir le fichier texte
-    if (!grille.chargerDepuisFichier("etat_initial.txt")) {
+    if (!grille.chargerDepuisFichier(fichierEntree)) {
         cerr << "Erreur lors du chargement du fichier de grille." << endl;
-        return 1; 
+        return 1;
     }
 
-    //L'utilisateur choisit entre les deux modes
     int choixMode;
     cout << "Choisissez le mode de fonctionnement :\n";
     cout << "1. Mode console\n";
@@ -26,13 +26,10 @@ int main() {
     cout << "Entrez le nombre maximum d'itérations : ";
     cin >> maxIterations;
 
-// Lancer le mode en fonction 
-   if (choixMode == 1) {
-        string baseOutputDir = "simulation_out"; 
-        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, baseOutputDir);
+    if (choixMode == 1) {
+        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, fichierEntree + "_out");
     } else if (choixMode == 2) {
-        string dummyOutputDir = "unused"; // Nom de dossier factice pour le mode graphique
-        ModeSimulation::getInstance(true, maxIterations)->lancer(grille, dummyOutputDir);
+        ModeSimulation::getInstance(true, maxIterations)->lancer(grille, fichierEntree);
     } else {
         cerr << "Choix invalide." << endl;
         return 1;
@@ -40,3 +37,4 @@ int main() {
 
     return 0;
 }
+
