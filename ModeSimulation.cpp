@@ -2,6 +2,7 @@
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 
 using namespace std;
@@ -30,9 +31,34 @@ void ModeSimulation::lancer(Grille &grille, const std::string &fichierInitial) {
     }
 }
 
-void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
+void ModeSimulation::lancerConsole(Grille &grille, const string &baseNomDossier) {
+    // Trouver un nouveau dossier incrémenté
+    string dossierSortie;
+    int numDossier = 1;
+
+    while (true) {
+        dossierSortie = baseNomDossier + "_" + to_string(numDossier);
+
+        // Essayer d'ouvrir un fichier test dans le dossier
+        string testFichier = dossierSortie + "/test.txt";
+        ofstream testStream(testFichier);
+        if (!testStream.is_open()) {
+            // Le dossier n'existe pas encore
+            break;
+        }
+
+        // Fermer et supprimer le fichier temporaire
+        testStream.close();
+        remove(testFichier.c_str());
+        numDossier++;
+    }
+
+    // Créer le nouveau dossier
+    system(("mkdir -p " + dossierSortie).c_str());
+
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
+    // Sauvegarde des fichiers par itération
     for (int i = 0; i < maxIterations; ++i) {
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
         ofstream sortie(fichierSortie);
@@ -41,31 +67,39 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) 
             return;
         }
 
+        // Sauvegarder l'état actuel de la grille
         grille.sauvegarderDansFichier(sortie);
         sortie.close();
 
+        // Mise à jour de la grille pour l'itération suivante
         grille.mettreAJour();
     }
 
-    cout << "Simulation terminée." << endl;
+    cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
-    RenderWindow fenetre(VideoMode(grille.getLargeur() * tailleCellule, grille.getHauteur() * tailleCellule), "Jeu de la Vie");
+
+    // Création d'une fenêtre avec des options par défaut
+    sf::RenderWindow fenetre(sf::VideoMode(grille.getLargeur() * tailleCellule,
+                                           grille.getHauteur() * tailleCellule),
+                             "Jeu de la Vie",
+                             sf::Style::Default);
 
     int delaiEntreIterations = 100;
 
+    // Suppression de tout appel à setVerticalSyncEnabled
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
-        Event evenement;
+        sf::Event evenement;
         while (fenetre.pollEvent(evenement)) {
-            if (evenement.type == Event::Closed)
+            if (evenement.type == sf::Event::Closed)
                 fenetre.close();
 
-            if (evenement.type == Event::KeyPressed) {
-                if (evenement.key.code == Keyboard::Up) {
-                    delaiEntreIterations = max(10, delaiEntreIterations - 10);
-                } else if (evenement.key.code == Keyboard::Down) {
+            if (evenement.type == sf::Event::KeyPressed) {
+                if (evenement.key.code == sf::Keyboard::Up) {
+                    delaiEntreIterations = std::max(10, delaiEntreIterations - 10);
+                } else if (evenement.key.code == sf::Keyboard::Down) {
                     delaiEntreIterations += 10;
                 }
             }
@@ -75,8 +109,8 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
         renderGrid(fenetre, grille, tailleCellule);
         fenetre.display();
         grille.mettreAJour();
-        sleep(milliseconds(delaiEntreIterations));
+        sf::sleep(sf::milliseconds(delaiEntreIterations));
     }
 
-    cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
+    std::cout << "Simulation graphique terminée après " << maxIterations << " itérations." << std::endl;
 }
