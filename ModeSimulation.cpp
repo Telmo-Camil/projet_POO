@@ -1,13 +1,16 @@
 #include "ModeSimulation.h"
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-using namespace sf;
 using namespace std;
+using namespace sf;
 
 ModeSimulation *ModeSimulation::instance = nullptr;
+
+ModeSimulation::ModeSimulation(bool graphique, int iterations)
+    : modeGraphique(graphique), maxIterations(iterations) {}
 
 ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     if (instance == nullptr) {
@@ -16,43 +19,21 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     return instance;
 }
 
-ModeSimulation::ModeSimulation(bool graphique, int iterations)
-    : modeGraphique(graphique), maxIterations(iterations) {}
-
-void ModeSimulation::lancer(Grille &grille, bool effectuerTest, int iterationTest) {
+void ModeSimulation::lancer(Grille &grille, const string &fichierInitial) {
     if (modeGraphique) {
         lancerGraphique(grille);
     } else {
-        lancerConsole(grille, effectuerTest, iterationTest);
+        lancerConsole(grille, fichierInitial);
     }
 }
 
-void ModeSimulation::lancerConsole(Grille &grille, bool effectuerTest, int iterationTest) {
-    string dossierSortie = "etat_initial.txt_out"; // Nom du dossier de sortie
+void ModeSimulation::lancerConsole(Grille &grille, bool effectuerTest) {
+    string dossierSortie = "etat_initial.txt_out";
     system(("mkdir -p " + dossierSortie).c_str());
 
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    Grille grilleAttendue(grille.obtenirLargeur(), grille.obtenirHauteur());
-    if (effectuerTest) {
-        // Créer la grille attendue pour l'itération demandée
-        grilleAttendue = grille;
-        for (int i = 0; i < iterationTest; ++i) {
-            grilleAttendue.mettreAJour();
-        }
-
-        // Sauvegarde de la grille attendue dans le fichier correspondant
-        string fichierAttendu = dossierSortie + "/iteration_test_" + to_string(iterationTest) + ".txt";
-        ofstream fichierSortieAttendu(fichierAttendu);
-        if (fichierSortieAttendu.is_open()) {
-            grilleAttendue.sauvegarderDansFichier(fichierSortieAttendu);
-            fichierSortieAttendu.close();
-        } else {
-            cerr << "Erreur : Impossible de créer le fichier de test attendu : " << fichierAttendu << endl;
-        }
-    }
-
-    // Sauvegarde des résultats de chaque itération
+    Grille grilleAttendue = grille;
     for (int i = 0; i < maxIterations; ++i) {
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
         ofstream sortie(fichierSortie);
@@ -61,30 +42,26 @@ void ModeSimulation::lancerConsole(Grille &grille, bool effectuerTest, int itera
             return;
         }
 
-        sortie << "Itération " << i + 1 << " :\n";
         grille.sauvegarderDansFichier(sortie);
         sortie.close();
 
-        // Comparer si c'est l'itération demandée pour le test
-        if (effectuerTest && (i + 1 == iterationTest)) {
+        grille.mettreAJour();
+
+        if (effectuerTest && i == maxIterations - 1) {
             if (grille.verifierGrilleApresIteration(grilleAttendue)) {
-                cout << "Test unitaire réussi pour l'itération " << iterationTest << ".\n";
+                cout << "Test unitaire réussi pour la dernière itération.\n";
             } else {
-                cerr << "Test unitaire échoué pour l'itération " << iterationTest << ".\n";
+                cerr << "Test unitaire échoué pour la dernière itération.\n";
             }
         }
-
-        grille.mettreAJour();
     }
 
-    cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
+    cout << "Simulation terminée.\n";
 }
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
-
-    fenetre.setVerticalSyncEnabled(false); // Désactiver VSync pour éviter les avertissements
 
     int delaiEntreIterations = 100;
 
@@ -103,7 +80,9 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
             }
         }
 
+        fenetre.clear();
         renderGrid(fenetre, grille, tailleCellule);
+        fenetre.display();
         grille.mettreAJour();
         sleep(milliseconds(delaiEntreIterations));
     }

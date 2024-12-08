@@ -12,11 +12,18 @@ bool Grille::verifierGrilleApresIteration(const Grille &attendue) const {
         return false;
     }
 
+    cout << "Comparaison des grilles :\n";
+    cout << "Grille calculée :" << endl;
+    afficherConsole();
+    cout << "Grille attendue :" << endl;
+    attendue.afficherConsole();
+
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             const Cellule &celluleActuelle = obtenirCellule(x, y);
             const Cellule &celluleAttendue = attendue.obtenirCellule(x, y);
 
+            // Comparer états vivants et types (obstacle ou normal)
             if (celluleActuelle.estVivante() != celluleAttendue.estVivante() ||
                 celluleActuelle.estObstacle() != celluleAttendue.estObstacle()) {
                 cerr << "Erreur : Différence détectée à la cellule (" << x << ", " << y << ")." << endl;
@@ -25,8 +32,10 @@ bool Grille::verifierGrilleApresIteration(const Grille &attendue) const {
         }
     }
 
+    cout << "Grilles identiques après comparaison.\n";
     return true;
 }
+
 
 void Grille::sauvegarderDansFichier(ofstream &sortie) const {
     for (int y = 0; y < hauteur; ++y) {
@@ -44,19 +53,27 @@ void Grille::sauvegarderDansFichier(ofstream &sortie) const {
 // Regarder l'entourage d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
+
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
-            if (dx == 0 && dy == 0) continue; // Ignorer la cellule centrale
-            int nx = (x + dx + largeur) % largeur;
+            if (dx == 0 && dy == 0) continue; // Ignorer la cellule elle-même
+            
+            // Gestion torique
+            int nx = (x + dx + largeur) % largeur; 
             int ny = (y + dy + hauteur) % hauteur;
+
             const Cellule &voisin = cellules[nx][ny];
-            if (voisin.estVivante() && !voisin.estObstacle()) {
+            
+            // Les obstacles vivants sont comptés comme vivants
+            if (voisin.estVivante()) {
                 ++voisinsVivants;
             }
         }
     }
+
     return voisinsVivants;
 }
+
 
 
 // Prendre le fichier texte de départ
@@ -97,14 +114,18 @@ bool Grille::chargerDepuisFichier(const string &chemin) {
     return true;
 }
 
+
 // Rendre une cellule vivante ou morte en fonction de son entourage
 void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
             int voisins = compterVoisinsVivants(x, y);
+
+            // Ignorer les obstacles pour le changement d'état
             if (cellules[x][y].estObstacle()) {
-                continue; // Ne rien changer pour les cellules obstacles
+                continue;
             }
+
             if (cellules[x][y].estVivante()) {
                 cellules[x][y].definirProchainEtat(voisins == 2 || voisins == 3);
             } else {
@@ -113,6 +134,7 @@ void Grille::mettreAJour() {
         }
     }
 
+    // Appliquer les états
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
             cellules[x][y].appliquerProchainEtat();
@@ -120,12 +142,11 @@ void Grille::mettreAJour() {
     }
 }
 
-
 void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
             if (cellules[x][y].estObstacle()) {
-                cout << (cellules[x][y].estVivante() ? "O " : "X "); // Obstacle vivant : O, mort : X
+                cout << (cellules[x][y].estVivante() ? "O " : "X "); // Obstacle vivant ou mort
             } else {
                 cout << (cellules[x][y].estVivante() ? "1 " : "0 "); // Cellule normale
             }
@@ -134,24 +155,4 @@ void Grille::afficherConsole() const {
     }
 }
 
-int Grille::obtenirLargeur() const {
-    return largeur;
-}
 
-int Grille::obtenirHauteur() const {
-    return hauteur;
-}
-
-/*
-Fonction obtenirCellule avec 2 versions :
-- La version const est utilisée pour garantir un accès sécurisé et immuable.
-- La version non-const est utilisée pour permettre des modifications.
-*/
-
-const Cellule &Grille::obtenirCellule(int x, int y) const {
-    return cellules[x][y];
-}
-
-Cellule &Grille::obtenirCellule(int x, int y) {
-    return cellules[x][y];
-}

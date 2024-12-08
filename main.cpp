@@ -19,27 +19,8 @@ int main() {
     cout << "2. Mode graphique\n";
     cin >> choixMode;
 
-    int maxIterations = 0, iterationTest = 0;
-    bool effectuerTest = false;
-
-    if (choixMode == 1) {
-        cout << "Entrez le nombre maximum d'itérations : ";
-        cin >> maxIterations;
-
-        cout << "Voulez-vous effectuer un test unitaire ? (1 pour Oui, 0 pour Non) : ";
-        cin >> effectuerTest;
-
-        if (effectuerTest) {
-            cout << "Entrez l'itération sur laquelle vous souhaitez effectuer le test unitaire (entre 1 et " << maxIterations << ") : ";
-            cin >> iterationTest;
-
-            if (iterationTest < 1 || iterationTest > maxIterations) {
-                cerr << "Erreur : Numéro d'itération invalide. Aucun test unitaire ne sera effectué." << endl;
-                effectuerTest = false;
-            }
-        }
-    } else if (choixMode == 2) {
-        cout << "Mode graphique activé. Vous pouvez ajuster la vitesse avec les flèches haut et bas.\n";
+    int maxIterations = 0;
+    if (choixMode == 1 || choixMode == 2) {
         cout << "Entrez le nombre maximum d'itérations : ";
         cin >> maxIterations;
     } else {
@@ -47,6 +28,8 @@ int main() {
         return 1;
     }
 
-    ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, effectuerTest, iterationTest);
+    // Lancer la simulation
+    ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, fichierEntree);
+
     return 0;
 }
