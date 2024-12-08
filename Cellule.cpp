@@ -1,44 +1,29 @@
 #include "Cellule.h"
 
-//Constructeur initialisant une cellule
-Cellule::Cellule(bool etatInitial, TypeCellule type) {
-    vivant = etatInitial;
-    prochainEtat = false;
-    this->type = type;
-}
+// Initialisation de la cellule
+Cellule::Cellule(bool etatInitial, TypeCellule type)
+    : vivant(etatInitial), prochainEtat(false), type(type) {}
 
-//Vérification de si la cellule est vivante
+// Vérifie si la cellule est vivante
 bool Cellule::estVivante() const {
     return vivant;
 }
 
-//Cellules obstacles 
+// Vérifie si la cellule est un obstacle
 bool Cellule::estObstacle() const {
     return type == OBSTACLE;
 }
 
-//Cellules obstacles vivantes
-bool Cellule::obstacleVivante() const {
-    return estObstacle() && vivant;
-}
-
-//Prochain état des cellules en fonction de si elles sont obstacles ou non
+// Définit le prochain état de la cellule (les obstacles ne changent pas)
 void Cellule::definirProchainEtat(bool etat) {
     if (!estObstacle()) {
         prochainEtat = etat;
     }
 }
 
-//Prochain état appliqué en fonction de si la cellule est obstacle ou non
+// Applique le prochain état à la cellule
 void Cellule::appliquerProchainEtat() {
     if (!estObstacle()) {
         vivant = prochainEtat;
     }
-}
-
-
-
-//Définit le nouveau type de chaque cellule après changement
-void Cellule::definirType(TypeCellule nouveauType) {
-    type = nouveauType;
 }
