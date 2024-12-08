@@ -58,12 +58,6 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 ***
 # Architecture MVC
 *Concept expliqué dans le Livrable Conception.* \
-Ce modèle va nous aider à mettre en place le test unitaire.
-
-## Test Unitaire
-> **Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.**
-
-Le test unitaire sera effectué dans le mode console, où grâce aux dossiers comprenant toutes les itérations, il sera plus simple de comparer le résultat attendu avec ceux obtenus. Nous pouvions intégrer des librairies ou s'y prendre manuellement, nous avons choisi la seconde option pour une meilleure réduction de la mémoire (puisque qu'une bibliothèque occupe beaucoup de place). Nous expliquerons un peu plus tard dans ce livrable quelle fonction effectue ce test, mais nous avons également rajouté des commentaires pour la rendre plus compréhensible. Dans notre programme, nous avons implémenté une fonction permettant de créer un dossier pour chaque itération effectué par l'algorithme. Le test unitaire fera alors en sorte de comparer le changement d'état des cellules entre chaque itération afin de vérifier si le comportement des cellules correspond aux règles définis par le jeu. Le test renverra alors une erreur si les cellules ne respecte pas les règles ou bien une validation si tout est bon.
 
 # Paradigme Objet 
 > **Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.**
@@ -74,22 +68,7 @@ Le test unitaire sera effectué dans le mode console, où grâce aux dossiers co
 ## Déclaratif
 **Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir.** \
 \
-Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
-***
-# Design Pattern
-> **Ce sont des patrons de conception qui vont apporter des solutions standardisées pour résoudre des problèmes courants dans le développement d'un programme. 
-
-Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seule instance et fournit un point d’accès global à cette instance. 
-
-
-| **Critère** | **Pourquoi le Singleton ?** |
-| --- | --- |
-| **Garantie d'une seule instance** | Nous voulions qu’il n’y ait qu’une seule instance de `ModeSimulation`, qu'elle soit graphique ou console. |
-| **Partage global** | L’instance de `ModeSimulation` est accessible partout via `getInstance`, ce qui évite de passer cette instance partout. |
-| **Gestion centralisée de l'état** | Le Singleton simplifie le suivi de l’état (mode graphique/console, nombre d’itérations) dans un point unique. |
-| **Contrôle sur l’accès** | Avec `getInstance`, nous contrôlons quand et comment l’instance de `ModeSimulation` est créée et utilisée. |
-| **Prévention de doublons** | En interdisant la création directe de plusieurs instances, nous évitons des conflits liés à des modes de simulation multiples. |
-| **Simplicité dans un projet structuré** | Réduit la complexité de la gestion des objets tout en s'intégrant bien avec l’architecture MVC. |
+Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes).
 
 ***
 # Programme
@@ -194,8 +173,22 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 - **Sélection du mode** :
   - Appel de `ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, fichierEntree);`.
     - Si `choixMode == 2` : Lance le mode graphique.
-    - Sinon : Lance le mode console.s
+    - Sinon : Lance le mode console.
 
+***
+# Design Pattern
+> **Ce sont des patrons de conception qui vont apporter des solutions standardisées pour résoudre des problèmes courants dans le développement d'un programme. 
+
+Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seule instance et fournit un point d’accès global à cette instance. 
+
+
+| **Critère** | **Pourquoi le Singleton ?** |
+| --- | --- |
+| **Garantie d'une seule instance** | Nous voulions qu’il n’y ait qu’une seule instance de `ModeSimulation`, qu'elle soit graphique ou console. |
+| **Partage global** | L’instance de `ModeSimulation` est accessible partout via `getInstance`, ce qui évite de passer cette instance partout. |
+| **Gestion centralisée de l'état** | Le Singleton simplifie le suivi de l’état (mode graphique/console, nombre d’itérations) dans un point unique. |
+| **Contrôle sur l’accès** | Avec `getInstance`, nous contrôlons quand et comment l’instance de `ModeSimulation` est créée et utilisée. |
+| **Prévention de doublons** | En interdisant la création directe de plusieurs instances, nous évitons des conflits liés à des modes de simulation multiples. |
 ***
 # Makefile
 
