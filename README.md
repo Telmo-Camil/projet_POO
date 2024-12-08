@@ -104,13 +104,40 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 
 ---
 
+## Cellule
+
+- **Inclusions** :
+  - `#include <iostream>` : Permet d'afficher des messages pour déboguer si nécessaire.
+  - `#include <string>` : Utilisé pour des manipulations simples de types chaîne si requis dans d'autres extensions futures.
+
+- **Private** (Accessible uniquement dans cette classe) :
+  - `bool vivant` : Indique si la cellule est vivante (`true`) ou morte (`false`).
+  - `bool prochainEtat` : Stocke l'état futur de la cellule (`true` ou `false`).
+  - `TypeCellule type` : Définit si la cellule est de type `NORMALE` ou `OBSTACLE`.
+
+- **Public** (Accessible depuis d'autres classes) :
+  - `enum TypeCellule { NORMALE, OBSTACLE }` : Enumération définissant deux types possibles pour les cellules.
+  - `Cellule(bool etatInitial = false, TypeCellule type = NORMALE)` : Constructeur pour initialiser une cellule avec son état et son type.
+  - `bool estVivante() const` : Renvoie `true` si la cellule est vivante.
+  - `bool estObstacle() const` : Renvoie `true` si la cellule est un obstacle.
+  - `bool obstacleVivante() const` : Renvoie `true` si la cellule est un obstacle vivant (un obstacle ne peut pas mourir).
+  - `void definirProchainEtat(bool etat)` : Définit l'état futur de la cellule, sauf si elle est un obstacle.
+  - `void appliquerProchainEtat()` : Applique l'état futur à la cellule, sauf si elle est un obstacle.
+
+---
+
 ## Grille
+
+- **Inclusions** :
+  - `#include "Cellule.h"` : Donne accès à la classe `Cellule` pour définir et gérer les cellules.
+  - `#include <vector>` : Utilisé pour stocker la grille bidimensionnelle.
+  - `#include <string>` : Utilisé pour manipuler les chemins de fichiers ou afficher des messages.
+  - `#include <fstream>` : Permet la gestion des fichiers pour sauvegarder et charger l'état de la grille.
 
 - **Private** :
   - `int largeur` : Largeur de la grille (en nombre de cellules).
   - `int hauteur` : Hauteur de la grille (en nombre de cellules).
   - `std::vector<std::vector<Cellule>> cellules` : Représentation bidimensionnelle de la grille, chaque élément étant une cellule.
-
   - `int compterVoisinsVivants(int x, int y) const` : Méthode pour compter le nombre de cellules vivantes autour d'une cellule donnée (gestion torique des bords incluse).
 
 - **Public** :
@@ -128,12 +155,21 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 
 ## Interface
 
+- **Inclusions** :
+  - `#include <SFML/Graphics.hpp>` : Fournit les outils nécessaires pour afficher graphiquement la grille.
+  - `#include "Grille.h"` : Nécessaire pour manipuler et afficher l'état de la grille.
+
 - **Public** :
   - `void renderGrid(sf::RenderWindow &window, const Grille &grille, int tailleCellule)` : Fonction pour afficher graphiquement une grille dans une fenêtre SFML donnée. Chaque cellule est affichée sous forme de rectangle dont la couleur dépend de son état (`vivante`, `morte`, ou `obstacle`).
 
 ---
 
 ## ModeSimulation
+
+- **Inclusions** :
+  - `#include "Grille.h"` : Permet de manipuler les objets de type `Grille`.
+  - `#include <string>` : Utilisé pour le traitement des noms de fichiers et chemins.
+  - `#include <sstream>` : Permet de créer et manipuler des flux de texte en mémoire.
 
 - **Private** :
   - `bool modeGraphique` : Variable booléenne indiquant si le mode graphique est activé (`true`) ou non (`false`).
@@ -154,7 +190,6 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 - **Inclusions** :
   - `#include "Grille.h"` : Fournit l'accès à la classe `Grille` pour la gestion de la grille et des cellules.
   - `#include "ModeSimulation.h"` : Fournit l'accès aux modes de simulation (console ou graphique).
-  - `#include <iostream>` : Permet d’interagir avec l’utilisateur via des entrées et sorties standard dans la console.
 
 - **Variables** :
   - `string fichierEntree = "etat_initial.txt";` : Spécifie le fichier texte contenant l'état initial de la grille.

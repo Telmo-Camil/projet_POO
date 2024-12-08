@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 using namespace std;
 using namespace sf;

@@ -2,6 +2,7 @@
 #define GRILLE_H
 
 #include "Cellule.h"
+#include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
