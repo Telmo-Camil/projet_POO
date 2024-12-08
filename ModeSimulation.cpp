@@ -80,10 +80,11 @@ void ModeSimulation::lancerConsole(Grille &grille, bool effectuerTest, int itera
     cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
 
-
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
+
+    fenetre.setVerticalSyncEnabled(false); // Désactiver VSync pour éviter les avertissements
 
     int delaiEntreIterations = 100;
 

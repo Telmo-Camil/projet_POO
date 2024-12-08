@@ -32,6 +32,11 @@ int main() {
         if (effectuerTest) {
             cout << "Entrez l'itération sur laquelle vous souhaitez effectuer le test unitaire (entre 1 et " << maxIterations << ") : ";
             cin >> iterationTest;
+
+            if (iterationTest < 1 || iterationTest > maxIterations) {
+                cerr << "Erreur : Numéro d'itération invalide. Aucun test unitaire ne sera effectué." << endl;
+                effectuerTest = false;
+            }
         }
     } else if (choixMode == 2) {
         cout << "Mode graphique activé. Vous pouvez ajuster la vitesse avec les flèches haut et bas.\n";
@@ -42,6 +47,6 @@ int main() {
         return 1;
     }
 
-   ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, effectuerTest, iterationTest);
+    ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, effectuerTest, iterationTest);
     return 0;
 }

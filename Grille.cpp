@@ -46,15 +46,18 @@ int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
-            if (dx == 0 && dy == 0) continue;
+            if (dx == 0 && dy == 0) continue; // Ignorer la cellule centrale
             int nx = (x + dx + largeur) % largeur;
             int ny = (y + dy + hauteur) % hauteur;
-            if (cellules[nx][ny].estVivante() && !cellules[nx][ny].estObstacle())
+            const Cellule &voisin = cellules[nx][ny];
+            if (voisin.estVivante() && !voisin.estObstacle()) {
                 ++voisinsVivants;
+            }
         }
     }
     return voisinsVivants;
 }
+
 
 // Prendre le fichier texte de départ
 bool Grille::chargerDepuisFichier(const string &chemin) {
@@ -99,6 +102,9 @@ void Grille::mettreAJour() {
     for (int x = 0; x < largeur; ++x) {
         for (int y = 0; y < hauteur; ++y) {
             int voisins = compterVoisinsVivants(x, y);
+            if (cellules[x][y].estObstacle()) {
+                continue; // Ne rien changer pour les cellules obstacles
+            }
             if (cellules[x][y].estVivante()) {
                 cellules[x][y].definirProchainEtat(voisins == 2 || voisins == 3);
             } else {
@@ -112,9 +118,8 @@ void Grille::mettreAJour() {
             cellules[x][y].appliquerProchainEtat();
         }
     }
-    cout << "Mise à jour de la grille effectuée." << endl;
-    afficherConsole();
 }
+
 
 void Grille::afficherConsole() const {
     for (int y = 0; y < hauteur; ++y) {

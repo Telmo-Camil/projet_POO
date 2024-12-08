@@ -33,8 +33,11 @@ void Cellule::definirProchainEtat(bool etat) {
 void Cellule::appliquerProchainEtat() {
     if (!estObstacle()) {
         vivant = prochainEtat;
+    } else if (obstacleVivante()) {
+        vivant = true;
     }
 }
+
 
 //Définit le nouveau type de chaque cellule après changement
 void Cellule::definirType(TypeCellule nouveauType) {

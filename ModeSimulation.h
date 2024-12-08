@@ -6,18 +6,17 @@
 
 class ModeSimulation {
 private:
-    bool modeGraphique;
-    int maxIterations;
+    bool modeGraphique;         // Indique si le mode graphique est activé
+    int maxIterations;          // Nombre d'itérations maximum
+    static ModeSimulation *instance; // Instance Singleton
+    ModeSimulation(bool graphique, int iterations);   // Constructeur privé
 
-    static ModeSimulation *instance;
-    ModeSimulation(bool graphique, int iterations);
-
-    void lancerConsole(Grille &grille, bool effectuerTest, int iterationTest);
-    void lancerGraphique(Grille &grille);
+    void lancerConsole(Grille &grille, bool effectuerTest, int iterationTest); // Mode console
+    void lancerGraphique(Grille &grille);             // Mode graphique
 
 public:
-    static ModeSimulation *getInstance(bool graphique, int iterations);
-    void lancer(Grille &grille, bool effectuerTest, int iterationTest);
+    static ModeSimulation *getInstance(bool graphique, int iterations); // Singleton
+    void lancer(Grille &grille, bool effectuerTest, int iterationTest); // Lance la simulation
 };
 
 #endif
