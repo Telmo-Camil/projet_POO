@@ -124,3 +124,21 @@ void Grille::afficherConsole() const {
         cout << '\n';
     }
 }
+
+//Getter Largeur
+int Grille::obtenirLargeur() const {
+    return largeur;
+}
+
+//Getter Hauteur
+int Grille::obtenirHauteur() const {
+    return hauteur;
+}
+
+const Cellule &Grille::obtenirCellule(int x, int y) const {
+    return cellules[x][y];
+}
+
+Cellule &Grille::obtenirCellule(int x, int y) {
+    return cellules[x][y];
+}

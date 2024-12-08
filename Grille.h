@@ -20,6 +20,11 @@ public:
     bool chargerDepuisFichier(const std::string &chemin);         // Charge la grille
     void mettreAJour();                                // Met à jour la grille
     void afficherConsole() const;                     // Affiche la grille dans la console
+    int obtenirLargeur() const;                  // Renvoie la largeur de la grille
+    int obtenirHauteur() const;                  // Renvoie la hauteur de la grille
+    const Cellule &obtenirCellule(int x, int y) const; // Renvoie une cellule en lecture seule
+    Cellule &obtenirCellule(int x, int y);       // Renvoie une cellule modifiable
+
 };
 
 #endif
