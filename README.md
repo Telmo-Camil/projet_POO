@@ -8,10 +8,12 @@ CAMILO-MIRANDA Telmo
 # Sommaire
 1. Introduction
 2. Bibliothèques
-3. Paradigme Objet
-4. Gestion de la Mémoire
-5. Programme
-6. Design Pattern
+3. Namespace
+4. Paradigme Objet
+5. Gestion de la Mémoire
+6. Programme
+7. Design Pattern
+8. Conclusion
 
 ***
 # Introduction 
@@ -311,7 +313,9 @@ clean:
  Supprime tous les fichiers objets (`$(OBJS)`) et l'exécutable final (`$(TARGET)`).
  ***
  
+# Conclusion
 
+Ce livrable explique tous les aspects techniques liés à notre programme après sa conception sous forme de diagrammes. Il détaille par quel biais les extensions ont été rajoutées, quelles librairies ont été intégrées et pourquoi, ou encore comment la mémoire a été gérée. Le jeu demandé dans le projet fonctionne, ainsi que ces deux modes, que l'utilisateur peut choisir.
 
 
 
