@@ -10,6 +10,9 @@ CAMILO-MIRANDA Telmo
 2. Bibliothèques
 3. Architecture MVC
 4. Paradigme Objet
+5. Design Pattern
+6. Programme
+7. 
 
 ***
 # Introduction 
@@ -73,9 +76,17 @@ Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui q
 # Design Pattern
 > **Ce sont des patrons de conception qui vont apporter des solutions standardisées pour résoudre des problèmes courants dans le développement d'un programme. 
 
-Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seule instance et fournit un point d’accès global à cette instance. Ce 
+Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seule instance et fournit un point d’accès global à cette instance. 
 
 
+| **Critère** | **Pourquoi le Singleton ?** |
+| --- | --- |
+| **Garantie d'une seule instance** | Nous voulions qu’il n’y ait qu’une seule instance de `ModeSimulation`, qu'elle soit graphique ou console. |
+| **Partage global** | L’instance de `ModeSimulation` est accessible partout via `getInstance`, ce qui évite de passer cette instance partout. |
+| **Gestion centralisée de l'état** | Le Singleton simplifie le suivi de l’état (mode graphique/console, nombre d’itérations) dans un point unique. |
+| **Contrôle sur l’accès** | Avec `getInstance`, nous contrôlons quand et comment l’instance de `ModeSimulation` est créée et utilisée. |
+| **Prévention de doublons** | En interdisant la création directe de plusieurs instances, nous évitons des conflits liés à des modes de simulation multiples. |
+| **Simplicité dans un projet structuré** | Réduit la complexité de la gestion des objets tout en s'intégrant bien avec l’architecture MVC. |
 
 ***
 # Programme
