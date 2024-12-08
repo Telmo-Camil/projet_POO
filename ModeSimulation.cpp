@@ -49,9 +49,13 @@ void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
 void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    for (int i = 0; i < maxIterations; ++i) {
-        string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
+    // Créer un dossier pour les résultats du test unitaire
+    string dossierTestUnitaire;
+    creerDossierIncremente("test_unitaire", dossierTestUnitaire);
 
+    for (int i = 0; i < maxIterations; ++i) {
+        // Sauvegarde des résultats de l'itération
+        string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
         ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
             cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << endl;
@@ -60,13 +64,35 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) 
 
         sortie << "Itération " << i + 1 << " :\n";
         ecrireEtatDansFichier(sortie, grille);
-        grille.mettreAJour();
         sortie.close();
+
+        // Préparer le test unitaire
+        Grille grilleAttendue = grille;  // Clone la grille actuelle
+        grilleAttendue.mettreAJour();   // Calcule l'état attendu après une itération
+
+        // Sauvegarde de la grille attendue dans le dossier test unitaire
+        string fichierTest = dossierTestUnitaire + "/grille_attendue_" + to_string(i + 1) + ".txt";
+        ofstream fichierAttendu(fichierTest);
+        if (!fichierAttendu.is_open()) {
+            cerr << "Erreur : Impossible de créer le fichier " << fichierTest << endl;
+            return;
+        }
+
+        grilleAttendue.sauvegarderDansFichier(fichierAttendu);
+        fichierAttendu.close();
+
+        // Comparaison de la grille obtenue avec la grille attendue
+        grille.mettreAJour();
+        if (!grille.verifierGrilleApresIteration(grilleAttendue)) {
+            cerr << "Test unitaire échoué à l'itération " << i + 1 << "." << endl;
+        } else {
+            cout << "Test unitaire réussi à l'itération " << i + 1 << "." << endl;
+        }
     }
 
     cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
+    cout << "Résultats des tests unitaires sauvegardés dans : " << dossierTestUnitaire << endl;
 }
-
 // Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;

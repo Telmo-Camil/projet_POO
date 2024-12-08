@@ -42,7 +42,6 @@ void Grille::sauvegarderDansFichier(ofstream &sortie) const {
     }
 }
 
-
 // Regarder l'entourage d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
