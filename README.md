@@ -14,7 +14,8 @@ CAMILO-MIRANDA Telmo
 ***
 # Introduction 
 ## Contexte
-Le but du projet est de réaliser une simulation du Jeu de la vie de John Conway. Il s’agit d’un jeu où une grille 2D contenant des cellules évoluent selon des règles prédéfinies, passant d’un état vivant à mort ou inversement, en fonction de leur voisinage. Notre mission sera de faire en sorte d’inclure deux modes que l’utilisateur choisira : un mode console qui génère les états des cellules sur plusieurs itérations, et un mode graphique utilisant SFML pour une visualisation interactive. 
+Le but du projet est de réaliser une simulation du Jeu de la vie de John Conway. Il s’agit d’un jeu où une grille 2D contenant des cellules évoluent selon des règles prédéfinies, passant d’un état vivant à mort ou inversement, en fonction de leur voisinage : une cellule morte possédant exactement trois voisines vivantes change d’état ; et une cellule vivante possédant deux ou trois voisines du même type reste ainsi, sinon elle meurt.\
+Notre mission sera de faire en sorte d’inclure deux modes que l’utilisateur choisira : un mode console qui génère les états des cellules sur plusieurs itérations, et un mode graphique utilisant SFML pour une visualisation interactive. 
 
 ## Livrable
 * S’appuyer sur la bibliothèque standard C++ STL.
@@ -31,17 +32,20 @@ Le but du projet est de réaliser une simulation du Jeu de la vie de John Conway
 ## Définition
 **Les bibliothèques sont des ensembles de codes préexistants et réutilisables, qui lorsqu’on les intègre à un programme, donnent accès aux instructions qu’elles mettent en place.**
 
-## Iostream 
+## iostream 
 Permet d’interagir avec l’utilisateur via la console (entrées/sorties).
 
 ## Standard STL
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
 
-* ### Conteneur
-Classes fournies par la STL pour stocker, organiser et manipuler des collections d'éléments de manière efficace.
+## Vector
+Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fournis par la STLcar ces derniers sont limités en termes de flexibilité et de gestion dynamique de la taille. Les vecteurs vont permettre une gestion dynamique de la mémoire et des dimensions, ce qui selon nous était bien plus adapté pour manipuler une grille de cellules dont les dimensions peuvent varier. 
 
-* ### Itérateurs
-Objet qui permet de parcourir les éléments d’une collection de manière séquentielle, similaire à un pointeur, tout en respectant l’encapsulation des données.
+## fstream
+
+## string
+
+## cstdlib
 
 ## Graphique SFML
 La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dédiée au développement multimédia en C++. Elle permet de gérer facilement les interfaces graphiques, les animations, rendant le développement de simulations ou jeux plus accessible.
