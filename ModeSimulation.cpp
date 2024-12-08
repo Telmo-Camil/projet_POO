@@ -28,44 +28,58 @@ void ModeSimulation::lancer(Grille &grille, bool effectuerTest, int iterationTes
 }
 
 void ModeSimulation::lancerConsole(Grille &grille, bool effectuerTest, int iterationTest) {
-    cout << "Mode console activé.\n";
-
-    // Créer un dossier pour sauvegarder les itérations
-    string dossierSortie = "resultats_simulation";
+    string dossierSortie = "etat_initial.txt_out"; // Nom du dossier de sortie
     system(("mkdir -p " + dossierSortie).c_str());
+
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    // Exécution des itérations
+    Grille grilleAttendue(grille.obtenirLargeur(), grille.obtenirHauteur());
+    if (effectuerTest) {
+        // Créer la grille attendue pour l'itération demandée
+        grilleAttendue = grille;
+        for (int i = 0; i < iterationTest; ++i) {
+            grilleAttendue.mettreAJour();
+        }
+
+        // Sauvegarde de la grille attendue dans le fichier correspondant
+        string fichierAttendu = dossierSortie + "/iteration_test_" + to_string(iterationTest) + ".txt";
+        ofstream fichierSortieAttendu(fichierAttendu);
+        if (fichierSortieAttendu.is_open()) {
+            grilleAttendue.sauvegarderDansFichier(fichierSortieAttendu);
+            fichierSortieAttendu.close();
+        } else {
+            cerr << "Erreur : Impossible de créer le fichier de test attendu : " << fichierAttendu << endl;
+        }
+    }
+
+    // Sauvegarde des résultats de chaque itération
     for (int i = 0; i < maxIterations; ++i) {
-        // Sauvegarde de l'état actuel dans un fichier
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
         ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
             cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << endl;
             return;
         }
+
+        sortie << "Itération " << i + 1 << " :\n";
         grille.sauvegarderDansFichier(sortie);
         sortie.close();
 
-        // Effectuer le test unitaire à l'itération demandée
-        if (effectuerTest && i + 1 == iterationTest) {
-            Grille grilleTest = grille; // Cloner la grille actuelle
-            grilleTest.mettreAJour();  // Calculer la prochaine itération
-
-            // Comparer la grille actuelle avec l'état attendu
-            if (grille.verifierGrilleApresIteration(grilleTest)) {
+        // Comparer si c'est l'itération demandée pour le test
+        if (effectuerTest && (i + 1 == iterationTest)) {
+            if (grille.verifierGrilleApresIteration(grilleAttendue)) {
                 cout << "Test unitaire réussi pour l'itération " << iterationTest << ".\n";
             } else {
                 cerr << "Test unitaire échoué pour l'itération " << iterationTest << ".\n";
             }
         }
 
-        // Mettre à jour la grille pour la prochaine itération
         grille.mettreAJour();
     }
 
     cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
+
 
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;

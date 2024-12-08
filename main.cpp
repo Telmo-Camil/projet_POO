@@ -42,6 +42,6 @@ int main() {
         return 1;
     }
 
-    ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, effectuerTest, iterationTest);
+   ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, effectuerTest, iterationTest);
     return 0;
 }
