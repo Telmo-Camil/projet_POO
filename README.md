@@ -69,7 +69,9 @@ La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dé
 **Celui-ci met l’accent sur le résultat souhaité plutôt que sur les étapes pour y parvenir.** \
 \
 Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes).
-
+***
+# Gestion de la Mémoire
+Dans ce projet, il fallait également faire en sorte de réaliser une réduction de la mémoire satisfaisante. Pour cela, nous avons utilisé le moins de bibliothèques possibles (qui prennent chacune une place conséquente) : Grâce aux inclusions, nous n'avons pas eu besoin d'intégrer plusieurs fois la même librairie. Nous avons aussi alloué beaucoup de variables ou méthodes sur le tas, en utilisant la pile pour les éléments temporaires et les allocations dynamiques sur le tas uniquement lorsqu'elles étaient nécessaires, nous avons pu libérer manuellement la mémoire une fois l'utilisation terminée. Nous avons également optimisé les structures de données en choisissant des conteneurs adaptés, comme des vecteurs, qui minimisent la fragmentation de mémoire. 
 ***
 # Programme
 \
