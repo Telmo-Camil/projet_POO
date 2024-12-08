@@ -42,13 +42,16 @@ Permet d’interagir avec l’utilisateur via la console (entrées/sorties).
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
 
 ## Vector
-Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fournis par la STLcar ces derniers sont limités en termes de flexibilité et de gestion dynamique de la taille. Les vecteurs vont permettre une gestion dynamique de la mémoire et des dimensions, ce qui selon nous était bien plus adapté pour manipuler une grille de cellules dont les dimensions peuvent varier. 
+Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fournis par la STL car ces derniers sont limités en termes de flexibilité et de gestion dynamique de la taille. Les vecteurs vont permettre une gestion dynamique de la mémoire et des dimensions, ce qui selon nous était bien plus adapté pour manipuler une grille de cellules dont les dimensions peuvent varier. 
 
 ## fstream
+La bibliothèque `<fstream>` permet de gérer les fichiers de manière à permettre l'enregistrement et le chargement des données de la grille depuis ou vers des fichiers.txt. Nous avons utilisé cette bibliothèque notamment pour ouvrir et lire les données du fichier que nous allons fournir, donc le fichier <`etat_initial.txt`> afin de définir la grille.
 
 ## string
+La bibliothèque <`string`> permet de manipuler des chaînes de caractères en C++. Les chaînes de caractères de cette bibliothèque permettent d'avoir une approche plus flexible et sécurisée. Elles permettent également de gérer automatiquement la mémoire associée aux chaînes de caractères et d'adapter automatiquement la taille de la chaîne au contenu.
 
 ## cstdlib
+La bibliothèque <`cstdlib`> permet de fournir des fonctions générales pour la gestion de l'environnement d'exécution et des processus mais aussi pour la manipulation de la mémoire. Elle peut être utilisé notamment pour vérifier si un dossier existe et si ce n'est pas le cas de le créer.
 
 ## Graphique SFML
 La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dédiée au développement multimédia en C++. Elle permet de gérer facilement les interfaces graphiques, les animations, rendant le développement de simulations ou jeux plus accessible.
@@ -60,7 +63,7 @@ Ce modèle va nous aider à mettre en place le test unitaire.
 ## Test Unitaire
 > **Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.**
 
-Le test unitaire sera effectué dans le mode console, où grâce aux dossiers comprenant toutes les itérations, il sera plus simple de comparer le résultat attendu avec ceux obtenus. Nous pouvions intégrer des librairies ou s'y prendre manuellement, nous avons choisi la seconde option pour une meilleure réduction de la mémoire (puisque qu'une bibliothèque occupe beaucoup de place). Nous expliquerons un peu plus tard dans ce livrable quelle fonction effectue ce test, mais nous avons également rajouté des commentaires pour la rendre plus compréhensible.
+Le test unitaire sera effectué dans le mode console, où grâce aux dossiers comprenant toutes les itérations, il sera plus simple de comparer le résultat attendu avec ceux obtenus. Nous pouvions intégrer des librairies ou s'y prendre manuellement, nous avons choisi la seconde option pour une meilleure réduction de la mémoire (puisque qu'une bibliothèque occupe beaucoup de place). Nous expliquerons un peu plus tard dans ce livrable quelle fonction effectue ce test, mais nous avons également rajouté des commentaires pour la rendre plus compréhensible. Dans notre programme, nous avons implémenté une fonction permettant de créer un dossier pour chaque itération effectué par l'algorithme. Le test unitaire fera alors en sorte de comparer le changement d'état des cellules entre chaque itération afin de vérifier si le comportement des cellules correspond aux règles définis par le jeu. Le test renverra alors une erreur si les cellules ne respecte pas les règles ou bien une validation si tout est bon.
 
 # Paradigme Objet 
 > **Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.**
