@@ -70,6 +70,14 @@ Le test unitaire sera effectué dans le mode console, où grâce aux dossiers co
 \
 Dans notre cas, nous utilisons le paradigme impératif. En effet, c'est à lui que correspond la POO (expliquée plus en détail dans l'autre Livrable), puisqu'elle est asée sur les objets qui contiennent des données (attributs) et des fonctions (méthodes). 
 ***
+# Design Pattern
+> **Ce sont des patrons de conception qui vont apporter des solutions standardisées pour résoudre des problèmes courants dans le développement d'un programme. 
+
+Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seule instance et fournit un point d’accès global à cette instance. Ce 
+
+
+
+***
 # Programme
 \
 Nous avons rajouté des commentaires au-dessus des fonctions et sur certaines lignes dans le programme afin de les expliquer. Ici, nous détaillerons un peu plus ce qui ne sera pas explicable sous forme de commentaires. \
