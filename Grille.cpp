@@ -28,24 +28,35 @@ int Grille::compterVoisinsVivants(int x, int y) const {
 }
 
 // Compare deux grilles (vérifie état et type de chaque cellule)
-bool Grille::verifierGrilleApresIteration(const Grille &autre) const {
-    if (largeur != autre.largeur || hauteur != autre.hauteur) {
-        cerr << "Erreur : Dimensions des grilles différentes.\n";
+bool Grille::verifierGrilleApresIteration(const Grille &attendue) const {
+    if (largeur != attendue.obtenirLargeur() || hauteur != attendue.obtenirHauteur()) {
+        cerr << "Erreur : Dimensions des grilles différentes." << endl;
         return false;
     }
 
     for (int y = 0; y < hauteur; ++y) {
         for (int x = 0; x < largeur; ++x) {
-            if (cellules[x][y].estVivante() != autre.cellules[x][y].estVivante() ||
-                cellules[x][y].estObstacle() != autre.cellules[x][y].estObstacle()) {
-                cerr << "Différence détectée à la cellule (" << x << ", " << y << ").\n";
+            const Cellule &celluleActuelle = obtenirCellule(x, y);
+            const Cellule &celluleAttendue = attendue.obtenirCellule(x, y);
+
+            if (celluleActuelle.estVivante() != celluleAttendue.estVivante() ||
+                celluleActuelle.estObstacle() != celluleAttendue.estObstacle()) {
+                cerr << "Erreur : Différence détectée à la cellule (" << x << ", " << y << ").\n";
+                cerr << "Cellule actuelle : "
+                     << (celluleActuelle.estVivante() ? "vivante" : "morte") << ", "
+                     << (celluleActuelle.estObstacle() ? "obstacle" : "normale") << "\n";
+                cerr << "Cellule attendue : "
+                     << (celluleAttendue.estVivante() ? "vivante" : "morte") << ", "
+                     << (celluleAttendue.estObstacle() ? "obstacle" : "normale") << "\n";
                 return false;
             }
         }
     }
 
+    cout << "Grilles identiques après comparaison.\n";
     return true;
 }
+
 
 // Sauvegarde la grille dans un fichier
 void Grille::sauvegarderDansFichier(ofstream &fichier) const {

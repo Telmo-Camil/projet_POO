@@ -7,13 +7,13 @@
 using namespace std;
 using namespace sf;
 
-ModeSimulation *ModeSimulation::instance = nullptr;  // Initialisation de l'instance singleton
+ModeSimulation *ModeSimulation::instance = nullptr;
 
 // Constructeur privé
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Retourne l'instance unique de ModeSimulation
+// Méthode pour obtenir l'instance unique
 ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     if (instance == nullptr) {
         instance = new ModeSimulation(graphique, iterations);
@@ -21,7 +21,7 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     return instance;
 }
 
-// Lance la simulation en fonction du mode
+// Méthode principale lancer
 void ModeSimulation::lancer(Grille &grille, const string &fichierInitial) {
     if (modeGraphique) {
         lancerGraphique(grille);
@@ -30,16 +30,15 @@ void ModeSimulation::lancer(Grille &grille, const string &fichierInitial) {
     }
 }
 
-// Mode Console
+// Mode Console avec Test Unitaire Simplifié
 void ModeSimulation::lancerConsole(Grille &grille, const string &fichierInitial) {
-    string dossierSortie = fichierInitial + "_out";  // Créer un dossier pour les résultats
+    string dossierSortie = fichierInitial + "_out";
     system(("mkdir -p " + dossierSortie).c_str());
-
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    Grille grilleAttendue = grille;  // Cloner la grille pour le test unitaire
+    Grille grilleAttendue = grille;
+
     for (int i = 0; i < maxIterations; ++i) {
-        // Sauvegarde de l'état actuel
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
         ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
@@ -47,30 +46,37 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &fichierInitial)
             return;
         }
 
+        // Sauvegarde de la grille actuelle
         grille.sauvegarderDansFichier(sortie);
         sortie.close();
 
-        // Comparer à la dernière itération (test unitaire)
+        // Préparer la grille attendue pour le test unitaire (si dernière itération)
         if (i == maxIterations - 1) {
-            Grille grilleAttendue = grille;  // État attendu après toutes les mises à jour
-            for (int j = 0; j < maxIterations; ++j) {
-                grilleAttendue.mettreAJour();
-            }
+            string fichierTest = dossierSortie + "/iteration_test_" + to_string(maxIterations) + ".txt";
+            ofstream fichierAttendu(fichierTest);
+            if (fichierAttendu.is_open()) {
+                grilleAttendue.mettreAJour(); // Calculer une itération en avance
+                grilleAttendue.sauvegarderDansFichier(fichierAttendu);
+                fichierAttendu.close();
 
-            if (grille.verifierGrilleApresIteration(grilleAttendue)) {
-                cout << "Test unitaire réussi pour la dernière itération.\n";
+                // Comparer les deux grilles
+                if (grille.verifierGrilleApresIteration(grilleAttendue)) {
+                    cout << "Test unitaire réussi pour l'itération " << maxIterations << ".\n";
+                } else {
+                    cerr << "Test unitaire échoué pour l'itération " << maxIterations << ".\n";
+                }
             } else {
-                cerr << "Test unitaire échoué pour la dernière itération.\n";
+                cerr << "Erreur : Impossible de créer le fichier d'état attendu pour le test unitaire.\n";
             }
         }
 
-        grille.mettreAJour();  // Mise à jour de la grille
+        grille.mettreAJour(); // Calcul de l'itération suivante
     }
 
-    cout << "Simulation terminée.\n";
+    cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
 
-// Mode Graphique
+// Mode Graphique (inchangé)
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
