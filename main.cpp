@@ -7,38 +7,41 @@ using namespace std;
 int main() {
     string fichierEntree = "etat_initial.txt";
 
-    // Charger la grille initiale
     Grille grille(0, 0);
     if (!grille.chargerDepuisFichier(fichierEntree)) {
-        cerr << "Erreur lors du chargement du fichier de grille initiale." << endl;
+        cerr << "Erreur : Impossible de charger le fichier de grille initiale." << endl;
         return 1;
     }
 
-    // Demander à l'utilisateur de choisir le mode
     int choixMode;
     cout << "Choisissez le mode de fonctionnement :\n";
-    cout << "1. Mode console avec tests unitaires\n";
+    cout << "1. Mode console\n";
     cout << "2. Mode graphique\n";
     cin >> choixMode;
 
-    // Récupération du nombre d'itérations
-    int maxIterations = 0;
-    if (choixMode == 1 || choixMode == 2) {
+    int maxIterations = 0, iterationTest = 0;
+    bool effectuerTest = false;
+
+    if (choixMode == 1) {
         cout << "Entrez le nombre maximum d'itérations : ";
         cin >> maxIterations;
-    }
 
-    // Gestion des modes
-    if (choixMode == 1) {
-        cout << "Mode console avec tests unitaires activé.\n";
-        ModeSimulation::getInstance(false, maxIterations)->lancer(grille, fichierEntree);
+        cout << "Voulez-vous effectuer un test unitaire ? (1 pour Oui, 0 pour Non) : ";
+        cin >> effectuerTest;
+
+        if (effectuerTest) {
+            cout << "Entrez l'itération sur laquelle vous souhaitez effectuer le test unitaire (entre 1 et " << maxIterations << ") : ";
+            cin >> iterationTest;
+        }
     } else if (choixMode == 2) {
         cout << "Mode graphique activé. Vous pouvez ajuster la vitesse avec les flèches haut et bas.\n";
-        ModeSimulation::getInstance(true, maxIterations)->lancer(grille, fichierEntree);
+        cout << "Entrez le nombre maximum d'itérations : ";
+        cin >> maxIterations;
     } else {
         cerr << "Choix invalide." << endl;
         return 1;
     }
 
+    ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, effectuerTest, iterationTest);
     return 0;
 }

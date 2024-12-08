@@ -1,7 +1,8 @@
 #include "ModeSimulation.h"
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
-#include <cstdlib> // Pour system()
+#include <iostream>
+#include <fstream>
 
 using namespace sf;
 using namespace std;
@@ -18,75 +19,54 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Lancer le mode approprié (Console ou Graphique)
-void ModeSimulation::lancer(Grille &grille, const string &nomFichierEntree) {
-    string dossierSortie = nomFichierEntree + "_out";
-    system(("mkdir -p " + dossierSortie).c_str());
-
+void ModeSimulation::lancer(Grille &grille, bool effectuerTest, int iterationTest) {
     if (modeGraphique) {
         lancerGraphique(grille);
     } else {
-        lancerConsole(grille, dossierSortie);
+        lancerConsole(grille, effectuerTest, iterationTest);
     }
 }
 
-// Mode Console
-void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
+void ModeSimulation::lancerConsole(Grille &grille, bool effectuerTest, int iterationTest) {
+    cout << "Mode console activé.\n";
+
+    // Créer un dossier pour sauvegarder les itérations
+    string dossierSortie = "resultats_simulation";
+    system(("mkdir -p " + dossierSortie).c_str());
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
 
-    int iterationTest = 0;
-    cout << "Voulez-vous effectuer un test unitaire ? (1 pour Oui, 0 pour Non) : ";
-    int effectuerTest;
-    cin >> effectuerTest;
-
-    if (effectuerTest) {
-        cout << "Entrez l'itération sur laquelle vous souhaitez effectuer le test unitaire (entre 1 et " << maxIterations << ") : ";
-        cin >> iterationTest;
-
-        if (iterationTest < 1 || iterationTest > maxIterations) {
-            cerr << "Erreur : Numéro d'itération invalide. Aucun test unitaire ne sera effectué." << endl;
-            iterationTest = 0;
-        }
-    }
-
-    Grille grilleAttendue(grille.obtenirLargeur(), grille.obtenirHauteur());
-
+    // Exécution des itérations
     for (int i = 0; i < maxIterations; ++i) {
-        // Sauvegarde de l'itération actuelle
+        // Sauvegarde de l'état actuel dans un fichier
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
         ofstream sortie(fichierSortie);
         if (!sortie.is_open()) {
             cerr << "Erreur : Impossible de créer le fichier " << fichierSortie << endl;
             return;
         }
-        ecrireEtatDansFichier(sortie, grille);
+        grille.sauvegarderDansFichier(sortie);
         sortie.close();
 
-        // Si un test unitaire est demandé et que c'est l'itération cible
+        // Effectuer le test unitaire à l'itération demandée
         if (effectuerTest && i + 1 == iterationTest) {
-            cout << "Effectuer le test unitaire pour l'itération " << iterationTest << "...\n";
+            Grille grilleTest = grille; // Cloner la grille actuelle
+            grilleTest.mettreAJour();  // Calculer la prochaine itération
 
-            // Calculer l'état attendu
-            Grille grilleTemp(grille);
-            for (int t = 0; t < iterationTest; ++t) {
-                grilleTemp.mettreAJour();
-            }
-
-            if (grille.verifierGrilleApresIteration(grilleTemp)) {
-                cout << "Test unitaire réussi : la grille calculée correspond à l'attendue.\n";
+            // Comparer la grille actuelle avec l'état attendu
+            if (grille.verifierGrilleApresIteration(grilleTest)) {
+                cout << "Test unitaire réussi pour l'itération " << iterationTest << ".\n";
             } else {
-                cerr << "Test unitaire échoué : divergence détectée.\n";
+                cerr << "Test unitaire échoué pour l'itération " << iterationTest << ".\n";
             }
         }
 
-        // Met à jour la grille pour la prochaine itération
+        // Mettre à jour la grille pour la prochaine itération
         grille.mettreAJour();
     }
 
     cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
 }
 
-// Mode Graphique
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
     RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
@@ -114,18 +94,4 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
     }
 
     cout << "Simulation graphique terminée après " << maxIterations << " itérations." << endl;
-}
-
-// Écrit les états de la grille dans un fichier
-void ModeSimulation::ecrireEtatDansFichier(ofstream &sortie, const Grille &grille) const {
-    for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-        for (int x = 0; x < grille.obtenirLargeur(); ++x) {
-            if (grille.obtenirCellule(x, y).estObstacle()) {
-                sortie << (grille.obtenirCellule(x, y).estVivante() ? "O " : "X ");
-            } else {
-                sortie << (grille.obtenirCellule(x, y).estVivante() ? "1 " : "0 ");
-            }
-        }
-        sortie << '\n';
-    }
 }

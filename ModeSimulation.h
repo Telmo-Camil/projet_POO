@@ -1,26 +1,23 @@
 #ifndef MODESIMULATION_H
 #define MODESIMULATION_H
 
-#include <iostream>
-#include <string>
-#include <fstream>
 #include "Grille.h"
+#include <string>
 
 class ModeSimulation {
 private:
-    bool modeGraphique; 
-    int maxIterations;  
+    bool modeGraphique;
+    int maxIterations;
 
-    static ModeSimulation *instance; // instance Singleton
+    static ModeSimulation *instance;
     ModeSimulation(bool graphique, int iterations);
 
-    void lancerConsole(Grille &grille, const std::string &dossierSortie);
+    void lancerConsole(Grille &grille, bool effectuerTest, int iterationTest);
     void lancerGraphique(Grille &grille);
-    void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille) const;
 
 public:
     static ModeSimulation *getInstance(bool graphique, int iterations);
-    void lancer(Grille &grille, const std::string &nomFichierEntree);
+    void lancer(Grille &grille, bool effectuerTest, int iterationTest);
 };
 
 #endif
