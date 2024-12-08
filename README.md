@@ -42,9 +42,10 @@ Permet d’interagir avec l’utilisateur via la console (entrées/sorties).
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
 
 ## Vector
-Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fournis par la STLcar ces derniers sont limités en termes de flexibilité et de gestion dynamique de la taille. Les vecteurs vont permettre une gestion dynamique de la mémoire et des dimensions, ce qui selon nous était bien plus adapté pour manipuler une grille de cellules dont les dimensions peuvent varier. 
+Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fournis par la STL car ces derniers sont limités en termes de flexibilité et de gestion dynamique de la taille. Les vecteurs vont permettre une gestion dynamique de la mémoire et des dimensions, ce qui selon nous était bien plus adapté pour manipuler une grille de cellules dont les dimensions peuvent varier. 
 
 ## fstream
+La bibliothèque `<fstream>` permet de gérer les fichiers de manière à permettre l'enregistrement et le chargement des données de la grille depuis ou vers des fichiers.txt. Nous avons utilisé cette bibliothèque notamment pour ouvrir et lire les données du fichier que nous allons fournir, donc le fichier <`etat_initial.txt`> afin de définir la grille.
 
 ## string
 
