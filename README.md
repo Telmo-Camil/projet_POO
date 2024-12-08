@@ -8,11 +8,10 @@ CAMILO-MIRANDA Telmo
 # Sommaire
 1. Introduction
 2. Bibliothèques
-3. Architecture MVC
-4. Paradigme Objet
-5. Design Pattern
-6. Programme
-7. 
+3. Paradigme Objet
+4. Gestion de la Mémoire
+5. Programme
+6. Design Pattern
 
 ***
 # Introduction 
@@ -41,7 +40,7 @@ Permet d’interagir avec l’utilisateur via la console (entrées/sorties).
 ## Standard STL
 La STL (Standard Template Library) est une bibliothèque incluse avec le langage C++ qui fournit des outils génériques comme des conteneurs, des algorithmes, et des itérateurs pour manipuler des données de manière efficace et réutilisable.
 
-## Vector
+## vector
 Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fournis par la STL car ces derniers sont limités en termes de flexibilité et de gestion dynamique de la taille. Les vecteurs vont permettre une gestion dynamique de la mémoire et des dimensions, ce qui selon nous était bien plus adapté pour manipuler une grille de cellules dont les dimensions peuvent varier. 
 
 ## fstream
@@ -56,7 +55,7 @@ La bibliothèque <`cstdlib`> permet de fournir des fonctions générales pour la
 ## Graphique SFML
 La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dédiée au développement multimédia en C++. Elle permet de gérer facilement les interfaces graphiques, les animations, rendant le développement de simulations ou jeux plus accessible.
 ***
-# Architecture MVC
+#### Architecture MVC
 *Concept expliqué dans le Livrable Conception.* \
 
 # Paradigme Objet 
