@@ -95,7 +95,9 @@ Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seul
 # Programme
 \
 Nous avons rajouté des commentaires au-dessus des fonctions et sur certaines lignes dans le programme afin de les expliquer. Ici, nous détaillerons un peu plus ce qui ne sera pas explicable sous forme de commentaires. \
-Nous avons décidé de rajouter l'extension des cellules obstacles, dont les conditions étaient : "L’état des cellules obstacles n’évolue pas au cours de l’exécution. Ces dernières possèdent un état vivant ou mort. Modifiez votre code, sans altérer le fonctionnement de base." \
+* Extensions rajoutées :
+  * Cellules obstacles, dont les conditions étaient : "L’état des cellules obstacles n’évolue pas au cours de l’exécution. Ces dernières possèdent un état vivant ou mort. Modifiez votre code, sans altérer le fonctionnement de base."
+  * Grille torique : "Les cellules placées aux extrémités de la grille sont adjacentes ; en d’autres termes les cellules en colonne 0 sont voisines des cellules en colonne N−1, avec N le nombre de colonnes. Le principe est similaire en ligne.
 Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dans chaque classe. \
 *Le concept de classes est plus détaillé dans l'autre Livrable* 
 
@@ -104,107 +106,95 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 > * **Inclusions** : Dans notre programme, nous allons devoir importer le contenu de fichiers extérieurs (les headers) ou de bibliothèques pour utiliser leurs fonctionnalités ou classes. Si une librairie est intégrée dans un fichier inclus, il n'est pas nécessaire de la réinclure car elle est déjà disponible. 
 
 
-Voici la version mise à jour avec la gestion du test unitaire lors du mode console :
-
----
-
 ## Cellule
+
 - **Private** (Accessible uniquement dans cette classe) :
-  - `bool vivant` : Renvoyant 1 ou `True` si la cellule est vivante, et 0 ou `False` si elle est morte.
-  - `bool prochainEtat` : Variable qui stocke l'état futur de la cellule, `True` (vivante) ou `False` (morte).
-  - `TypeCellule type` : Type de la cellule.
+  - `bool vivant` : Indique si la cellule est vivante (`true`) ou morte (`false`).
+  - `bool prochainEtat` : Stocke l'état futur de la cellule (`true` ou `false`).
+  - `TypeCellule type` : Définit si la cellule est de type `NORMALE` ou `OBSTACLE`.
 
 - **Public** (Accessible depuis d'autres classes) :
-  - `enum TypeCellule { NORMALE, OBSTACLE }` : Va permettre de mettre en place deux types de cellules, des normales, et des obstacles.
-  - `bool estVivante()` : Renvoie une cellule vivante.
-  - `bool estObstacle()` : Renvoie une cellule de type `OBSTACLE`.
-  - `bool obstacleVivante()` : Renvoie une cellule de type `OBSTACLE` et vivante (elle ne pourra pas mourir).
-  - `void definirProchainEtat()` : Définit le prochain état de la cellule en fonction de son type.
-  - `void appliquerProchainEtat()` : Applique ce nouvel état (si elle n'est pas un obstacle).
+  - `enum TypeCellule { NORMALE, OBSTACLE }` : Enumération définissant deux types possibles pour les cellules.
+  - `Cellule(bool etatInitial = false, TypeCellule type = NORMALE)` : Constructeur pour initialiser une cellule avec son état et son type.
+  - `bool estVivante() const` : Renvoie `true` si la cellule est vivante.
+  - `bool estObstacle() const` : Renvoie `true` si la cellule est un obstacle.
+  - `bool obstacleVivante() const` : Renvoie `true` si la cellule est un obstacle vivant (un obstacle ne peut pas mourir).
+  - `void definirProchainEtat(bool etat)` : Définit l'état futur de la cellule, sauf si elle est un obstacle.
+  - `void appliquerProchainEtat()` : Applique l'état futur à la cellule, sauf si elle est un obstacle.
 
 ---
 
 ## Grille
+
 - **Private** :
-  - `int largeur` : Largeur de la grille en nombre de cellules.
-  - `int hauteur` : Hauteur de la grille en nombre de cellules.
-  - `std::vector<std::vector<Cellule>> cellules` : Grille bidimensionnelle stockant les cellules.
+  - `int largeur` : Largeur de la grille (en nombre de cellules).
+  - `int hauteur` : Hauteur de la grille (en nombre de cellules).
+  - `std::vector<std::vector<Cellule>> cellules` : Représentation bidimensionnelle de la grille, chaque élément étant une cellule.
+
+  - `int compterVoisinsVivants(int x, int y) const` : Méthode pour compter le nombre de cellules vivantes autour d'une cellule donnée (gestion torique des bords incluse).
 
 - **Public** :
-  - `Grille(int l, int h)` : Initialise la grille avec les dimensions `l` (largeur) et `h` (hauteur).
-  - `bool chargerDepuisFichier(const std::string &chemin)` : Charge l'état initial de la grille depuis un fichier texte.
-  - `void mettreAJour()` : Met à jour chaque cellule de la grille en fonction des règles du jeu.
-  - `void afficherConsole()` : Affiche l'état de la grille dans la console.
-  - `int obtenirLargeur()` : Renvoie la largeur de la grille.
-  - `int obtenirHauteur()` : Renvoie la hauteur de la grille.
-  - `const Cellule &obtenirCellule(int x, int y)` : Renvoie une référence constante à une cellule (pour la lecture).
-  - `Cellule &obtenirCellule(int x, int y)` : Renvoie une référence modifiable à une cellule.
-  - `bool verifierGrilleApresIteration(const Grille &attendue)` : Compare une grille calculée après une itération avec une grille attendue (test unitaire).
+  - `Grille(int l, int h)` : Constructeur pour initialiser une grille avec les dimensions spécifiées (`l` pour la largeur, `h` pour la hauteur).
+  - `bool chargerDepuisFichier(const std::string &chemin)` : Charge l'état initial de la grille à partir d'un fichier texte spécifié.
+  - `void sauvegarderDansFichier(std::ofstream &fichier) const` : Sauvegarde l'état actuel de la grille dans un fichier texte.
+  - `void mettreAJour()` : Met à jour l'état de toutes les cellules de la grille en appliquant les règles du jeu.
+  - `void afficherConsole() const` : Affiche l'état actuel de la grille dans la console.
+  - `int getLargeur() const` : Renvoie la largeur de la grille.
+  - `int getHauteur() const` : Renvoie la hauteur de la grille.
+  - `const Cellule &obtenirCellule(int x, int y) const` : Renvoie une référence constante à une cellule donnée pour consultation.
+  - `Cellule &obtenirCellule(int x, int y)` : Renvoie une référence modifiable à une cellule donnée.
 
 ---
 
 ## Interface
+
 - **Public** :
-  - `void renderGrid(RenderWindow &window, const Grille &grille, int tailleCellule)` : Affiche graphiquement la grille sur une fenêtre SFML donnée. Les couleurs dépendent de l'état des cellules (vivante, morte, obstacle).
+  - `void renderGrid(sf::RenderWindow &window, const Grille &grille, int tailleCellule)` : Fonction pour afficher graphiquement une grille dans une fenêtre SFML donnée. Chaque cellule est affichée sous forme de rectangle dont la couleur dépend de son état (`vivante`, `morte`, ou `obstacle`).
 
 ---
 
 ## ModeSimulation
+
 - **Private** :
-  - `bool modeGraphique` : Indique si le mode graphique est activé (`true`) ou non (`false`).
-  - `int maxIterations` : Nombre maximum d'itérations pour la simulation.
-  - `static ModeSimulation *instance` : Singleton pour garantir qu'il n'y a qu'une seule instance de cette classe.
-  - `ModeSimulation(bool graphique, int iterations)` : Constructeur privé (utilisé pour le Singleton).
-  - `void lancerConsole(Grille &grille, const std::string &dossierSortie)` : Gère le mode console en sauvegardant chaque itération dans un dossier regroupant un fichier texte par itération.
-  - `void lancerGraphique(Grille &grille)` : Gère le mode graphique et affiche chaque itération sur une interface SFML.
-  - `void creerDossierIncremente(const std::string &baseNom, std::string &nouveauNom)` : Crée un nouveau dossier unique pour sauvegarder les résultats à chaque exécution.
-  - `void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille)` : Écrit l'état actuel de la grille dans les fichiers textes.
-  - **Nouveau :** `void lancerTestUnitaire(Grille &grille, const std::string &dossierSortie)` : Compare les résultats d'itérations sauvegardées dans un dossier spécifique.
+  - `bool modeGraphique` : Variable booléenne indiquant si le mode graphique est activé (`true`) ou non (`false`).
+  - `int maxIterations` : Nombre maximal d'itérations que doit exécuter la simulation.
+  - `static ModeSimulation *instance` : Singleton pour garantir qu'une seule instance de la classe est créée.
+  - `ModeSimulation(bool graphique, int iterations)` : Constructeur privé, utilisé uniquement pour le Singleton.
+  - `void lancerConsole(Grille &grille, const std::string &dossierSortie)` : Lance la simulation en mode console et enregistre les états de la grille dans des fichiers texte dans un dossier.
+  - `void lancerGraphique(Grille &grille)` : Lance la simulation en mode graphique et affiche les états successifs de la grille dans une fenêtre SFML.
 
 - **Public** :
-  - `static ModeSimulation *getInstance(bool graphique, int iterations)` : Fournit l'instance unique Singleton de la classe.
-  - `void lancer(Grille &grille, const std::string &nomFichierEntree)` : Détermine et lance le mode console ou graphique en fonction de `modeGraphique`.
+  - `static ModeSimulation *getInstance(bool graphique, int iterations)` : Fournit une instance unique de la classe en utilisant le pattern Singleton.
+  - `void lancer(Grille &grille, const std::string &fichierInitial)` : Lance la simulation en fonction du mode choisi (console ou graphique).
 
 ---
 
 ## Main
 
 - **Inclusions** :
-  - `#include "Grille.h"` : Donne accès à la classe `Grille` pour gérer la grille.
-  - `#include "ModeSimulation.h"` : Donne accès aux modes de simulation (console ou graphique).
-  - `#include <iostream>` : Permet d’interagir avec l’utilisateur via la console (entrées/sorties).
+  - `#include "Grille.h"` : Fournit l'accès à la classe `Grille` pour la gestion de la grille et des cellules.
+  - `#include "ModeSimulation.h"` : Fournit l'accès aux modes de simulation (console ou graphique).
+  - `#include <iostream>` : Permet d’interagir avec l’utilisateur via des entrées et sorties standard dans la console.
 
 - **Variables** :
-  - `string fichierEntree = "etat_initial.txt";` : Spécifie le nom du fichier texte qui contient l’état initial de la grille.
+  - `string fichierEntree = "etat_initial.txt";` : Spécifie le fichier texte contenant l'état initial de la grille.
 
 - **Initialisation de la grille** :
   - `Grille grille(0, 0);` : Crée une instance de la classe `Grille` avec des dimensions initiales de `0x0`.
-  - `grille.chargerDepuisFichier(fichierEntree)` : Charge la configuration de la grille à partir du fichier `etat_initial.txt`. Si le chargement échoue, un message d’erreur est affiché, et le programme se termine.
+  - `grille.chargerDepuisFichier(fichierEntree)` : Charge la configuration initiale de la grille à partir du fichier texte spécifié. Si le chargement échoue, un message d'erreur est affiché, et le programme se termine.
 
 - **Interaction avec l’utilisateur** :
-  - `int choixMode` : Variable pour stocker le choix de l’utilisateur entre les deux modes :
+  - `int choixMode` : Permet à l’utilisateur de choisir le mode de fonctionnement :
     - `1` : Mode console.
     - `2` : Mode graphique.
-    - `3` : Test unitaire intégré avec sauvegarde automatique.
+
+- **Nombre d’itérations** :
+  - `int maxIterations` : Nombre maximal d’itérations saisies par l’utilisateur.
 
 - **Sélection du mode** :
-  - **Mode console** :
-    - Appel de `ModeSimulation::getInstance(false, maxIterations)->lancer(grille, fichierEntree);`.
-    - Passe `false` pour indiquer qu’il s’agit du mode console.
-    - Passe la grille et le nom du fichier pour gérer la simulation et créer les fichiers de sortie.
-
-  - **Mode graphique** :
-    - Affiche un message à l’utilisateur l’informant qu’il peut ajuster la vitesse des itérations avec les flèches haut et bas.
-    - Appel de `ModeSimulation::getInstance(true, maxIterations)->lancer(grille, fichierEntree);`.
-    - Passe `true` pour indiquer qu’il s’agit du mode graphique.
-
-  - **Test unitaire (dans le mode console)** :
-    - Les résultats calculés sont comparés automatiquement à des grilles attendues générées au cours des itérations.
-    - Les résultats de comparaison sont sauvegardés dans des dossiers incrémentés `test_unitaire_<numéro>`.
-
-  - **Choix invalide** :
-    - Si l’utilisateur entre un choix invalide, un message d’erreur est affiché, et le programme se termine.s
-
+  - Appel de `ModeSimulation::getInstance(choixMode == 2, maxIterations)->lancer(grille, fichierEntree);`.
+    - Si `choixMode == 2` : Lance le mode graphique.
+    - Sinon : Lance le mode console.s
 
 ***
 # Makefile
