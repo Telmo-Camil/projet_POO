@@ -6,7 +6,7 @@ using namespace std;
 
 Grille::Grille(int l, int h) : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
-// Compte les voisins vivants d'une cellule, en tenant compte des règles d'une grille torique
+// Compte les voisins vivants d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
     for (int dx = -1; dx <= 1; ++dx) {
