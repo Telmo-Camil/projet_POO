@@ -46,14 +46,26 @@ Nous avons choisi d'utiliser la bibliothèque `<vector>` au lieu des tableaux fo
 ## fstream
 La bibliothèque `<fstream>` permet de gérer les fichiers de manière à permettre l'enregistrement et le chargement des données de la grille depuis ou vers des fichiers.txt. Nous avons utilisé cette bibliothèque notamment pour ouvrir et lire les données du fichier que nous allons fournir, donc le fichier <`etat_initial.txt`> afin de définir la grille.
 
+## sstream
+Cette librairie fournit des outils pour manipuler des flux en mémoire, permettant de lire et d'écrire des données textuelles comme si elles provenaient d'un fichier ou d'une console, facilitant ainsi la conversion entre types de données et chaînes de caractères.
+
 ## string
-La bibliothèque <`string`> permet de manipuler des chaînes de caractères en C++. Les chaînes de caractères de cette bibliothèque permettent d'avoir une approche plus flexible et sécurisée. Elles permettent également de gérer automatiquement la mémoire associée aux chaînes de caractères et d'adapter automatiquement la taille de la chaîne au contenu.
+<`string`> manipule des chaînes de caractères en C++. Les chaînes de caractères de cette bibliothèque permettent d'avoir une approche plus flexible et sécurisée. Elles permettent également de gérer automatiquement la mémoire associée aux chaînes de caractères et d'adapter automatiquement la taille de la chaîne au contenu.
 
 ## cstdlib
 La bibliothèque <`cstdlib`> permet de fournir des fonctions générales pour la gestion de l'environnement d'exécution et des processus mais aussi pour la manipulation de la mémoire. Elle peut être utilisé notamment pour vérifier si un dossier existe et si ce n'est pas le cas de le créer.
 
 ## Graphique SFML
 La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dédiée au développement multimédia en C++. Elle permet de gérer facilement les interfaces graphiques, les animations, rendant le développement de simulations ou jeux plus accessible.
+***
+# Namespace 
+> **Un espace de nom est une zone de déclaration d'identificateurs permettant au compilateur de résoudre les conflits de noms.**
+
+## **`std`**
+Ce namespace ontient toutes les classes, fonctions et objets de base fournis, comme les conteneurs ou encore les flux d'entrée/sortie. Pour éviter de spécifier `std::` à chaque fois, on peut utiliser `using namespace std`.
+
+## **`sf`**
+Utilisé dans la bibliothèque **SFML**, il regroupe les classes et fonctions destinées à créer des applications. Il inclut des fonctionnalités pour gérer les fenêtres, les événements clavier/souris ou les graphismes par exemple. 
 ***
 #### Architecture MVC
 *Concept expliqué dans le Livrable Conception.* \
