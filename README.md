@@ -51,6 +51,7 @@ La bibliothèque `<fstream>` permet de gérer les fichiers de manière à permet
 La bibliothèque <`string`> permet de manipuler des chaînes de caractères en C++. Les chaînes de caractères de cette bibliothèque permettent d'avoir une approche plus flexible et sécurisée. Elles permettent également de gérer automatiquement la mémoire associée aux chaînes de caractères et d'adapter automatiquement la taille de la chaîne au contenu.
 
 ## cstdlib
+La bibliothèque <`cstdlib`> permet de fournir des fonctions générales pour la gestion de l'environnement d'exécution et des processus mais aussi pour la manipulation de la mémoire. Elle peut être utilisé notamment pour vérifier si un dossier existe et si ce n'est pas le cas de le créer.
 
 ## Graphique SFML
 La SFML (Simple and Fast Multimedia Library) est une bibliothèque graphique dédiée au développement multimédia en C++. Elle permet de gérer facilement les interfaces graphiques, les animations, rendant le développement de simulations ou jeux plus accessible.
