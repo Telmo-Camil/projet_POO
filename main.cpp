@@ -1,5 +1,5 @@
 #include "Grille.h"
-#include "ModeSimulation.h"s
+#include "ModeSimulation.h"
 
 using namespace std;
 
