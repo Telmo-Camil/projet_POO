@@ -53,6 +53,8 @@ Ce modèle va nous aider à mettre en place le test unitaire.
 ## Test Unitaire
 > **Dans l'énoncé, on nous demande d'intégrer à notre programme une fonction de test unitaire capable de vérifier la validité de la grille calculée à une itération t.**
 
+Le test unitaire sera effectué dans le mode console, où grâce aux dossiers comprenant toutes les itérations, il sera plus simple de comparer le résultat attendu avec ceux obtenus. Nous pouvions intégrer des librairies ou s'y prendre manuellement, nous avons choisi la seconde option pour une meilleure réduction de la mémoire (puisque qu'une bibliothèque occupe beaucoup de place). Nous expliquerons un peu plus tard dans ce livrable quelle fonction effectue ce test, mais nous avons également rajouté des commentaires pour la rendre plus compréhensible.
+
 # Paradigme Objet 
 > **Ce processus correspond à l'approche que nous utiliserons pour structurer et organiser le code et exprimer les solutions aux problèmes posés par notre projet.**
 
@@ -76,21 +78,26 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 > * **Inclusions** : Dans notre programme, nous allons devoir importer le contenu de fichiers extérieurs (les headers) ou de bibliothèques pour utiliser leurs fonctionnalités ou classes. Si une librairie est intégrée dans un fichier inclus, il n'est pas nécessaire de la réinclure car elle est déjà disponible. 
 
 
+Voici la version mise à jour avec la gestion du test unitaire lors du mode console :
+
+---
+
 ## Cellule
 - **Private** (Accessible uniquement dans cette classe) :
   - `bool vivant` : Renvoyant 1 ou `True` si la cellule est vivante, et 0 ou `False` si elle est morte.
-  - `bool prochainEtat` :  Variable qui stocke l'état futur de la cellule, `True` (vivante) ou `False` (morte).
-  - `TypeCellule type` : Type de la cellule
+  - `bool prochainEtat` : Variable qui stocke l'état futur de la cellule, `True` (vivante) ou `False` (morte).
+  - `TypeCellule type` : Type de la cellule.
 
 - **Public** (Accessible depuis d'autres classes) :
-  - `enum TypeCellule { NORMALE, OBSTACLE }` : Va permettre de mettre en place deux types de cellules, des normales, et des obstacles.  
+  - `enum TypeCellule { NORMALE, OBSTACLE }` : Va permettre de mettre en place deux types de cellules, des normales, et des obstacles.
   - `bool estVivante()` : Renvoie une cellule vivante.
   - `bool estObstacle()` : Renvoie une cellule de type `OBSTACLE`.
   - `bool obstacleVivante()` : Renvoie une cellule de type `OBSTACLE` et vivante (elle ne pourra pas mourir).
   - `void definirProchainEtat()` : Définit le prochain état de la cellule en fonction de son type.
   - `void appliquerProchainEtat()` : Applique ce nouvel état (si elle n'est pas un obstacle).
 
-***
+---
+
 ## Grille
 - **Private** :
   - `int largeur` : Largeur de la grille en nombre de cellules.
@@ -102,11 +109,11 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
   - `bool chargerDepuisFichier(const std::string &chemin)` : Charge l'état initial de la grille depuis un fichier texte.
   - `void mettreAJour()` : Met à jour chaque cellule de la grille en fonction des règles du jeu.
   - `void afficherConsole()` : Affiche l'état de la grille dans la console.
-  - `int obtenirLargeur()` : Renvoie la largeur de la grille. 
+  - `int obtenirLargeur()` : Renvoie la largeur de la grille.
   - `int obtenirHauteur()` : Renvoie la hauteur de la grille.
-  => Pour ces deux méthodes, nous en avons besoin puisque la largeur et la hauteur sont en privé et donc inaccessibles depuis d'autres classes. Ici, grâce à ces méthodes, on n'a plus ce problème-là.  
   - `const Cellule &obtenirCellule(int x, int y)` : Renvoie une référence constante à une cellule (pour la lecture).
   - `Cellule &obtenirCellule(int x, int y)` : Renvoie une référence modifiable à une cellule.
+  - `bool verifierGrilleApresIteration(const Grille &attendue)` : Compare une grille calculée après une itération avec une grille attendue (test unitaire).
 
 ---
 
@@ -117,7 +124,7 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
 ---
 
 ## ModeSimulation
-- **Private** s:
+- **Private** :
   - `bool modeGraphique` : Indique si le mode graphique est activé (`true`) ou non (`false`).
   - `int maxIterations` : Nombre maximum d'itérations pour la simulation.
   - `static ModeSimulation *instance` : Singleton pour garantir qu'il n'y a qu'une seule instance de cette classe.
@@ -126,12 +133,14 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
   - `void lancerGraphique(Grille &grille)` : Gère le mode graphique et affiche chaque itération sur une interface SFML.
   - `void creerDossierIncremente(const std::string &baseNom, std::string &nouveauNom)` : Crée un nouveau dossier unique pour sauvegarder les résultats à chaque exécution.
   - `void ecrireEtatDansFichier(std::ofstream &sortie, const Grille &grille)` : Écrit l'état actuel de la grille dans les fichiers textes.
+  - **Nouveau :** `void lancerTestUnitaire(Grille &grille, const std::string &dossierSortie)` : Compare les résultats d'itérations sauvegardées dans un dossier spécifique.
 
 - **Public** :
   - `static ModeSimulation *getInstance(bool graphique, int iterations)` : Fournit l'instance unique Singleton de la classe.
   - `void lancer(Grille &grille, const std::string &nomFichierEntree)` : Détermine et lance le mode console ou graphique en fonction de `modeGraphique`.
 
-***
+---
+
 ## Main
 
 - **Inclusions** :
@@ -150,7 +159,7 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
   - `int choixMode` : Variable pour stocker le choix de l’utilisateur entre les deux modes :
     - `1` : Mode console.
     - `2` : Mode graphique.
-  - `int maxIterations` : Variable pour stocker le nombre maximum d’itérations que l’utilisateur souhaite exécuter.
+    - `3` : Test unitaire intégré avec sauvegarde automatique.
 
 - **Sélection du mode** :
   - **Mode console** :
@@ -163,8 +172,12 @@ Pour plus de simplicité, nous présenterons toutes les méthodes à la fois dan
     - Appel de `ModeSimulation::getInstance(true, maxIterations)->lancer(grille, fichierEntree);`.
     - Passe `true` pour indiquer qu’il s’agit du mode graphique.
 
+  - **Test unitaire (dans le mode console)** :
+    - Les résultats calculés sont comparés automatiquement à des grilles attendues générées au cours des itérations.
+    - Les résultats de comparaison sont sauvegardés dans des dossiers incrémentés `test_unitaire_<numéro>`.
+
   - **Choix invalide** :
-    - Si l’utilisateur entre un choix invalide, un message d’erreur est affiché, et le programme se termine.
+    - Si l’utilisateur entre un choix invalide, un message d’erreur est affiché, et le programme se termine.s
 
 
 ***
