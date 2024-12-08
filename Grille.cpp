@@ -25,7 +25,6 @@ bool Grille::verifierGrilleApresIteration(const Grille &attendue) const {
         }
     }
 
-    cout << "Test unitaire réussi : la grille calculée correspond à la grille attendue." << endl;
     return true;
 }
 
