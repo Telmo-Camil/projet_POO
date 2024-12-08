@@ -23,6 +23,8 @@ public:
     int obtenirHauteur() const;
     const Cellule &obtenirCellule(int x, int y) const;
     Cellule &obtenirCellule(int x, int y);
+    bool verifierGrilleApresIteration(const Grille &attendue) const;
+    void sauvegarderDansFichier(std::ofstream &sortie) const; 
 };
 
 #endif

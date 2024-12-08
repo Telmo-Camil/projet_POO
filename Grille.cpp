@@ -6,6 +6,43 @@ using namespace std;
 
 Grille::Grille(int l, int h) : largeur(l), hauteur(h), cellules(l, vector<Cellule>(h)) {}
 
+bool Grille::verifierGrilleApresIteration(const Grille &attendue) const {
+    if (largeur != attendue.obtenirLargeur() || hauteur != attendue.obtenirHauteur()) {
+        cerr << "Erreur : Dimensions des grilles différentes." << endl;
+        return false;
+    }
+
+    for (int y = 0; y < hauteur; ++y) {
+        for (int x = 0; x < largeur; ++x) {
+            const Cellule &celluleActuelle = obtenirCellule(x, y);
+            const Cellule &celluleAttendue = attendue.obtenirCellule(x, y);
+
+            if (celluleActuelle.estVivante() != celluleAttendue.estVivante() ||
+                celluleActuelle.estObstacle() != celluleAttendue.estObstacle()) {
+                cerr << "Erreur : Différence détectée à la cellule (" << x << ", " << y << ")." << endl;
+                return false;
+            }
+        }
+    }
+
+    cout << "Test unitaire réussi : la grille calculée correspond à la grille attendue." << endl;
+    return true;
+}
+
+void Grille::sauvegarderDansFichier(ofstream &sortie) const {
+    for (int y = 0; y < hauteur; ++y) {
+        for (int x = 0; x < largeur; ++x) {
+            if (cellules[x][y].estObstacle()) {
+                sortie << (cellules[x][y].estVivante() ? "O " : "X ");
+            } else {
+                sortie << (cellules[x][y].estVivante() ? "1 " : "0 ");
+            }
+        }
+        sortie << '\n';
+    }
+}
+
+
 // Regarder l'entourage d'une cellule
 int Grille::compterVoisinsVivants(int x, int y) const {
     int voisinsVivants = 0;
