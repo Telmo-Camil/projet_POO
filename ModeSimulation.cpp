@@ -81,15 +81,17 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &baseNomDossier)
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
 
-    // Création d'une fenêtre avec des options par défaut
+    // Création d'une fenêtre
     sf::RenderWindow fenetre(sf::VideoMode(grille.getLargeur() * tailleCellule,
                                            grille.getHauteur() * tailleCellule),
                              "Jeu de la Vie",
                              sf::Style::Default);
 
+    fenetre.setFramerateLimit(60); // Limiter les FPS à 60 pour éviter les coupures visuelles
+
     int delaiEntreIterations = 100;
 
-    // Suppression de tout appel à setVerticalSyncEnabled
+    // Simulation graphique
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
         sf::Event evenement;
         while (fenetre.pollEvent(evenement)) {
@@ -114,3 +116,4 @@ void ModeSimulation::lancerGraphique(Grille &grille) {
 
     std::cout << "Simulation graphique terminée après " << maxIterations << " itérations." << std::endl;
 }
+
