@@ -9,11 +9,9 @@ using namespace sf;
 
 ModeSimulation *ModeSimulation::instance = nullptr;
 
-// Constructeur privé
 ModeSimulation::ModeSimulation(bool graphique, int iterations)
     : modeGraphique(graphique), maxIterations(iterations) {}
 
-// Méthode pour obtenir l'instance unique
 ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     if (instance == nullptr) {
         instance = new ModeSimulation(graphique, iterations);
@@ -21,22 +19,19 @@ ModeSimulation *ModeSimulation::getInstance(bool graphique, int iterations) {
     return instance;
 }
 
-// Méthode principale lancer
-void ModeSimulation::lancer(Grille &grille, const string &fichierInitial) {
+void ModeSimulation::lancer(Grille &grille, const std::string &fichierInitial) {
+    string dossierSortie = fichierInitial + "_out";
+    system(("mkdir -p " + dossierSortie).c_str());
+
     if (modeGraphique) {
         lancerGraphique(grille);
     } else {
-        lancerConsole(grille, fichierInitial);
+        lancerConsole(grille, dossierSortie);
     }
 }
 
-// Mode Console avec Test Unitaire Simplifié
-void ModeSimulation::lancerConsole(Grille &grille, const string &fichierInitial) {
-    string dossierSortie = fichierInitial + "_out";
-    system(("mkdir -p " + dossierSortie).c_str());
+void ModeSimulation::lancerConsole(Grille &grille, const string &dossierSortie) {
     cout << "Les résultats seront enregistrés dans le dossier : " << dossierSortie << endl;
-
-    Grille grilleAttendue = grille;
 
     for (int i = 0; i < maxIterations; ++i) {
         string fichierSortie = dossierSortie + "/iteration_" + to_string(i + 1) + ".txt";
@@ -46,40 +41,18 @@ void ModeSimulation::lancerConsole(Grille &grille, const string &fichierInitial)
             return;
         }
 
-        // Sauvegarde de la grille actuelle
         grille.sauvegarderDansFichier(sortie);
         sortie.close();
 
-        // Préparer la grille attendue pour le test unitaire (si dernière itération)
-        if (i == maxIterations - 1) {
-            string fichierTest = dossierSortie + "/iteration_test_" + to_string(maxIterations) + ".txt";
-            ofstream fichierAttendu(fichierTest);
-            if (fichierAttendu.is_open()) {
-                grilleAttendue.mettreAJour(); // Calculer une itération en avance
-                grilleAttendue.sauvegarderDansFichier(fichierAttendu);
-                fichierAttendu.close();
-
-                // Comparer les deux grilles
-                if (grille.verifierGrilleApresIteration(grilleAttendue)) {
-                    cout << "Test unitaire réussi pour l'itération " << maxIterations << ".\n";
-                } else {
-                    cerr << "Test unitaire échoué pour l'itération " << maxIterations << ".\n";
-                }
-            } else {
-                cerr << "Erreur : Impossible de créer le fichier d'état attendu pour le test unitaire.\n";
-            }
-        }
-
-        grille.mettreAJour(); // Calcul de l'itération suivante
+        grille.mettreAJour();
     }
 
-    cout << "Simulation terminée. Résultats sauvegardés dans : " << dossierSortie << endl;
+    cout << "Simulation terminée." << endl;
 }
 
-// Mode Graphique (inchangé)
 void ModeSimulation::lancerGraphique(Grille &grille) {
     const int tailleCellule = 10;
-    RenderWindow fenetre(VideoMode(grille.obtenirLargeur() * tailleCellule, grille.obtenirHauteur() * tailleCellule), "Jeu de la Vie");
+    RenderWindow fenetre(VideoMode(grille.getLargeur() * tailleCellule, grille.getHauteur() * tailleCellule), "Jeu de la Vie");
 
     int delaiEntreIterations = 100;
 

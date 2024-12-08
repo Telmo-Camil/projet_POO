@@ -20,6 +20,7 @@ int main() {
     cin >> choixMode;
 
     int maxIterations = 0;
+
     cout << "Entrez le nombre maximum d'itérations : ";
     cin >> maxIterations;
 

@@ -4,28 +4,29 @@
 
 using namespace sf;
 
-// Affiche la grille dans une fenêtre graphique
+// Fonction pour afficher la grille dans une fenêtre graphique
 void renderGrid(RenderWindow &window, const Grille &grille, int tailleCellule) {
-    window.clear();  // Nettoie la fenêtre avant de redessiner
+    window.clear(); // Nettoyer la fenêtre avant de redessiner
 
-    // Rectangle représentant une cellule
+    // Création d'un rectangle représentant une cellule
     RectangleShape cell(Vector2f(tailleCellule - 1.0f, tailleCellule - 1.0f));
 
     // Parcours de toutes les cellules de la grille
-    for (int x = 0; x < grille.obtenirLargeur(); ++x) {
-        for (int y = 0; y < grille.obtenirHauteur(); ++y) {
-            cell.setPosition(x * tailleCellule, y * tailleCellule);  // Positionner la cellule
+    for (int x = 0; x < grille.getLargeur(); ++x) {  // Utilisation de getLargeur()
+        for (int y = 0; y < grille.getHauteur(); ++y) {  // Utilisation de getHauteur()
+            cell.setPosition(x * tailleCellule, y * tailleCellule);  // Positionnement de la cellule
 
-            // Définir la couleur selon le type et l'état de la cellule
-            if (grille.obtenirCellule(x, y).estObstacle()) {
-                cell.setFillColor(grille.obtenirCellule(x, y).estVivante() ? Color::Red : Color::Blue);
+            // Définir la couleur selon l'état de la cellule
+            const Cellule &cellule = grille.obtenirCellule(x, y);  // Lecture de la cellule
+            if (cellule.estObstacle()) {
+                cell.setFillColor(cellule.estVivante() ? Color::Red : Color::Blue); // Obstacle vivant ou mort
             } else {
-                cell.setFillColor(grille.obtenirCellule(x, y).estVivante() ? Color::White : Color::Black);
+                cell.setFillColor(cellule.estVivante() ? Color::White : Color::Black); // Cellule normale
             }
 
-            window.draw(cell);  // Dessiner la cellule dans la fenêtre
+            window.draw(cell); // Dessiner la cellule dans la fenêtre
         }
     }
 
-    window.display();  // Met à jour l'affichage de la fenêtre
+    window.display(); // Met à jour l'affichage de la fenêtre
 }
