@@ -192,6 +192,13 @@ Nous avons utilisé le Singleton, qui assure qu’une classe n’a qu’une seul
 ***
 # Makefile
 
+Un makefile va permettre de compiler et exécuter notre programme beaucoup plus rapidement. Il va tout d'abord convertir les les fichiers source en fichiers objets (.o), tout en recompilant seulement les parties du code qui ont été modifiées, ce qui accélère le processus. Avec seulement trois commandes, il permet de :
+  * `make` : Compiler le programme.
+  * `make clean` : Supprimer les fichiers objets et autres fichiers temporaires pour "nettoyer" le projet.
+  * `make run` : Compiler et exécuter directement le programme.
+
+  Voici son explication détaillée :
+
 ### 1. Compilation
 ```makefile
 CXX = clang++
@@ -230,7 +237,7 @@ TARGET = main
 ```makefile
 all: $(TARGET)
 ```
-Ici, cela génère l'exécutable en appelant la règle suivante.
+Ici, on génère l'exécutable en appelant la règle suivante.
 
 ```makefile
 $(TARGET): $(OBJS)
